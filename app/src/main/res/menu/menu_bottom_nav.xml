@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_item_news"/>
+    <item android:title="@string/menu_item_data"/>
+    <item android:title="@string/menu_item_knowledge"/>
+    <item android:title="@string/menu_item_cluster"/>
+    <item android:title="@string/menu_item_scholar"/>
+</menu>

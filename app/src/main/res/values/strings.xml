@@ -2,4 +2,10 @@
     <string name="app_name">divoc666</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="menu_item_news">News</string>
+    <string name="menu_item_scholar">Scholar</string>
+    <string name="menu_item_data">Data</string>
+    <string name="menu_item_knowledge">Knowledge</string>
+    <string name="menu_item_cluster">Cluster</string>
 </resources>
