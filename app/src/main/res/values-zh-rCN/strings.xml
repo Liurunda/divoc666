@@ -9,4 +9,6 @@
     <string name="menu_item_data">数据</string>
     <string name="menu_item_knowledge">图谱</string>
     <string name="menu_item_cluster">聚类</string>
+    <string name="button_edit_category">编辑</string>
+    <string name="app_title">新冠疫情追踪</string>
 </resources>

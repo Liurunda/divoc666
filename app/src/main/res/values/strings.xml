@@ -8,4 +8,6 @@
     <string name="menu_item_data">Data</string>
     <string name="menu_item_knowledge">Knowledge</string>
     <string name="menu_item_cluster">Cluster</string>
+    <string name="button_edit_category">Edit</string>
+    <string name="app_title">COVID Tracker</string>
 </resources>

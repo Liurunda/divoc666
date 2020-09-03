@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/menu_item_news"/>
-    <item android:title="@string/menu_item_data"/>
-    <item android:title="@string/menu_item_knowledge"/>
-    <item android:title="@string/menu_item_cluster"/>
-    <item android:title="@string/menu_item_scholar"/>
+    <item android:title="@string/menu_item_news" android:id="@+id/menu_news"/>
+    <item android:title="@string/menu_item_data" android:id="@+id/menu_data"/>
+    <item android:title="@string/menu_item_knowledge" android:id="@+id/menu_knowledge"/>
+    <item android:title="@string/menu_item_cluster" android:id="@+id/menu_cluster"/>
+    <item android:title="@string/menu_item_scholar" android:id="@+id/menu_scholar"/>
 </menu>
