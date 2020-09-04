@@ -15,13 +15,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.java.liurunda.data.News;
+import com.java.liurunda.data.NewsGetter;
 import com.java.liurunda.ui.main.SectionsPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        NewsGetter getter = new NewsGetter();
+        CompletableFuture.supplyAsync(getter::initial_news).thenAccept(
+                (list)-> {
+                    System.out.println(list.size());
+                    for (News n : list) {
+                        System.out.println(n);
+                    }
+                }
+        );
+        System.out.println("here is it");
+
         setContentView(R.layout.activity_main);
 
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -54,39 +70,36 @@ public class MainActivity extends AppCompatActivity {
         final Fragment[] f_current = {f_newsList};
 
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                final FragmentTransaction transaction = fm.beginTransaction();
-                switch (item.getItemId()) {
-                    case R.id.menu_news: {
-                        transaction.hide(f_current[0]).show(f_newsList).commit();
-                        f_current[0] = f_newsList;
-                        break;
-                    }
-                    case R.id.menu_data: {
-                        transaction.hide(f_current[0]).show(f_data).commit();
-                        f_current[0] = f_data;
-                        break;
-                    }
-                    case R.id.menu_knowledge: {
-                        transaction.hide(f_current[0]).show(f_knowledge).commit();
-                        f_current[0] = f_knowledge;
-                        break;
-                    }
-                    case R.id.menu_cluster: {
-                        transaction.hide(f_current[0]).show(f_cluster).commit();
-                        f_current[0] = f_cluster;
-                        break;
-                    }
-                    case R.id.menu_scholar: {
-                        transaction.hide(f_current[0]).show(f_scholar).commit();
-                        f_current[0] = f_scholar;
-                        break;
-                    }
+        nav.setOnNavigationItemSelectedListener(item -> {
+            final FragmentTransaction transaction = fm.beginTransaction();
+            switch (item.getItemId()) {
+                case R.id.menu_news: {
+                    transaction.hide(f_current[0]).show(f_newsList).commit();
+                    f_current[0] = f_newsList;
+                    break;
                 }
-                return true;
+                case R.id.menu_data: {
+                    transaction.hide(f_current[0]).show(f_data).commit();
+                    f_current[0] = f_data;
+                    break;
+                }
+                case R.id.menu_knowledge: {
+                    transaction.hide(f_current[0]).show(f_knowledge).commit();
+                    f_current[0] = f_knowledge;
+                    break;
+                }
+                case R.id.menu_cluster: {
+                    transaction.hide(f_current[0]).show(f_cluster).commit();
+                    f_current[0] = f_cluster;
+                    break;
+                }
+                case R.id.menu_scholar: {
+                    transaction.hide(f_current[0]).show(f_scholar).commit();
+                    f_current[0] = f_scholar;
+                    break;
+                }
             }
+            return true;
         });
     }
 }
