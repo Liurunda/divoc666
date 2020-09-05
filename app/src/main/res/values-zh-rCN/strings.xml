@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">divoc666</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
+    <string name="text_placeholder_title">标题</string>
+    <string name="text_placeholder_time">时间</string>
+    <string name="text_placeholder_source">来源</string>
     <string name="menu_item_news">新闻</string>
     <string name="menu_item_scholar">学者</string>
     <string name="menu_item_data">数据</string>
@@ -16,4 +16,5 @@
     <string name="category_points">时点</string>
     <string name="category_news">新闻</string>
     <string name="category_paper">研究</string>
+    <string name="button_search">搜索</string>
 </resources>

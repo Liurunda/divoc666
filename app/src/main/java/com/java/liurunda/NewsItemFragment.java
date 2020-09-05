@@ -74,20 +74,15 @@ public class NewsItemFragment extends Fragment {
         recycler.setLayoutManager(layoutManager);
 
         adapter = new NewsRollAdapter(newsList);
-//        System.out.println("setAdapter: " + System.identityHashCode(newsList));
         recycler.setAdapter(adapter);
 
         NewsGetter getter = new NewsGetter();
         CompletableFuture.supplyAsync(getter::initial_news).thenAccept(
                 (list) -> {
                     newsList.addAll(list);
-//                    System.out.println(list.toString()
-//                    System.out.println("========== News fetched successfully ==========");
                     getActivity().runOnUiThread(() -> {
                         adapter.notifyDataSetChanged();
                     });
-//                    System.out.println("Update newsList: " + System.identityHashCode(newsList));
-//                    System.out.println(newsList.toString());
                 }
         );
 

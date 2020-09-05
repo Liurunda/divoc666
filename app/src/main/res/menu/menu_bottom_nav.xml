@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/menu_item_news" android:id="@+id/menu_news"/>
-    <item android:title="@string/menu_item_data" android:id="@+id/menu_data"/>
-    <item android:title="@string/menu_item_knowledge" android:id="@+id/menu_knowledge"/>
-    <item android:title="@string/menu_item_cluster" android:id="@+id/menu_cluster"/>
-    <item android:title="@string/menu_item_scholar" android:id="@+id/menu_scholar"/>
+    <item android:title="@string/menu_item_news" android:id="@+id/menu_news"
+          android:icon="@drawable/outline_article_black_24dp"/>
+    <item android:title="@string/menu_item_data" android:id="@+id/menu_data"
+          android:icon="@drawable/outline_timeline_black_24dp"/>
+    <item android:title="@string/menu_item_knowledge" android:id="@+id/menu_knowledge"
+          android:icon="@drawable/outline_language_black_24dp"/>
+    <item android:title="@string/menu_item_cluster" android:id="@+id/menu_cluster"
+          android:icon="@drawable/outline_rule_black_24dp"/>
+    <item android:title="@string/menu_item_scholar" android:id="@+id/menu_scholar"
+          android:icon="@drawable/outline_people_alt_black_24dp"/>
 </menu>

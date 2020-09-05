@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,8 +34,13 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
 
     @Override
     public void onBindViewHolder(NewsListViewHolder holder, int position) {
-        TextView v = holder.layout.findViewById(R.id.entry_view);
-        v.setText(news_set.get(position).title);
+        News news = news_set.get(position);
+        TextView v = holder.layout.findViewById(R.id.view_title);
+        v.setText(news.title);
+        TextView vt = holder.layout.findViewById(R.id.view_time);
+        vt.setText(news.datetime);
+        TextView vs = holder.layout.findViewById(R.id.view_source);
+        vs.setText(news.source);
         System.out.println("BindViewHolder: " + position);
     }
 
