@@ -17,26 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
-import com.java.liurunda.ui.main.SectionsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NewsGetter getter = new NewsGetter();
-        CompletableFuture.supplyAsync(getter::initial_news).thenAccept(
-                (list)-> {
-                    System.out.println(list.size());
-                    for (News n : list) {
-                        System.out.println(n);
-                    }
-                }
-        );
-        System.out.println("here is it");
 
         setContentView(R.layout.activity_main);
 
