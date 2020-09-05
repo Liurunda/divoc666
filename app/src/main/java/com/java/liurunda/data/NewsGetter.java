@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class NewsGetter {
     NetClient client = new NetClient();
-    public ArrayList<News> initial_news(){
+    public ArrayList<News> initial_news(){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
         client.getNews(list);
         return list;
