@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
@@ -25,7 +26,7 @@ public class NewsItemFragment extends Fragment {
     private static final String ARG_TYPE_2 = "info_type";
     private String categoryName;
     private InfoType infoType;
-    private View view;
+    View view;
     private ArrayList<News> newsList;
 
     private RecyclerView recycler;
@@ -75,6 +76,21 @@ public class NewsItemFragment extends Fragment {
 
         adapter = new NewsRollAdapter(newsList);
         recycler.setAdapter(adapter);
+
+        BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
+        RecyclerView recycler = this.view.findViewById(R.id.newsRoll);
+
+        final Boolean[] isBottomShow = {true};
+
+        recycler.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY - oldScrollY > 0 && isBottomShow[0]) {
+                isBottomShow[0] = false;
+                nav.animate().translationY(nav.getHeight());
+            } else if (scrollY - oldScrollY < 0 && !isBottomShow[0]) {
+                isBottomShow[0] = true;
+                nav.animate().translationY(0);
+            }
+        });
 
         NewsGetter getter = new NewsGetter();
         CompletableFuture.supplyAsync(getter::initial_news).thenAccept(

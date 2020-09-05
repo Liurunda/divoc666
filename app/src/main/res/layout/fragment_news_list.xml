@@ -8,64 +8,69 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
-                android:layout_height="wrap_content"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:theme="@style/AppTheme.AppBarOverlay"
-        >
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                    android:orientation="horizontal"
+            <com.google.android.material.appbar.AppBarLayout
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:layout_gravity="center_vertical"
+                    android:theme="@style/AppTheme.AppBarOverlay"
             >
-                <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:minHeight="?actionBarSize"
-                        android:padding="@dimen/appbar_padding"
-                        android:text="@string/app_title"
-                        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                />
-                <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:layout_weight="1"/>
+
                 <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent">
-                    <ImageButton
-                            android:src="@drawable/outline_search_white_24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_gravity="center_vertical"
+                        app:layout_scrollFlags="scroll|enterAlways">
+                    <TextView
+                            android:id="@+id/title"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/button_search"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:layout_gravity="center_vertical"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minHeight="?actionBarSize"
+                            android:padding="@dimen/appbar_padding"
+                            android:text="@string/app_title"
+                            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                     />
-                    <ImageButton
-                            android:src="@drawable/outline_edit_white_24dp"
+                    <Space
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/button_edit"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:layout_gravity="center_vertical"
-                            android:scaleType="center"/>
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent">
+                        <ImageButton
+                                android:src="@drawable/outline_search_white_24dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/button_search"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:layout_gravity="center_vertical"
+                        />
+                        <ImageButton
+                                android:src="@drawable/outline_edit_white_24dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/button_edit"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="center"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
+                <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/colorPrimary"/>
+
+            </com.google.android.material.appbar.AppBarLayout>
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
-        <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-        >
-        </androidx.viewpager.widget.ViewPager>
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </androidx.viewpager.widget.ViewPager>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

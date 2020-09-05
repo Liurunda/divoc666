@@ -46,7 +46,6 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
 
     @Override
     public int getItemCount() {
-        System.out.println(news_set.size() + " ========== getItemCount()");
         return news_set.size();
     }
 }

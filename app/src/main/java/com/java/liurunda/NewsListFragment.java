@@ -8,16 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListResourceBundle;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -61,12 +60,16 @@ public class NewsListFragment extends Fragment {
         ViewPager view_pager = this.view.findViewById(R.id.view_pager);
         view_pager.setOffscreenPageLimit(5);
 
+        NewsItemFragment[] subfragments = {
+            NewsItemFragment.newInstance(getString(category_id[0]), InfoType.all),
+            NewsItemFragment.newInstance(getString(category_id[1]), InfoType.event),
+            NewsItemFragment.newInstance(getString(category_id[2]), InfoType.points),
+            NewsItemFragment.newInstance(getString(category_id[3]), InfoType.news),
+            NewsItemFragment.newInstance(getString(category_id[4]), InfoType.paper)
+        };
+
         fragments = new ArrayList<Fragment>();
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[0]), InfoType.all));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[1]), InfoType.event));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[2]), InfoType.points));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[3]), InfoType.news));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[4]), InfoType.paper));
+        fragments.addAll(Arrays.asList(subfragments));
 
         NewsItemAdapter adapter = new NewsItemAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments);
         view_pager.setAdapter(adapter);
