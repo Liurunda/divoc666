@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.*;
-enum InfoType{all,event,points,news,paper}
+
 class getNewsList implements Callback{
     ArrayList<News> list;
     public getNewsList(ArrayList<News> list){

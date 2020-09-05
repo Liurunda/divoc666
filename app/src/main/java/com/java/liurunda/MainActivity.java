@@ -21,7 +21,7 @@ import com.java.liurunda.data.NewsGetter;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

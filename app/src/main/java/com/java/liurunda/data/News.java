@@ -37,7 +37,7 @@ public class News {
             infoType = InfoType.valueOf(J.getString("type")).ordinal();
             id = J.getString("_id");
             JSONArray a = J.getJSONArray("entities");
-            for(int i=0;i<a.length();++i){
+            for(int i=0;i<a.length();++i) {
                 keywords.add(a.getJSONObject(i).getString("label"));
             }
         }catch(JSONException e){

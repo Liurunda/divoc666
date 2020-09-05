@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
+import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
 
@@ -58,12 +59,14 @@ public class NewsListFragment extends Fragment {
         this.view = inflater.inflate(R.layout.fragment_news_list, container, false);
         TabLayout tabs = this.view.findViewById(R.id.tabs);
         ViewPager view_pager = this.view.findViewById(R.id.view_pager);
+        view_pager.setOffscreenPageLimit(5);
+
         fragments = new ArrayList<Fragment>();
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[0])));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[1])));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[2])));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[3])));
-        fragments.add(NewsItemFragment.newInstance(getString(category_id[4])));
+        fragments.add(NewsItemFragment.newInstance(getString(category_id[0]), InfoType.all));
+        fragments.add(NewsItemFragment.newInstance(getString(category_id[1]), InfoType.event));
+        fragments.add(NewsItemFragment.newInstance(getString(category_id[2]), InfoType.points));
+        fragments.add(NewsItemFragment.newInstance(getString(category_id[3]), InfoType.news));
+        fragments.add(NewsItemFragment.newInstance(getString(category_id[4]), InfoType.paper));
 
         NewsItemAdapter adapter = new NewsItemAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments);
         view_pager.setAdapter(adapter);
