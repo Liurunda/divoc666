@@ -10,7 +10,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:layout_marginTop="@dimen/appbar_padding_top"
-            android:layout_marginBottom="@dimen/appbar_padding_top" android:layout_marginStart="@dimen/appbar_padding"
+            android:layout_marginStart="@dimen/appbar_padding"
             android:layout_marginEnd="@dimen/appbar_padding">
         <TextView
                 android:layout_width="wrap_content"
@@ -24,7 +24,8 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_placeholder_time" android:id="@+id/view_time" android:textSize="12sp"/>
+                    android:text="@string/text_placeholder_time" android:id="@+id/view_time"
+                    android:textSize="12sp"/>
             <Space
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:layout_weight="1"/>
@@ -32,6 +33,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_placeholder_source" android:id="@+id/view_source"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1px" android:background="@color/cardview_shadow_start_color"
+                android:layout_marginTop="@dimen/appbar_padding_top">
         </LinearLayout>
     </LinearLayout>
 

@@ -1,14 +1,23 @@
 package com.java.liurunda;
 
+import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.java.liurunda.data.News;
+import com.java.liurunda.DateUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsListViewHolder> {
     private ArrayList<News> news_set;
@@ -28,8 +37,17 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
     @NotNull
     @Override
     public NewsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        FrameLayout v = (FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false);
-        return new NewsListViewHolder(v);
+        NewsListViewHolder v = new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
+        v.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(v.getContext(), NewsDetailActivity.class);
+                intent.putExtra("news_content", (News) v.getTag());
+                v.getContext().startActivity(intent);
+            }
+        });
+        return v;
     }
 
     @Override
@@ -38,10 +56,10 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
         TextView v = holder.layout.findViewById(R.id.view_title);
         v.setText(news.title);
         TextView vt = holder.layout.findViewById(R.id.view_time);
-        vt.setText(news.datetime);
+        vt.setText(DateUtil.getTextFormattedDate(ZonedDateTime.parse(news.datetime, DateTimeFormatter.RFC_1123_DATE_TIME)));
         TextView vs = holder.layout.findViewById(R.id.view_source);
         vs.setText(news.source);
-        System.out.println("BindViewHolder: " + position);
+        holder.itemView.setTag(news);
     }
 
     @Override

@@ -9,10 +9,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Entity
-public class News {
+public class News implements Serializable {
     @PrimaryKey
     public int new_id;
 

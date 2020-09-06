@@ -17,4 +17,5 @@
     <string name="category_news">新闻</string>
     <string name="category_paper">研究</string>
     <string name="button_search">搜索</string>
+    <string name="text_yesterday">昨日</string>
 </resources>
