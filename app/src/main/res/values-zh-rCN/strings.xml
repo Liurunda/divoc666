@@ -13,9 +13,9 @@
     <string name="app_title">新冠疫情追踪</string>
     <string name="category_all">全部</string>
     <string name="category_event">事件</string>
-    <string name="category_points">时点</string>
+    <string name="category_points">观点</string>
     <string name="category_news">新闻</string>
     <string name="category_paper">研究</string>
     <string name="button_search">搜索</string>
-    <string name="text_yesterday">昨日</string>
+    <string name="text_refresh_success">刷新成功</string>
 </resources>

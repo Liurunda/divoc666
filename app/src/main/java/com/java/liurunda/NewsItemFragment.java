@@ -1,19 +1,24 @@
 package com.java.liurunda;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.Adapter;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -26,8 +31,9 @@ public class NewsItemFragment extends Fragment {
     private static final String ARG_TYPE_2 = "info_type";
     private String categoryName;
     private InfoType infoType;
-    View view;
+    private View view;
     private ArrayList<News> newsList;
+    private NewsGetter getter;
 
     private RecyclerView recycler;
     private RecyclerView.LayoutManager layoutManager;
@@ -92,16 +98,40 @@ public class NewsItemFragment extends Fragment {
             }
         });
 
-        NewsGetter getter = NewsGetter.Getter();
-        CompletableFuture.supplyAsync(()->{return getter.initial_news(infoType);}).thenAccept(
+        getter = NewsGetter.Getter();
+        CompletableFuture.supplyAsync(() -> getter.initial_news(infoType)).thenAccept(
                 (list) -> {
                     newsList.addAll(list);
-                    getActivity().runOnUiThread(() -> {
-                        adapter.notifyDataSetChanged();
-                    });
+                    getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
                 }
         );
 
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresher);
+        swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.colorAccent, R.color.colorPrimary});
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept(
+                        (list) -> {
+                            newsList.addAll(0, list);
+                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
+                            swipeRefreshLayout.setRefreshing(false);
+                            showSnackbar(getString(R.string.text_refresh_success));
+                        }
+                );
+            }
+        });
+
         return this.view;
+    }
+
+    void showSnackbar(final String message) {
+        Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.layout), message, Snackbar.LENGTH_SHORT);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snack.getView().getLayoutParams();
+        params.setAnchorId(R.id.bottom_nav);
+        params.anchorGravity = Gravity.TOP;
+        params.gravity = Gravity.TOP;
+        snack.getView().setLayoutParams(params);
+        snack.show();
     }
 }

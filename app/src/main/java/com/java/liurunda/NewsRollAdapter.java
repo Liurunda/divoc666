@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.DateUtil;
 import org.jetbrains.annotations.NotNull;
@@ -41,10 +43,13 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
         v.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(v.getContext(), NewsDetailActivity.class);
-                intent.putExtra("news_content", (News) v.getTag());
-                v.getContext().startActivity(intent);
+                News news = (News) v.getTag();
+                if (news.infoType == InfoType.news.ordinal() || news.infoType == InfoType.paper.ordinal()) {
+                    Intent intent = new Intent();
+                    intent.setClass(v.getContext(), NewsDetailActivity.class);
+                    intent.putExtra("news_content", news);
+                    v.getContext().startActivity(intent);
+                }
             }
         });
         return v;
@@ -55,15 +60,15 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
         News news = news_set.get(position);
         TextView v = holder.layout.findViewById(R.id.view_title);
         v.setText(news.title);
-        TextView vt = holder.layout.findViewById(R.id.view_time);
-        try {
-            vt.setText(DateUtil.getTextFormattedDate(ZonedDateTime.parse(news.datetime, DateTimeFormatter.RFC_1123_DATE_TIME)));
-        }catch(NullPointerException e){
-            //do nothing
-            vt.setText("");
+        LinearLayout meta = holder.layout.findViewById(R.id.layout_meta);
+        if ((news.datetime == null || news.datetime.equals("")) && (news.source == null || news.source.equals(""))) {
+            meta.setVisibility(View.GONE);
+        } else {
+            TextView vt = holder.layout.findViewById(R.id.view_time);
+            vt.setText(DateUtil.getTextFormattedDate(news.datetime));
+            TextView vs = holder.layout.findViewById(R.id.view_source);
+            vs.setText(news.source);
         }
-        TextView vs = holder.layout.findViewById(R.id.view_source);
-        vs.setText(news.source);
         holder.itemView.setTag(news);
     }
 
