@@ -56,7 +56,12 @@ public class NewsRollAdapter extends RecyclerView.Adapter<NewsRollAdapter.NewsLi
         TextView v = holder.layout.findViewById(R.id.view_title);
         v.setText(news.title);
         TextView vt = holder.layout.findViewById(R.id.view_time);
-        vt.setText(DateUtil.getTextFormattedDate(ZonedDateTime.parse(news.datetime, DateTimeFormatter.RFC_1123_DATE_TIME)));
+        try {
+            vt.setText(DateUtil.getTextFormattedDate(ZonedDateTime.parse(news.datetime, DateTimeFormatter.RFC_1123_DATE_TIME)));
+        }catch(NullPointerException e){
+            //do nothing
+            vt.setText("");
+        }
         TextView vs = holder.layout.findViewById(R.id.view_source);
         vs.setText(news.source);
         holder.itemView.setTag(news);

@@ -44,9 +44,9 @@ public class NetClient {
     public NetClient(){
 
     }
-    void getNews(ArrayList<News> list){
+    void getNews(ArrayList<News> list, InfoType t){
         Request request = new Request.Builder()
-                .url(news_list(InfoType.news,1,15))
+                .url(news_list(t,1,15))
                 .build();
         try {
             final Response response = client.newCall(request).execute();

@@ -24,8 +24,8 @@ public class News implements Serializable {
     public String source;
     public String origin_url;
     public String datetime;
-
-    ArrayList<String> keywords = new ArrayList<>();
+    public int haveread;
+    ArrayList<String> keywords = new ArrayList<>(); // need type converter
     public News(){
     }
     public News(JSONObject J){
@@ -37,6 +37,7 @@ public class News implements Serializable {
             origin_url = J.getJSONArray("urls").optString(0);
             infoType = InfoType.valueOf(J.getString("type")).ordinal();
             id = J.getString("_id");
+            haveread = 0;
             JSONArray a = J.getJSONArray("entities");
             for(int i=0;i<a.length();++i) {
                 keywords.add(a.getJSONObject(i).getString("label"));

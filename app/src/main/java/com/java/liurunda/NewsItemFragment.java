@@ -92,8 +92,8 @@ public class NewsItemFragment extends Fragment {
             }
         });
 
-        NewsGetter getter = new NewsGetter();
-        CompletableFuture.supplyAsync(getter::initial_news).thenAccept(
+        NewsGetter getter = NewsGetter.Getter();
+        CompletableFuture.supplyAsync(()->{return getter.initial_news(infoType);}).thenAccept(
                 (list) -> {
                     newsList.addAll(list);
                     getActivity().runOnUiThread(() -> {
