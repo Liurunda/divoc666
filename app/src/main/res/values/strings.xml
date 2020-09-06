@@ -15,7 +15,6 @@
     <string name="category_points">Points</string>
     <string name="category_news">News</string>
     <string name="category_paper">Papers</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="button_search">Search</string>
     <string name="text_refresh_success">Successfully refreshed</string>
 </resources>
