@@ -1,17 +1,20 @@
 package com.java.liurunda.data;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
+import android.icu.text.Replaceable;
+import androidx.room.*;
 
 @Dao
 public interface NewsDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNews(News news);
+    @Update
+    public void updateNews(News news);
     @Query("DELETE FROM News")
     public void clearNews();
-    @Query("SELECT * FROM News WHERE (new_id BETWEEN :minId AND :maxId) AND (infoType = :t)")
-    public News[] loadNewsBetweenIdsWithType(int minId, int maxId, int t);
+    @Query("SELECT * FROM News WHERE (id = :id)")
+    public News[] loadNewsId(String id);
+
+    @Query("SELECT * FROM News WHERE (id = :id AND infoType = :t)")
+    public News[] loadNewsIdAndType(String id, int t);
     //e.g. loadNewsBetweenIdsWithType(metanews.start_id,start_id+10,InfoType.news.ordinal())
 }

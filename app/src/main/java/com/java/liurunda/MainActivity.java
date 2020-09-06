@@ -17,16 +17,26 @@ import android.view.MenuItem;
 import android.view.View;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
+import com.java.liurunda.data.RoomManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends BaseActivity {
+    RoomManager manager;
+    ExecutorService executor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        manager = new RoomManager(getApplicationContext());
+        NewsGetter.setup(manager);
+        executor = Executors.newCachedThreadPool();
 
         final FragmentManager fm = getSupportFragmentManager();
         final NewsListFragment f_newsList = NewsListFragment.newInstance();

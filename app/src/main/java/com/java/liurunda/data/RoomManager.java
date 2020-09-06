@@ -18,23 +18,65 @@ public class RoomManager{
                 .build();
     }
     public void initialize(){
-        //MetaNews[] m =  nbase.metaDao().queryMeta(3);
-        //System.out.println("m.length="+m.length);
-        //MetaNews ma = new MetaNews(InfoType.news,0,0);
-        //nbase.metaDao().insertMeta(ma);
         boolean clear = true;
         if(clear) {
-       //     nbase.metaDao().clearMeta();
-       //     nbase.newsDao().clearNews();
+            nbase.metaDao().clearMeta();
+            nbase.newsDao().clearNews();
         }
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
     }
-    public void storeNews(ArrayList<News> list){
+    public void add_link_cross_page(String newer_id, String older_id){ // newer_id.prev = older_id
+        News[] older = nbase.newsDao().loadNewsId(older_id);
+        News[] newer = nbase.newsDao().loadNewsId(newer_id);
+        if(older.length == 1 && newer.length == 1){
+            if(newer[0].prev_id != older_id){
+                newer[0].prev_id = older_id;
+                nbase.newsDao().updateNews(newer[0]);
+            }
+            if(older[0].next_id != newer_id){
+                older[0].next_id = newer_id;
+                nbase.newsDao().updateNews(older[0]);
+            }
+        }
+    }
+    public void check_add_page(ArrayList<News> list){//only add link inside this page
         //if news not in database: store
         //if news in database: read from database and modify list
-        for(News news: list){
-            //nbase.newsDao().loadNewsBetweenIdsWithType(news.new_id,news.new_id,news.infoType);
+        try {
+            int L = list.size();
+            for (int i = 1; i < L; ++i) {
+                list.get(i).next_id = list.get(i - 1).id;//next_id: newer
+                list.get(i - 1).prev_id = list.get(i).id;//prev_id: older
+            }
+            boolean[] differ = new boolean[1];
+            for (int i = 0; i < L; ++i) {
+                News[] old = nbase.newsDao().loadNewsId(list.get(i).id);
+                if (old.length != 0) {
+                    list.set(i, list.get(i).merge_with_older(old[0], differ));
+                    if (differ[0]) {
+                        nbase.newsDao().updateNews(list.get(i));
+                    }
+                }
+            }
+        }catch(NullPointerException e){
+            //do nothing
+        }catch(RuntimeException e){
+
+        }
+        //一个事实: 任何基于"前一页最后一个" 和 "下一页第一个" 之间建立的连接都是不可靠的
+        //但不妨认为，如果连续两次同页面大小连续页码的访问获取的内容中没有重叠, 那么前页最后一个和下页第一个之间具备可靠的先后关系(假设更新速度不至于秒出若干条)
+        //2*3*5*7*11*13*17 = 510510
+        //只有同一页返回的结果之间才能建立靠谱的连接
+        //where should we change?
+        //next_id, prev_id...
+        //merge
+    }
+    public void touch(News news){//mark it as read
+        News origin[] = nbase.newsDao().loadNewsId(news.id);
+        if (origin.length > 0 && origin[0].haveread == 0) {
+            origin[0].haveread = 1;
+            nbase.newsDao().updateNews(origin[0]);
         }
     }
 }

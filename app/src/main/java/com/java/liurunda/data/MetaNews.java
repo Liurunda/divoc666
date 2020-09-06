@@ -10,13 +10,9 @@ import androidx.room.TypeConverters;
 public class MetaNews {
     @PrimaryKey
     public InfoType meta;
-
-    public int start_id;//current id of latest news
-    public int count;
-    public MetaNews(){
-
-    }
-    public MetaNews(InfoType meta,int start, int count){
-        this.meta = meta;start_id = start; this.count = count;
+    public int stack_count;//current id of latest news
+    public MetaNews(InfoType meta, int stack_count){
+        this.meta = meta;
+        this.stack_count = stack_count;
     }
 }
