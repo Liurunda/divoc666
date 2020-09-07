@@ -6,6 +6,7 @@ import androidx.room.Room;
 import java.security.cert.PKIXRevocationChecker;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -17,7 +18,9 @@ public class NewsGetter {
     static RoomManager manager;
 
     private NewsGetter(){
-
+        cur_latest = new HashMap<>();
+        cur_oldest = new HashMap<>();
+        counter = new HashMap<>();
     }
     public static void setup(RoomManager manager){
         NewsGetter.manager = manager;
@@ -70,7 +73,16 @@ public class NewsGetter {
         int page_size = 10;
         client.getNewestNews(list,t, page_size);
         News latest = cur_latest.get(t);
-        while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
+//        boolean flag = false;
+//        for(int i=0;i<10;++i){
+//            if(list.get(i).id.equals(latest.id)){
+//                flag=true;
+//            }
+//        }
+//        while(!list.contains(latest)){
+//
+//        }
+       while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
             list.clear();
             page_size = page_size * 2;
             client.getNewestNews(list, t, page_size);
@@ -80,7 +92,7 @@ public class NewsGetter {
 
         cur_latest.put(t, list.get(0));
         counter.put(t, counter.get(t) + list.indexOf(latest));
-        return new ArrayList<>(list.subList(0, list.indexOf(latest)-1));
+         return new ArrayList<>(list.subList(0, list.indexOf(latest)));
     }
     public ArrayList<News> search_news(String keyword){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
