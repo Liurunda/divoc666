@@ -1,6 +1,7 @@
 package com.java.liurunda;
 
 import android.os.Bundle;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.java.liurunda.data.News;
 import com.java.liurunda.data.Scholar;
 import com.java.liurunda.data.ScholarGetter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -66,11 +69,11 @@ public class ScholarFragment extends Fragment {
         recycler.setAdapter(adapter);
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
-//        RecyclerView recycler = this.view.findViewById(R.id.scholarRoll);
+        NestedScrollView nested = this.view.findViewById(R.id.nested);
 
         final Boolean[] isBottomShow = {true};
 
-        recycler.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        nested.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY - oldScrollY > 0 && isBottomShow[0]) {
                 isBottomShow[0] = false;
                 nav.animate().translationY(nav.getHeight());

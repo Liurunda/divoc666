@@ -1,12 +1,18 @@
 package com.java.liurunda.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class Scholar {
+public class Scholar implements Serializable {
     public String name, nameZh, avatarUrl, id;
 
     public double activity, diversity, newStar, risingStar, sociability;
@@ -52,22 +58,43 @@ public class Scholar {
             this.bio = profile.optString("bio", "");
             this.edu = profile.optString("edu", "");
             this.position = profile.optString("position", "");
+        }
 
-            final JSONArray tags = profile.optJSONArray("tags");
-            if (tags != null) {
-                for (int i = 0; i < tags.length(); ++i) {
-                    this.tags.add(tags.optString(i, ""));
-                }
+        final JSONArray tags = json.optJSONArray("tags");
+        if (tags != null) {
+            for (int i = 0; i < tags.length(); ++i) {
+                this.tags.add(tags.optString(i, ""));
             }
+        }
 
-            final JSONArray score = profile.optJSONArray("tags_score");
-            if (score != null) {
-                for (int i = 0; i < score.length(); ++i) {
-                    this.tagsScore.add(score.optInt(i, 0));
-                }
+        final JSONArray score = json.optJSONArray("tags_score");
+        if (score != null) {
+            for (int i = 0; i < score.length(); ++i) {
+                this.tagsScore.add(score.optInt(i, 0));
             }
         }
 
         this.isPassedAway = json.optBoolean("is_passedaway", false);
+    }
+
+    public Bitmap getAvatarWrapper() {
+        try {
+            URL url = new URL(this.avatarUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+
+            int code = conn.getResponseCode();
+
+            if (code == 200) {
+                InputStream in = conn.getInputStream();
+                return BitmapFactory.decodeStream(in);
+            } else {
+                return null;
+            }
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }

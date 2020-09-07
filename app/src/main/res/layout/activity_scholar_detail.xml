@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ScholarDetailActivity">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:fillViewport="true"
+    >
+        <com.java.liurunda.GrayLinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/viewWhole"
+                android:paddingTop="@dimen/appbar_padding_top" android:paddingBottom="@dimen/appbar_padding_top">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:gravity="center"
+                    android:paddingStart="@dimen/appbar_padding" android:paddingEnd="@dimen/appbar_padding"
+            >
+                <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent" android:id="@+id/avatar"
+                        android:layout_weight="1" android:scaleType="centerInside"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical"
+                        android:paddingStart="@dimen/appbar_padding_top" android:id="@+id/layoutInfo">
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/viewName"
+                            android:textColor="@color/design_default_color_on_secondary" android:textSize="21sp"
+                            android:textStyle="bold"/>
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
+                    >
+                        <ImageView
+                                android:src="@drawable/baseline_card_travel_black_24dp"
+                                android:layout_width="48dp"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                        />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:id="@+id/viewPosition"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/appbar_padding_top"
+                        />
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center" android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
+                    >
+                        <ImageView
+                                android:src="@drawable/baseline_school_black_24dp"
+                                android:layout_width="48dp"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                        />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:id="@+id/viewAffiliation"
+                                android:layout_weight="1" android:layout_marginStart="@dimen/appbar_padding_top"
+                        />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center_horizontal"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin">
+                <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_marginTop="@dimen/appbar_padding_top"
+                        android:layout_marginBottom="@dimen/appbar_padding_top">
+
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_h_index"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorH"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/viewH"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:gravity="center"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_citations"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorC"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/viewC"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:gravity="center"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_publications"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorP"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/viewP"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:gravity="center"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_g_index"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorG"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:id="@+id/viewG"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:gravity="center"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_diversity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorD"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:id="@+id/viewD"
+                                android:gravity="center"/>
+                    </TableRow>
+                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView
+                                android:text="@string/scholar_activity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
+                                android:background="@color/bkgColorA"
+                                android:paddingStart="@dimen/scholar_roll_tiny_margin"
+                                android:paddingEnd="@dimen/scholar_roll_tiny_margin"
+                                android:textColor="@color/colorWhite"
+                                android:gravity="center"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/design_default_color_on_secondary" android:id="@+id/viewA"
+                                android:gravity="center"/>
+                    </TableRow>
+                </TableLayout>
+                <TextView
+                        android:text="@string/scholar_edu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                        android:textColor="@color/design_default_color_on_secondary"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/viewEdu"
+                        android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
+                        android:layout_marginBottom="@dimen/scholar_roll_tiny_margin"
+                        android:lineSpacingMultiplier="1.2"/>
+                <TextView
+                        android:text="@string/scholar_bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                        android:textColor="@color/design_default_color_on_secondary"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/viewBio"
+                        android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
+                        android:layout_marginBottom="@dimen/scholar_roll_tiny_margin"
+                        android:lineSpacingMultiplier="1.2"/>
+                <TextView
+                        android:text="@string/scholar_tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                        android:textColor="@color/design_default_color_on_secondary"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/viewTags"
+                        android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
+                        android:layout_marginBottom="@dimen/scholar_roll_tiny_margin"
+                        android:lineSpacingMultiplier="1.2"/>
+            </LinearLayout>
+        </com.java.liurunda.GrayLinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

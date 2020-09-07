@@ -19,4 +19,14 @@
     <string name="button_search">搜索</string>
     <string name="text_refresh_success">刷新成功</string>
     <string name="text_loading">玩命加载中……</string>
+    <string name="known_scholar">知疫学者</string>
+    <string name="scholar_h_index">H 指数</string>
+    <string name="scholar_g_index">G 指数</string>
+    <string name="scholar_activity">学术活跃度</string>
+    <string name="scholar_diversity">多样性</string>
+    <string name="scholar_citations">引用数</string>
+    <string name="scholar_publications">论文数</string>
+    <string name="scholar_bio">简介</string>
+    <string name="scholar_tags">标签</string>
+    <string name="scholar_edu">教育经历</string>
 </resources>
