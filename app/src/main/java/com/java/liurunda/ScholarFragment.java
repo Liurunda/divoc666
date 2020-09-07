@@ -5,6 +5,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.java.liurunda.data.Scholar;
+import com.java.liurunda.data.ScholarGetter;
+
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -12,15 +21,13 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ScholarFragment extends Fragment {
+    private View view;
+    private RecyclerView recycler;
+    private RecyclerView.LayoutManager layoutManager;
+    private ScholarRollAdapter adapter;
+    private final ScholarGetter getter = ScholarGetter.getInstance();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
+    private ArrayList<Scholar> scholars = new ArrayList<>();
 
     public ScholarFragment() {
         // Required empty public constructor
@@ -30,16 +37,11 @@ public class ScholarFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
      * @return A new instance of fragment ScholarFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ScholarFragment newInstance(/*String param1, String param2*/) {
+    public static ScholarFragment newInstance() {
         ScholarFragment fragment = new ScholarFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,16 +49,42 @@ public class ScholarFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scholar, container, false);
+        this.view = inflater.inflate(R.layout.fragment_scholar, container, false);
+
+        recycler = this.view.findViewById(R.id.scholarRoll);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recycler.setLayoutManager(layoutManager);
+
+        adapter = new ScholarRollAdapter(this.scholars);
+        recycler.setAdapter(adapter);
+
+        BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
+//        RecyclerView recycler = this.view.findViewById(R.id.scholarRoll);
+
+        final Boolean[] isBottomShow = {true};
+
+        recycler.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY - oldScrollY > 0 && isBottomShow[0]) {
+                isBottomShow[0] = false;
+                nav.animate().translationY(nav.getHeight());
+            } else if (scrollY - oldScrollY < 0 && !isBottomShow[0]) {
+                isBottomShow[0] = true;
+                nav.animate().translationY(0);
+            }
+        });
+
+        CompletableFuture.supplyAsync(getter::getScholars).thenAccept((list) -> {
+            this.scholars.addAll(list);
+            getActivity().runOnUiThread(adapter::notifyDataSetChanged);
+        });
+
+        return this.view;
     }
 }

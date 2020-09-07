@@ -43,7 +43,6 @@ public class NewsItemFragment extends Fragment {
 
     public NewsItemFragment() {
         this.newsList = new ArrayList<>();
-        // Required empty public constructor
     }
 
     /**
@@ -86,7 +85,7 @@ public class NewsItemFragment extends Fragment {
         recycler.setAdapter(adapter);
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
-        RecyclerView recycler = this.view.findViewById(R.id.newsRoll);
+//        RecyclerView recycler = this.view.findViewById(R.id.newsRoll);
 
         final Boolean[] isBottomShow = {true};
 
@@ -129,23 +128,19 @@ public class NewsItemFragment extends Fragment {
         });
 
         getter = NewsGetter.Getter();
-        CompletableFuture.supplyAsync(() -> getter.initial_news(infoType)).thenAccept(
-                (list) -> {
-                    newsList.addAll(list);
-                    getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
-                }
-        );
+        CompletableFuture.supplyAsync(() -> getter.initial_news(infoType)).thenAccept((list) -> {
+            newsList.addAll(list);
+            getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+        });
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefresher);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(() -> CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept(
-                (list) -> {
-                    newsList.addAll(0, list);
-                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
-                    swipeRefreshLayout.setRefreshing(false);
-                    showSnackbar(getString(R.string.text_refresh_success));
-                }
-        ));
+        swipeRefreshLayout.setOnRefreshListener(() -> CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept((list) -> {
+            newsList.addAll(0, list);
+            Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
+            swipeRefreshLayout.setRefreshing(false);
+            showSnackbar(getString(R.string.text_refresh_success));
+        }));
 
         return this.view;
     }
