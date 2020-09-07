@@ -79,4 +79,15 @@ public class RoomManager{
             nbase.newsDao().updateNews(origin[0]);
         }
     }
+    public boolean link_list_prev(ArrayList<News> list, News oldest, int size){
+        String cur_id = oldest.prev_id;
+        for(int i=0;i<size;++i){
+            if(cur_id.equals(""))return false;
+            News[] prev_news = nbase.newsDao().loadNewsId(cur_id);
+            if(prev_news.length==0)return false;
+            list.add(prev_news[0]);
+            cur_id = prev_news[0].prev_id;
+        }
+        return true;
+    }
 }

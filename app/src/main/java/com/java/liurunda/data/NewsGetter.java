@@ -58,13 +58,51 @@ public class NewsGetter {
         return list;
     }
     public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用
+        //assert size > 0
+
         //优先在数据库中通过 prev_id上溯。等到断开的时候再进行网络请求。
 
         //start from cur_oldest
         ArrayList<News> list =  new ArrayList<>();
         News oldest = cur_oldest.get(t);
-
-        return list;
+        if(manager.link_list_prev(list, oldest, size)){
+            cur_oldest.put(t, list.get(list.size()-1));
+            counter.put(t,counter.get(t)+size);
+            return list;
+        }else { //否则通过网络请求获取足够多的新闻
+            list.clear();
+            int len = counter.get(t);
+            //当前给用户展示了t条新闻...假设当前最新新闻更新的条数不多
+            int count_page = (len + size - 1) / size; //如果没有更多更新
+            int cur_size = 0;
+            boolean reached_oldest = false;
+            ArrayList<News> onepage = new ArrayList<>();
+            //News lastpage_end = null,thispage_start = null;
+            for(int page_i=count_page;cur_size < size;++page_i){
+                client.getNews(onepage,t,page_i,size);
+//                if(lastpage_end != null && !onepage.contains(lastpage_end)){
+//                    thispage_start = onepage.get(0);
+//                    manager.add_link_cross_page(lastpage_end.id, thispage_start.id);
+//                }
+                if(reached_oldest) {
+                    for(int i=0;i<size && cur_size < size;++i, ++cur_size){
+                        list.add(onepage.get(i));
+                    }
+                }
+                else if(onepage.contains(oldest)){
+                    reached_oldest = true;
+                    for(int i=onepage.indexOf(oldest)+1;i<size && cur_size < size;++i, ++cur_size){
+                        list.add(onepage.get(i));
+                    }
+                }
+              //  lastpage_end = onepage.get(onepage.size()-1);
+                onepage.clear();
+            }
+            manager.check_add_page(list);
+            cur_oldest.put(t, list.get(list.size()-1));
+            counter.put(t,counter.get(t)+size);
+            return list;
+        }
     }
     public ArrayList<News> latest_news(InfoType t){ //应当使用异步方式进行调用
         //任意时刻，展示给用户的，必然是接口返回结果中连续的一段
@@ -73,15 +111,6 @@ public class NewsGetter {
         int page_size = 10;
         client.getNewestNews(list,t, page_size);
         News latest = cur_latest.get(t);
-//        boolean flag = false;
-//        for(int i=0;i<10;++i){
-//            if(list.get(i).id.equals(latest.id)){
-//                flag=true;
-//            }
-//        }
-//        while(!list.contains(latest)){
-//
-//        }
        while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
             list.clear();
             page_size = page_size * 2;
