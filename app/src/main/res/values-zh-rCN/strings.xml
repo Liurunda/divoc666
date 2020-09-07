@@ -18,4 +18,5 @@
     <string name="category_paper">研究</string>
     <string name="button_search">搜索</string>
     <string name="text_refresh_success">刷新成功</string>
+    <string name="text_loading">玩命加载中……</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.java.liurunda;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.widget.Adapter;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -83,7 +85,7 @@ public class NewsItemFragment extends Fragment {
         adapter = new NewsRollAdapter(newsList);
         recycler.setAdapter(adapter);
 
-        BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
+        BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
         RecyclerView recycler = this.view.findViewById(R.id.newsRoll);
 
         final Boolean[] isBottomShow = {true};
@@ -98,6 +100,34 @@ public class NewsItemFragment extends Fragment {
             }
         });
 
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
+//                    adapter.changeMoreStatus(NewsRollAdapter.LOADING_MORE);
+                    CompletableFuture.supplyAsync(() -> {
+                        final int countNews = 10;
+                        return getter.older_news(infoType, countNews);
+                    }).thenAccept((ArrayList<News> news) -> {
+                        final int rangeStart = newsList.size();
+                        newsList.addAll(news);
+                        adapter.notifyItemRangeInserted(rangeStart, news.size());
+                        showSnackbar(getString(R.string.text_refresh_success));
+                    });
+                }
+            }
+
+            @Override
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy){
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                assert layoutManager != null;
+                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            }
+        });
+
         getter = NewsGetter.Getter();
         CompletableFuture.supplyAsync(() -> getter.initial_news(infoType)).thenAccept(
                 (list) -> {
@@ -106,21 +136,16 @@ public class NewsItemFragment extends Fragment {
                 }
         );
 
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresher);
-        swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.colorAccent, R.color.colorPrimary});
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept(
-                        (list) -> {
-                            newsList.addAll(0, list);
-                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
-                            swipeRefreshLayout.setRefreshing(false);
-                            showSnackbar(getString(R.string.text_refresh_success));
-                        }
-                );
-            }
-        });
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefresher);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(() -> CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept(
+                (list) -> {
+                    newsList.addAll(0, list);
+                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
+                    swipeRefreshLayout.setRefreshing(false);
+                    showSnackbar(getString(R.string.text_refresh_success));
+                }
+        ));
 
         return this.view;
     }

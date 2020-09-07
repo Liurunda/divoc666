@@ -17,4 +17,6 @@
     <string name="category_paper">Papers</string>
     <string name="button_search">Search</string>
     <string name="text_refresh_success">Successfully refreshed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_loading">Loading...</string>
 </resources>
