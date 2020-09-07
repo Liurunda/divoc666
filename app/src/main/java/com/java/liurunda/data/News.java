@@ -1,7 +1,5 @@
 package com.java.liurunda.data;
 
-import androidx.lifecycle.ViewModel;
-import androidx.room.Dao;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import org.jetbrains.annotations.NotNull;
@@ -31,10 +29,11 @@ public class News implements Serializable {
     }
     public News(JSONObject J){
         try {
-            title = J.getString("title");
-            content = J.getString("content");
-            source = J.getString("source");
-            datetime = J.getString("date");
+            next_id = ""; prev_id = "";
+            title = J.optString("title","");
+            content = J.optString("content","");
+            source = J.optString("source","");
+            datetime = J.optString("date","");
             origin_url = J.getJSONArray("urls").optString(0);
             infoType = InfoType.valueOf(J.getString("type")).ordinal();
             id = J.getString("_id");
@@ -43,9 +42,10 @@ public class News implements Serializable {
             for(int i=0;i<a.length();++i) {
                 keywords.add(a.getJSONObject(i).getString("label"));
             }
-            next_id = ""; prev_id = "";
         }catch(JSONException e){
             e.printStackTrace();
+        }catch(NullPointerException e){
+
         }
     }
     @NotNull
