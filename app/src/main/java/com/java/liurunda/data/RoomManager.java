@@ -12,7 +12,7 @@ public class RoomManager{
     NewsBase nbase;
     public RoomManager(Context application){
         nbase = Room.databaseBuilder(application,NewsBase.class,DATABASE_NAME)
-                //.createFromAsset("news.db")
+                .createFromAsset("news.db")
                 .build();
     }
     public void initialize(){
