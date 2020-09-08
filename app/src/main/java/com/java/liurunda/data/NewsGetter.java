@@ -38,12 +38,12 @@ public class NewsGetter {
         cur_latest.put(t, list.get(0));
         cur_oldest.put(t, list.get(list.size()-1));
         counter.put(t, list.size());
-//        CompletableFuture.runAsync(() -> {
-//                manager.load_search_history(search_history);
-//                ArrayList<News> listb = new ArrayList<>();
-//                client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
-//                manager.check_add_page(listb);
-//        });
+        CompletableFuture.runAsync(() -> {
+                manager.load_search_history(search_history);
+                ArrayList<News> listb = new ArrayList<>();
+                client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
+                manager.check_add_page(listb);
+        });
         return list;
     }
     synchronized public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用

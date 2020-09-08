@@ -12,7 +12,6 @@ public class RoomManager{
     NewsBase nbase;
     public RoomManager(Context application){
         nbase = Room.databaseBuilder(application,NewsBase.class,DATABASE_NAME)
-                .createFromAsset("news.db")
                 .build();
     }
     public void initialize(){
@@ -28,11 +27,11 @@ public class RoomManager{
         News[] older = nbase.newsDao().loadNewsId(older_id);
         News[] newer = nbase.newsDao().loadNewsId(newer_id);
         if(older.length == 1 && newer.length == 1){
-            if(newer[0].prev_id != older_id){
+            if(!newer[0].prev_id .equals(older_id) ){
                 newer[0].prev_id = older_id;
                 nbase.newsDao().updateNews(newer[0]);
             }
-            if(older[0].next_id != newer_id){
+            if(!older[0].next_id.equals(newer_id)){
                 older[0].next_id = newer_id;
                 nbase.newsDao().updateNews(older[0]);
             }
