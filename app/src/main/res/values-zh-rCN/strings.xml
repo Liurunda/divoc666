@@ -31,4 +31,10 @@
     <string name="scholar_edu">教育经历</string>
     <string name="text_share_with">分享到</string>
     <string name="text_origin">原文：</string>
+    <string name="title_data">疫情数据</string>
+    <string name="tab_domestic">国内</string>
+    <string name="tab_global">全球</string>
+    <string name="text_last_update">"最近更新 "</string>
+    <string name="text_overall_data">总体疫情数据</string>
+    <string name="text_regional_data">分区域数据</string>
 </resources>

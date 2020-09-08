@@ -50,7 +50,7 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             TextView v = hold.layout.findViewById(R.id.view_title);
             v.setText(news.title);
             if (news.haveread != 0) {
-                v.setTextColor(R.color.text_Gray);
+                v.setTextColor(R.color.design_default_color_on_secondary);
             }
             LinearLayout meta = hold.layout.findViewById(R.id.layout_meta);
             if ((news.datetime == null || news.datetime.equals("")) && (news.source == null || news.source.equals(""))) {
