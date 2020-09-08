@@ -14,6 +14,7 @@ public class NewsGetter {
     NetClient client = new NetClient();
     Map<InfoType, News> cur_latest,cur_oldest;//TODO: 需要分不同类型的新闻分别设置...
     Map<InfoType, Integer> counter;
+    ArrayList<String> search_history = new ArrayList<>();
     static NewsGetter Getter;
     static RoomManager manager;
 
@@ -25,18 +26,12 @@ public class NewsGetter {
     public static void setup(RoomManager manager){
         NewsGetter.manager = manager;
     }
-    public static NewsGetter Getter(){
+    public synchronized static NewsGetter Getter(){
         CompletableFuture.runAsync(manager::initialize);
         if(Getter==null)Getter = new NewsGetter();
         return Getter;
     }
-//    @Deprecated
-//    public ArrayList<News> initial_news(){ //应当使用异步方式进行调用
-//        ArrayList<News> list =  new ArrayList<>();
-//        client.getNewestNews(list, InfoType.news, 10); //初始化时，总是进行网络调用获取最新新闻，然后再和数据库中内容进行比较
-//        return list;
-//    }
-    public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用
+    synchronized public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
         client.getNewestNews(list,t,10);
         News ender = list.get(list.size()-1);//oldest in this page
@@ -45,19 +40,15 @@ public class NewsGetter {
         cur_latest.put(t, list.get(0));
         cur_oldest.put(t, list.get(list.size()-1));
         counter.put(t, list.size());
-        if(ender_merged.id!="") { // no direct successor in database
-            CompletableFuture.runAsync(() -> {
-                ArrayList<News> listb = new ArrayList<>();
-                client.getNews(listb, t, 2, 10);//此处应当先检测从ender往后连能不能连上....
-                if (!listb.contains(ender)) {
-                    //no overlapping
-                    manager.add_link_cross_page(ender.id, listb.get(0).id);
-                }
-            });
-        }
+        CompletableFuture.runAsync(() -> {
+            manager.load_search_history(search_history);
+            ArrayList<News> listb = new ArrayList<>();
+            client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
+            manager.check_add_page(listb);
+        });
         return list;
     }
-    public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用
+    synchronized public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用
         //assert size > 0
 
         //优先在数据库中通过 prev_id上溯。等到断开的时候再进行网络请求。
@@ -80,10 +71,6 @@ public class NewsGetter {
             //News lastpage_end = null,thispage_start = null;
             for(int page_i=count_page;cur_size < size;++page_i){
                 client.getNews(onepage,t,page_i,size);
-//                if(lastpage_end != null && !onepage.contains(lastpage_end)){
-//                    thispage_start = onepage.get(0);
-//                    manager.add_link_cross_page(lastpage_end.id, thispage_start.id);
-//                }
                 if(reached_oldest) {
                     for(int i=0;i<size && cur_size < size;++i, ++cur_size){
                         list.add(onepage.get(i));
@@ -95,7 +82,6 @@ public class NewsGetter {
                         list.add(onepage.get(i));
                     }
                 }
-              //  lastpage_end = onepage.get(onepage.size()-1);
                 onepage.clear();
             }
             manager.check_add_page(list);
@@ -104,7 +90,7 @@ public class NewsGetter {
             return list;
         }
     }
-    public ArrayList<News> latest_news(InfoType t){ //应当使用异步方式进行调用
+    synchronized public ArrayList<News> latest_news(InfoType t){ //应当使用异步方式进行调用
         //任意时刻，展示给用户的，必然是接口返回结果中连续的一段
         //所以必须做好delta的工作...
         ArrayList<News> list =  new ArrayList<>();
@@ -123,9 +109,22 @@ public class NewsGetter {
         counter.put(t, counter.get(t) + list.indexOf(latest));
          return new ArrayList<>(list.subList(0, list.indexOf(latest)));
     }
-    public ArrayList<News> search_news(String keyword){ //应当使用异步方式进行调用
+    public ArrayList<String> search_history(){
+        return search_history;
+    }
+    public void save_search_history(){
+        manager.save_search_history(search_history);
+    }
+    synchronized public ArrayList<News> search_result(String keyword){ //应当使用异步方式进行调用
+        //返回新闻和论文类型
         ArrayList<News> list =  new ArrayList<>();
-        client.getNews(list, InfoType.news);
+        CompletableFuture.runAsync(()->{
+            if(!search_history.contains(keyword)){
+                search_history.add(keyword);
+            }
+            save_search_history();
+        });
+        manager.searchNews(list, keyword);
         return list;
     }
     public void markNewsRead(News news){

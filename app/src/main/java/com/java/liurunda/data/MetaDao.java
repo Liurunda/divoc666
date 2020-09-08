@@ -12,5 +12,5 @@ public interface MetaDao {
     public void updateMeta(MetaNews meta);
 
     @Query("SELECT * FROM MetaNews WHERE meta = :metaid LIMIT 1")
-    public MetaNews[] queryMeta(int metaid);
+    public MetaNews[] queryMeta(InfoType metaid);
 }

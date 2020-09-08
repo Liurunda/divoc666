@@ -26,7 +26,10 @@ public class Scholar implements Serializable {
     public ArrayList<Integer> tagsScore;
 
     public boolean isPassedAway;
-
+    public Scholar(){
+        this.name ="name";
+        this.nameZh = "name_zh";
+    }
     public Scholar(final JSONObject json) {
         this.name = json.optString("name", "");
         this.nameZh = json.optString("name_zh", "");

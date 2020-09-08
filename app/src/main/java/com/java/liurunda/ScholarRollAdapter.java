@@ -23,10 +23,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.ScholarViewHolder> {
     private final ArrayList<Scholar> scholars;
-
+    private ExecutorService single = Executors.newSingleThreadExecutor();
+    private ExecutorService single2 = Executors.newSingleThreadExecutor();
     public static class ScholarViewHolder extends RecyclerView.ViewHolder {
         public FrameLayout layout;
         public ScholarViewHolder(FrameLayout l) {
@@ -78,7 +81,7 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
 
         ImageView img = holder.layout.findViewById(R.id.avatar);
         LinearLayout vertical = holder.layout.findViewById(R.id.layoutInfo);
-        CompletableFuture.supplyAsync(scholar::getAvatarWrapper).thenAccept((bitmap) -> {
+        CompletableFuture.supplyAsync(scholar::getAvatarWrapper,single).thenAcceptAsync((bitmap) -> {
             img.setImageBitmap(bitmap);
             img.setMaxHeight(vertical.getHeight());
             if (scholar.isPassedAway) {
@@ -86,7 +89,7 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
                 cm.setSaturation(0);
                 img.setColorFilter(new ColorMatrixColorFilter(cm));
             }
-        });
+        },single2);
         holder.itemView.setTag(scholar);
     }
 

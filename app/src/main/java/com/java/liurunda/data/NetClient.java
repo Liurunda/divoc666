@@ -108,6 +108,7 @@ public class NetClient {
 
     void getScholars(ArrayList<Scholar> scholars) {
         final String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
+
         Request request = new Request.Builder().url(url).build();
         try {
             final Response response = client.newCall(request).execute();

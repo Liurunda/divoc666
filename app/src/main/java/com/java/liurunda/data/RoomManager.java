@@ -8,13 +8,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RoomManager{
     private final String DATABASE_NAME = "news";
     NewsBase nbase;
     public RoomManager(Context application){
         nbase = Room.databaseBuilder(application,NewsBase.class,DATABASE_NAME)
-                .createFromAsset("news.db")
+                //.createFromAsset("news.db")
                 .build();
     }
     public void initialize(){
@@ -89,5 +90,26 @@ public class RoomManager{
             cur_id = prev_news[0].prev_id;
         }
         return true;
+    }
+    public void searchNews(ArrayList<News> list, String keyword){
+        News a[] = nbase.newsDao().searchNewsTitleLikeKeywords("%"+keyword+"%");
+        News b[] = nbase.newsDao().searchNewsEntityLikeKeywords("%"+keyword+"%");
+        Arrays.stream(a).forEach(e->list.add(e));
+        Arrays.stream(b).filter(e->!list.contains(e)).forEach(e->list.add(e));
+    }
+    public void load_search_history(ArrayList<String> history){
+        MetaNews[] meta = nbase.metaDao().queryMeta(InfoType.all);
+        if(meta.length!=0){
+            Arrays.stream(meta[0].history.split(",")).forEach(s->history.add(s));
+        }
+    }
+    public void save_search_history(ArrayList<String> history){
+        StringBuilder builder = new StringBuilder();
+        for(String s:history){
+            builder.append(s);
+            builder.append(",");
+        }
+        if(builder.length()>0) builder.deleteCharAt(builder.length()-1);
+        nbase.metaDao().insertMeta(new MetaNews(InfoType.all, builder.toString()));
     }
 }
