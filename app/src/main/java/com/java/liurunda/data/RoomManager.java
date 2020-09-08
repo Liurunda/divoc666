@@ -5,6 +5,7 @@ import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 public class RoomManager{
     private final String DATABASE_NAME = "news";
@@ -70,11 +71,14 @@ public class RoomManager{
         //merge
     }
     public void touch(News news){//mark it as read
-        News origin[] = nbase.newsDao().loadNewsId(news.id);
-        if (origin.length > 0 && origin[0].haveread == 0) {
-            origin[0].haveread = 1;
-            nbase.newsDao().updateNews(origin[0]);
-        }
+        CompletableFuture.runAsync(()-> {
+                    News origin[] = nbase.newsDao().loadNewsId(news.id);
+                    if (origin.length > 0 && origin[0].haveread == 0) {
+                        origin[0].haveread = 1;
+                        nbase.newsDao().updateNews(origin[0]);
+                    }
+                }
+        );
     }
     public boolean link_list_prev(ArrayList<News> list, News oldest, int size){
         String cur_id = oldest.prev_id;
