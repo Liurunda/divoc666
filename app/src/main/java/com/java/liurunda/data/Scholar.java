@@ -1,7 +1,10 @@
 package com.java.liurunda.data;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+import com.java.liurunda.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

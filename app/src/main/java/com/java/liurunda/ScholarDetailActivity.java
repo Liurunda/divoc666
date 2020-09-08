@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
 import com.java.liurunda.data.Scholar;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.intellij.lang.annotations.Flow;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ScholarDetailActivity extends AppCompatActivity {
+public class ScholarDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +69,11 @@ public class ScholarDetailActivity extends AppCompatActivity {
 
         ImageView img = findViewById(R.id.avatar);
         LinearLayout vertical = findViewById(R.id.layoutInfo);
-        CompletableFuture.supplyAsync(scholar::getAvatarWrapper).thenAccept((bitmap) -> {
-            img.setImageBitmap(bitmap);
-            img.setMaxHeight(vertical.getHeight());
-        });
+
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(img.getContext());
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(configuration);
+        imageLoader.displayImage(scholar.avatarUrl, img);
+        img.setMaxHeight(vertical.getHeight());
     }
 }

@@ -69,11 +69,10 @@ public class ScholarFragment extends Fragment {
         recycler.setAdapter(adapter);
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
-        NestedScrollView nested = this.view.findViewById(R.id.nested);
 
         final Boolean[] isBottomShow = {true};
 
-        nested.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        recycler.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY - oldScrollY > 0 && isBottomShow[0]) {
                 isBottomShow[0] = false;
                 nav.animate().translationY(nav.getHeight());
@@ -84,8 +83,7 @@ public class ScholarFragment extends Fragment {
         });
 
         CompletableFuture.supplyAsync(getter::getScholars).thenAccept((list) -> {
-            //this.scholars.addAll(list);
-            this.scholars.addAll(list.subList(0,5));
+            this.scholars.addAll(list);
             getActivity().runOnUiThread(adapter::notifyDataSetChanged);
         });
 

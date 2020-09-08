@@ -1,12 +1,14 @@
 package com.java.liurunda;
 
 import android.accounts.NetworkErrorException;
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.java.liurunda.data.Scholar;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.ScholarViewHolder> {
     private final ArrayList<Scholar> scholars;
-    private ExecutorService single = Executors.newSingleThreadExecutor();
-    private ExecutorService single2 = Executors.newSingleThreadExecutor();
+//    private ExecutorService single = Executors.newSingleThreadExecutor();
+//    private ExecutorService single2 = Executors.newSingleThreadExecutor();
     public static class ScholarViewHolder extends RecyclerView.ViewHolder {
         public FrameLayout layout;
         public ScholarViewHolder(FrameLayout l) {
@@ -80,16 +79,26 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
         vaf.setText(scholar.affiliation);
 
         ImageView img = holder.layout.findViewById(R.id.avatar);
+        if (img.getTag() == null || img.getTag() != scholar.avatarUrl) {
+            img.setImageBitmap(null);
+        }
+        img.setTag(scholar.avatarUrl);
         LinearLayout vertical = holder.layout.findViewById(R.id.layoutInfo);
-        CompletableFuture.supplyAsync(scholar::getAvatarWrapper,single).thenAcceptAsync((bitmap) -> {
-            img.setImageBitmap(bitmap);
-            img.setMaxHeight(vertical.getHeight());
-            if (scholar.isPassedAway) {
-                ColorMatrix cm = new ColorMatrix();
-                cm.setSaturation(0);
-                img.setColorFilter(new ColorMatrixColorFilter(cm));
-            }
-        },single2);
+
+        if (scholar.isPassedAway) {
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0);
+            img.setColorFilter(new ColorMatrixColorFilter(cm));
+        } else {
+            img.setColorFilter(null);
+        }
+
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(img.getContext());
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(configuration);
+        imageLoader.displayImage(scholar.avatarUrl, img);
+        img.setMaxHeight(vertical.getHeight());
+
         holder.itemView.setTag(scholar);
     }
 
