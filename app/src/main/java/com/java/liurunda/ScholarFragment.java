@@ -84,8 +84,8 @@ public class ScholarFragment extends Fragment {
         });
 
         CompletableFuture.supplyAsync(getter::getScholars).thenAccept((list) -> {
-            this.scholars.addAll(list);
-            //this.scholars.addAll(list.subList(0,3));
+            //this.scholars.addAll(list);
+            this.scholars.addAll(list.subList(0,5));
             getActivity().runOnUiThread(adapter::notifyDataSetChanged);
         });
 
