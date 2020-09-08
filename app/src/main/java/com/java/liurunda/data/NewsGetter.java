@@ -32,17 +32,18 @@ public class NewsGetter {
         ArrayList<News> list =  new ArrayList<>();
         client.getNewestNews(list,t,10);
         News ender = list.get(list.size()-1);//oldest in this page
+    //    throw new NullPointerException();
         manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
         News ender_merged = list.get(list.size()-1);//merged with older record
         cur_latest.put(t, list.get(0));
         cur_oldest.put(t, list.get(list.size()-1));
         counter.put(t, list.size());
-        CompletableFuture.runAsync(() -> {
-            manager.load_search_history(search_history);
-            ArrayList<News> listb = new ArrayList<>();
-            client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
-            manager.check_add_page(listb);
-        });
+//        CompletableFuture.runAsync(() -> {
+//                manager.load_search_history(search_history);
+//                ArrayList<News> listb = new ArrayList<>();
+//                client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
+//                manager.check_add_page(listb);
+//        });
         return list;
     }
     synchronized public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用

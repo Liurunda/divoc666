@@ -10,7 +10,7 @@ public interface NewsDao {
     public void updateNews(News news);
     @Query("DELETE FROM News")
     public void clearNews();
-    @Query("SELECT * FROM News WHERE (id = :id)")
+    @Query("SELECT * FROM News WHERE id LIKE :id LIMIT 1")
     public News[] loadNewsId(String id);
 
     @Query("SELECT * FROM News WHERE (id = :id AND infoType = :t)")

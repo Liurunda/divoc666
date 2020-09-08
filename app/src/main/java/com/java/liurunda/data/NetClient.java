@@ -44,7 +44,7 @@ public class NetClient {
     public NetClient(){
 
     }
-    void getNews(ArrayList<News> list, InfoType t, int page, int size){
+    synchronized void getNews(ArrayList<News> list, InfoType t, int page, int size){
         Request request = new Request.Builder()
                 .url(news_list(t,page,size))
                 .build();
@@ -64,7 +64,7 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-    void getNewestNews(ArrayList<News> list, InfoType t, int size){ // 获取最新新闻时，总是进行网络请求(因为不知道当前数据库中是否最新)
+    synchronized public void getNewestNews(ArrayList<News> list, InfoType t, int size){ // 获取最新新闻时，总是进行网络请求(因为不知道当前数据库中是否最新)
         Request request = new Request.Builder()
                 .url(news_list(t,1,size))
                 .build();
@@ -84,7 +84,7 @@ public class NetClient {
             e.printStackTrace();
         }
     }
-    void getNews(ArrayList<News> list, InfoType t){
+    synchronized void getNews(ArrayList<News> list, InfoType t){
         Request request = new Request.Builder()
                 .url(news_list(t,1,15))
                 .build();
@@ -105,7 +105,7 @@ public class NetClient {
         }
     }
 
-    void getScholars(ArrayList<Scholar> scholars) {
+    synchronized void getScholars(ArrayList<Scholar> scholars) {
         final String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
 
         Request request = new Request.Builder().url(url).build();

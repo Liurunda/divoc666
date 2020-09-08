@@ -16,11 +16,11 @@ public class RoomManager{
                 .build();
     }
     public void initialize(){
-//        boolean clear = false;
-//        if(clear) {
-//            nbase.metaDao().clearMeta();
-//            nbase.newsDao().clearNews();
-//        }
+        boolean clear = false;
+        if(clear) {
+            nbase.metaDao().clearMeta();
+            nbase.newsDao().clearNews();
+        }
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
     }
@@ -38,27 +38,28 @@ public class RoomManager{
             }
         }
     }
-    public void check_add_page(ArrayList<News> list){//only add link inside this page
+     public void check_add_page(ArrayList<News> list){//only add link inside this page
         //if news not in database: store
         //if news in database: read from database and modify list
         try {
-            int L = list.size();
-            for (int i = 1; i < L; ++i) {
-                list.get(i).next_id = list.get(i - 1).id;//next_id: newer
-                list.get(i - 1).prev_id = list.get(i).id;//prev_id: older
-            }
-            boolean[] differ = new boolean[1];
-            for (int i = 0; i < L; ++i) {
-                News[] old = nbase.newsDao().loadNewsId(list.get(i).id);
-                if (old.length != 0) {
-                    list.set(i, list.get(i).merge_with_older(old[0], differ));
-                    if (differ[0]) {
-                        nbase.newsDao().updateNews(list.get(i));
-                    }
-                }else{
-                    nbase.newsDao().insertNews(list.get(i));
+                int L = list.size();
+                for (int i = 1; i < L; ++i) {
+                    list.get(i).next_id = list.get(i - 1).id;//next_id: newer
+                    list.get(i - 1).prev_id = list.get(i).id;//prev_id: older
                 }
-            }
+                boolean[] differ = new boolean[1];
+                for (int i = 0; i < L; ++i) {
+                    News[] old = nbase.newsDao().loadNewsId(list.get(i).id);
+                    if (old.length != 0) {
+                        list.set(i, list.get(i).merge_with_older(old[0], differ));
+                        if (differ[0]) {
+                            nbase.newsDao().updateNews(list.get(i));
+                        }
+                    } else {
+                        nbase.newsDao().insertNews(list.get(i));
+                    }
+                }
+
         }catch(NullPointerException e){
             //do nothing
         }
