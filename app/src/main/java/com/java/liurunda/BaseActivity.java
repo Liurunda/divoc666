@@ -1,9 +1,8 @@
 package com.java.liurunda;
 
 import android.content.pm.ActivityInfo;
-import android.view.WindowManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

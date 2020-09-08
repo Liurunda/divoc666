@@ -1,6 +1,5 @@
 package com.java.liurunda.data;
 
-import android.icu.text.Replaceable;
 import androidx.room.*;
 
 @Dao

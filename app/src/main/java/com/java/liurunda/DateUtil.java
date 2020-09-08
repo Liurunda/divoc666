@@ -1,7 +1,5 @@
 package com.java.liurunda;
 
-import com.java.liurunda.data.InfoType;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

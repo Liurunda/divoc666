@@ -1,12 +1,9 @@
 package com.java.liurunda.data;
 
-import android.icu.text.IDNA;
 import androidx.room.TypeConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Converters {
     @TypeConverter

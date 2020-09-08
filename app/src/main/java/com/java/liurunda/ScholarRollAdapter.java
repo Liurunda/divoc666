@@ -1,14 +1,8 @@
 package com.java.liurunda;
 
-import android.accounts.NetworkErrorException;
-import android.app.Application;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +17,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
 
 public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.ScholarViewHolder> {
     private final ArrayList<Scholar> scholars;
-//    private ExecutorService single = Executors.newSingleThreadExecutor();
-//    private ExecutorService single2 = Executors.newSingleThreadExecutor();
     public static class ScholarViewHolder extends RecyclerView.ViewHolder {
         public FrameLayout layout;
         public ScholarViewHolder(FrameLayout l) {
@@ -65,10 +56,6 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
         vn.setText(scholar.nameZh.equals("") ? scholar.name : scholar.nameZh + " (" + scholar.name + ")");
         TextView vh = holder.layout.findViewById(R.id.viewH);
         vh.setText(Integer.toString(scholar.hIndex));
-//        TextView va = holder.layout.findViewById(R.id.viewA);
-//        va.setText(Double.toString(scholar.activity));
-//        TextView vs = holder.layout.findViewById(R.id.viewS);
-//        vs.setText(Double.toString(scholar.sociability));
         TextView vc = holder.layout.findViewById(R.id.viewC);
         vc.setText(Integer.toString(scholar.citations));
         TextView vp = holder.layout.findViewById(R.id.viewP);

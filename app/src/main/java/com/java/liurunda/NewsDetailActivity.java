@@ -1,12 +1,9 @@
 package com.java.liurunda;
 
 import android.content.Intent;
-import android.widget.TextView;
 import android.os.Bundle;
+import android.widget.TextView;
 import com.java.liurunda.data.News;
-
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class NewsDetailActivity extends BaseActivity {
 

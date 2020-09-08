@@ -1,11 +1,7 @@
 package com.java.liurunda.data;
 
-import android.app.Application;
 import android.content.Context;
-import android.icu.text.IDNA;
-import androidx.room.Database;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;

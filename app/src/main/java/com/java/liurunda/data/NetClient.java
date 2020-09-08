@@ -1,14 +1,13 @@
 package com.java.liurunda.data;
 
-import android.icu.text.IDNA;
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.*;
 
 class getNewsList implements Callback{
     ArrayList<News> list;

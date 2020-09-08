@@ -1,22 +1,14 @@
 package com.java.liurunda;
 
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.view.ViewGroup;
+import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import androidx.core.widget.NestedScrollView;
 import com.java.liurunda.data.Scholar;
 import com.kongzue.stacklabelview.StackLabel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import org.intellij.lang.annotations.Flow;
-
-import java.util.concurrent.CompletableFuture;
 
 public class ScholarDetailActivity extends BaseActivity {
 
