@@ -29,4 +29,6 @@
     <string name="scholar_bio">简介</string>
     <string name="scholar_tags">标签</string>
     <string name="scholar_edu">教育经历</string>
+    <string name="text_share_with">分享到</string>
+    <string name="text_origin">原文：</string>
 </resources>

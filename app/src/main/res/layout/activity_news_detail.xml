@@ -6,13 +6,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".NewsDetailActivity">
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay"
+    >
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_gravity="center_vertical"
+                app:layout_scrollFlags="scroll|enterAlways">
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="?actionBarSize"
+                    android:padding="@dimen/appbar_padding"
+                    android:text="@string/app_title"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            />
+            <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_weight="1"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+            >
+                <ImageButton
+                        android:src="@drawable/baseline_share_white_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/button_share"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:fillViewport="true">
+            android:layout_height="match_parent" android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginTop="@dimen/news_detail_margin_updown"
+                android:layout_height="wrap_content" android:layout_marginTop="@dimen/appbar_padding"
                 android:layout_marginStart="@dimen/news_detail_margin_side"
                 android:layout_marginEnd="@dimen/news_detail_margin_side"
                 android:layout_marginBottom="@dimen/news_detail_margin_updown"
