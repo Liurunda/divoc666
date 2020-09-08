@@ -16,11 +16,11 @@ public class RoomManager{
                 .build();
     }
     public void initialize(){
-        boolean clear = true;
-        if(clear) {
-            nbase.metaDao().clearMeta();
-            nbase.newsDao().clearNews();
-        }
+//        boolean clear = false;
+//        if(clear) {
+//            nbase.metaDao().clearMeta();
+//            nbase.newsDao().clearNews();
+//        }
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
     }
@@ -55,12 +55,12 @@ public class RoomManager{
                     if (differ[0]) {
                         nbase.newsDao().updateNews(list.get(i));
                     }
+                }else{
+                    nbase.newsDao().insertNews(list.get(i));
                 }
             }
         }catch(NullPointerException e){
             //do nothing
-        }catch(RuntimeException e){
-
         }
         //一个事实: 任何基于"前一页最后一个" 和 "下一页第一个" 之间建立的连接都是不可靠的
         //但不妨认为，如果连续两次同页面大小连续页码的访问获取的内容中没有重叠, 那么前页最后一个和下页第一个之间具备可靠的先后关系(假设更新速度不至于秒出若干条)
@@ -111,5 +111,8 @@ public class RoomManager{
         }
         if(builder.length()>0) builder.deleteCharAt(builder.length()-1);
         nbase.metaDao().insertMeta(new MetaNews(InfoType.all, builder.toString()));
+    }
+    public void close(){
+        nbase.close();
     }
 }

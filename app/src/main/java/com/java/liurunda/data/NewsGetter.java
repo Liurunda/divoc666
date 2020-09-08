@@ -22,8 +22,10 @@ public class NewsGetter {
         NewsGetter.manager = manager;
     }
     public synchronized static NewsGetter Getter(){
-        CompletableFuture.runAsync(manager::initialize);
-        if(Getter==null)Getter = new NewsGetter();
+        if(Getter==null){
+            CompletableFuture.runAsync(manager::initialize);
+            Getter = new NewsGetter();
+        }
         return Getter;
     }
     synchronized public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用

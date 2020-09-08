@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     protected void onDestroy(){
+        manager.close();
         super.onDestroy();
     }
 }
