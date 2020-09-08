@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -71,6 +72,15 @@ public class NewsListFragment extends Fragment {
         NewsItemAdapter adapter = new NewsItemAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments);
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
+
+//        ImageButton edit = this.view.findViewById(R.id.button_edit);
+//        edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if ()
+//            }
+//        });
+
         return this.view;
     }
 

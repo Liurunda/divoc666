@@ -10,9 +10,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
+import com.java.liurunda.data.NewsGetter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<News> news_set;
@@ -32,18 +34,6 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             NewsListViewHolder v = new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
-            v.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    News news = (News) v.getTag();
-                    if (news.infoType == InfoType.news.ordinal() || news.infoType == InfoType.paper.ordinal()) {
-                        Intent intent = new Intent();
-                        intent.setClass(v.getContext(), NewsDetailActivity.class);
-                        intent.putExtra("news_content", news);
-                        v.getContext().startActivity(intent);
-                    }
-                }
-            });
             return v;
         } else {
             assert(viewType == TYPE_FOOTER);
@@ -59,6 +49,9 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             News news = news_set.get(position);
             TextView v = hold.layout.findViewById(R.id.view_title);
             v.setText(news.title);
+            if (news.haveread != 0) {
+                v.setTextColor(R.color.text_Gray);
+            }
             LinearLayout meta = hold.layout.findViewById(R.id.layout_meta);
             if ((news.datetime == null || news.datetime.equals("")) && (news.source == null || news.source.equals(""))) {
                 meta.setVisibility(View.GONE);
@@ -68,6 +61,22 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 TextView vs = hold.layout.findViewById(R.id.view_source);
                 vs.setText(news.source);
             }
+            hold.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    News news = (News) v.getTag();
+                    CompletableFuture.runAsync(() -> {
+                        NewsGetter.Getter().markNewsRead(news);
+                        notifyItemChanged(position);
+                    });
+                    if (news.infoType == InfoType.news.ordinal() || news.infoType == InfoType.paper.ordinal()) {
+                        Intent intent = new Intent();
+                        intent.setClass(v.getContext(), NewsDetailActivity.class);
+                        intent.putExtra("news_content", news);
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
             hold.itemView.setTag(news);
         } else {
 //            FooterViewHolder hold = (FooterViewHolder) holder;
