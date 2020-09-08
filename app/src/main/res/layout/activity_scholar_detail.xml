@@ -195,7 +195,7 @@
                         android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
                         android:textColor="@color/design_default_color_on_secondary"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="@string/scholar_edu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/viewEdu"
                         android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
                         android:textColor="@color/design_default_color_on_secondary"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="@string/scholar_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/viewBio"
                         android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
@@ -218,13 +218,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
                         android:textColor="@color/design_default_color_on_secondary"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/viewTags"
-                        android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
-                        android:layout_marginBottom="@dimen/scholar_roll_tiny_margin"
-                        android:lineSpacingMultiplier="1.2"/>
+                <com.kongzue.stacklabelview.StackLabel xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                       android:id="@+id/tags"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       app:textColor="@color/tagsColor"
+                                                       app:itemMargin="@dimen/scholar_roll_tiny_margin"
+                                                       app:paddingHorizontal="@dimen/appbar_padding_top"
+                                                       app:paddingVertical="@dimen/appbar_padding_top"
+                                                       app:deleteButton="false"
+                                                       app:textSize="12sp"
+                />
             </LinearLayout>
         </com.java.liurunda.GrayLinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -11,4 +11,5 @@
     <color name="bkgColorA">#ffc7bda1</color>
     <color name="bkgColorH">#ffbcc8ae</color>
     <color name="bkgColorG">#ffc6bbff</color>
+    <color name="tagsColor">#e6000000</color>
 </resources>

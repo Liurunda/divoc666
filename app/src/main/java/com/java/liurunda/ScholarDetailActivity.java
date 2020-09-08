@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.widget.NestedScrollView;
 import com.java.liurunda.data.Scholar;
+import com.kongzue.stacklabelview.StackLabel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.intellij.lang.annotations.Flow;
@@ -49,18 +50,17 @@ public class ScholarDetailActivity extends BaseActivity {
         TextView vb = findViewById(R.id.viewBio);
         vb.setText(scholar.bio.replace("<br>", "\n"));
 
-        TextView vt = findViewById(R.id.viewTags);
-        StringBuilder builder = new StringBuilder();
+        StackLabel flow = findViewById(R.id.tags);
         for (int i = 0; i < scholar.tags.size(); ++i) {
+            StringBuilder builder = new StringBuilder();
             builder.append(scholar.tags.get(i));
             if (i < scholar.tagsScore.size()) {
                 builder.append(" (");
                 builder.append(scholar.tagsScore.get(i));
                 builder.append(")");
             }
-            builder.append('\n');
+            flow.addLabel(builder.toString());
         }
-        vt.setText(builder.toString());
 
         if (scholar.isPassedAway) {
             GrayLinearLayout whole = findViewById(R.id.viewWhole);
