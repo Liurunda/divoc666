@@ -41,7 +41,6 @@ public class MainActivity extends BaseActivity {
         ft.hide(f_knowledge);
         ft.hide(f_cluster);
         ft.hide(f_scholar);
-        //ft.hide(f_newsList);
         ft.commit();
 
         final Fragment[] f_current = {f_newsList};

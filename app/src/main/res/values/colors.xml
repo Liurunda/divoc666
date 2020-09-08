@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="text_Gray">#c1c1c2</color>
+    <color name="colorPrimary">#ff6200EE</color>
+    <color name="colorPrimaryDark">#ff3700B3</color>
+    <color name="colorAccent">#ff03DAC5</color>
+    <color name="text_Gray">#ffc1c1c1</color>
     <color name="colorWhite">#ffffff</color>
     <color name="bkgColorP">#ffa7c1bf</color>
     <color name="bkgColorC">#ffadbbdc</color>

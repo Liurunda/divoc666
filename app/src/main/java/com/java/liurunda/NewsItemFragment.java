@@ -83,7 +83,6 @@ public class NewsItemFragment extends Fragment {
         recycler.setAdapter(adapter);
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
-//        RecyclerView recycler = this.view.findViewById(R.id.newsRoll);
 
         final Boolean[] isBottomShow = {true};
 

@@ -61,20 +61,16 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 TextView vs = hold.layout.findViewById(R.id.view_source);
                 vs.setText(news.source);
             }
-            hold.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    News news = (News) v.getTag();
-                    CompletableFuture.runAsync(() -> {
-                        NewsGetter.Getter().markNewsRead(news);
-                        notifyItemChanged(position);
-                    });
-                    if (news.infoType == InfoType.news.ordinal() || news.infoType == InfoType.paper.ordinal()) {
-                        Intent intent = new Intent();
-                        intent.setClass(v.getContext(), NewsDetailActivity.class);
-                        intent.putExtra("news_content", news);
-                        v.getContext().startActivity(intent);
-                    }
+            hold.itemView.setOnClickListener(v1 -> {
+                News news1 = (News) v1.getTag();
+                NewsGetter.Getter().markNewsRead(news1);
+                news1.haveread = 1;
+                notifyItemChanged(position);
+                if (news1.infoType == InfoType.news.ordinal() || news1.infoType == InfoType.paper.ordinal()) {
+                    Intent intent = new Intent();
+                    intent.setClass(v1.getContext(), NewsDetailActivity.class);
+                    intent.putExtra("news_content", news1);
+                    v1.getContext().startActivity(intent);
                 }
             });
             hold.itemView.setTag(news);
