@@ -1,5 +1,6 @@
 package com.java.liurunda.data;
 
+import androidx.annotation.NonNull;
 import com.java.liurunda.BuildConfig;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -157,7 +158,7 @@ public class NetClient {
         return true;
     }
 
-    synchronized boolean getEpidemicData(HashMap<String, EpidemicData> data) {
+    synchronized boolean getEpidemicData(@NonNull HashMap<String, EpidemicData> data) {
         final String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
 
         data.clear();

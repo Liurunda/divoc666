@@ -52,14 +52,6 @@ public class DataFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void getData() {
-        System.out.println("getData=========================");
-        global = getter.getEpidemicData();
-        EpidemicDataUtil.removeRedundantEntries(global);
-        domestic = EpidemicDataUtil.fetchCountry(global, "China");
-        global = EpidemicDataUtil.foldByCountry(global);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,10 +73,14 @@ public class DataFragment extends Fragment {
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
 
-        CompletableFuture.runAsync(this::getData).thenRun(() -> {
+        CompletableFuture future = CompletableFuture.supplyAsync(getter::getEpidemicData).thenAccept((HashMap<String, EpidemicData> data) -> {
+            EpidemicDataUtil.removeRedundantEntries(data);
+            domestic = EpidemicDataUtil.fetchCountry(data, "China");
+            global = EpidemicDataUtil.foldByCountry(data);
             subfragments[0].setDataSet(domestic);
             subfragments[1].setDataSet(global);
         });
+        future.join();
         return this.view;
     }
 

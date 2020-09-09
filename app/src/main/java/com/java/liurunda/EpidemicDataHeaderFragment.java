@@ -41,11 +41,13 @@ public class EpidemicDataHeaderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epidemic_data_header, container, false);
 
-        final int totalWidth = view.getWidth();
-        ((TextView) view.findViewById(R.id.viewHeaderRegion)).setWidth((int) (0.4 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewHeaderConfirmed)).setWidth((int) (0.2 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewHeaderCured)).setWidth((int) (0.2 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewHeaderDead)).setWidth((int) (0.2 * totalWidth));
+//        View layout = view.findViewById(R.id.layoutHeader);
+//        final int totalWidth = layout.getWidth();
+//        System.out.println(totalWidth + "=======================");
+//        ((TextView) view.findViewById(R.id.viewHeaderRegion)).setWidth((int) (0.4 * totalWidth));
+//        ((TextView) view.findViewById(R.id.viewHeaderConfirmed)).setWidth((int) (0.2 * totalWidth));
+//        ((TextView) view.findViewById(R.id.viewHeaderCured)).setWidth((int) (0.2 * totalWidth));
+//        ((TextView) view.findViewById(R.id.viewHeaderDead)).setWidth((int) (0.2 * totalWidth));
         return view;
     }
 }
