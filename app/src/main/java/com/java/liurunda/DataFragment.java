@@ -53,12 +53,10 @@ public class DataFragment extends Fragment {
     }
 
     public void getData() {
-//        CompletableFuture.runAsync(() -> {
-//            global = getter.getEpidemicData();
-//            EpidemicDataUtil.removeRedundantEntries(global);
-//            domestic = EpidemicDataUtil.fetchCountry(global, "China");
-//            global = EpidemicDataUtil.foldByCountry(global);
-//        });
+        global = getter.getEpidemicData();
+        EpidemicDataUtil.removeRedundantEntries(global);
+        domestic = EpidemicDataUtil.fetchCountry(global, "China");
+        global = EpidemicDataUtil.foldByCountry(global);
     }
 
     @Override
