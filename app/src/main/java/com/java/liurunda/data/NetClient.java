@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 class getNewsList implements Callback{
     ArrayList<News> list;
@@ -34,7 +35,9 @@ class getNewsList implements Callback{
     }
 }
 public class NetClient {
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client =  new OkHttpClient.Builder()
+            .connectTimeout(1000, TimeUnit.MILLISECONDS)
+            .build();
     final String NEWS_LIST = "https://covid-dashboard.aminer.cn/api/events/list";
     String news_list(InfoType infoType,int page, int pagesize){
         return NEWS_LIST + "?type=" + infoType.name()
@@ -76,21 +79,22 @@ public class NetClient {
             final Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 String resp = response.body().string();
-                try {
-                    JSONObject jj = new JSONObject(resp);
-                    JSONArray data = jj.getJSONArray("data");
-                    for (int i = 0; i < data.length(); ++i) {
-                        list.add(new News(data.getJSONObject(i)));
-                    }
-                    return true;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return false;
+//                try {
+//                    JSONObject jj = new JSONObject(resp);
+//                    JSONArray data = jj.getJSONArray("data");
+//                    for (int i = 0; i < data.length(); ++i) {
+//                        list.add(new News(data.getJSONObject(i)));
+//                    }
+//                    return true;
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    return false;
+//                }
             }else{
                 return false;
             }
-        } catch (IOException e) {
+        }    catch (IOException e) {
             e.printStackTrace();
             return false;
         }
