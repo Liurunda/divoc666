@@ -9,12 +9,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
+import com.java.liurunda.data.EpidemicData;
+import com.java.liurunda.data.EpidemicDataGetter;
+import com.java.liurunda.data.EpidemicDataUtil;
 import com.java.liurunda.data.InfoType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +26,9 @@ public class DataFragment extends Fragment {
     private View view;
     private ArrayList<Fragment> fragments;
     private final int[] category_id = {R.string.tab_domestic, R.string.tab_global};
+
+    private HashMap<String, EpidemicData> global, domestic;
+    private EpidemicDataGetter getter = EpidemicDataGetter.getInstance();
 
     public DataFragment() {
         // Required empty public constructor
@@ -48,14 +52,23 @@ public class DataFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void getData() {
+        CompletableFuture.runAsync(() -> {
+            global = getter.getEpidemicData();
+            EpidemicDataUtil.removeRedundantEntries(global);
+            domestic = EpidemicDataUtil.fetchCountry(global, "China");
+            global = EpidemicDataUtil.foldByCountry(global);
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.view = inflater.inflate(R.layout.fragment_data, container, false);
 
-        TabLayout tabs = this.view.findViewById(R.id.tabs);
-        ViewPager view_pager = this.view.findViewById(R.id.view_pager);
+        TabLayout tabs = this.view.findViewById(R.id.tabsData);
+        ViewPager view_pager = this.view.findViewById(R.id.viewPagerData);
 
         DataListFragment[] subfragments = {
                 DataListFragment.newInstance(getString(category_id[0]), true),
@@ -65,16 +78,21 @@ public class DataFragment extends Fragment {
         fragments = new ArrayList<Fragment>();
         fragments.addAll(Arrays.asList(subfragments));
 
-        DataListAdapter adapter = new DataListAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments);
+        DataTabAdapter adapter = new DataTabAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments);
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
+
+        CompletableFuture.runAsync(this::getData).thenRun(() -> {
+            subfragments[0].setDataSet(domestic);
+            subfragments[1].setDataSet(global);
+        });
         return this.view;
     }
 
-    public class DataListAdapter extends FragmentPagerAdapter {
+    public class DataTabAdapter extends FragmentPagerAdapter {
         private List<Fragment> list;
 
-        public DataListAdapter(FragmentManager fm, List<Fragment> list) {
+        public DataTabAdapter(FragmentManager fm, List<Fragment> list) {
             super(fm);
             this.list = list;
         }

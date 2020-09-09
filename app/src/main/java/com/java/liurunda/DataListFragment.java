@@ -1,17 +1,92 @@
 package com.java.liurunda;
 
 import android.os.Bundle;
-import android.widget.TextView;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.java.liurunda.data.EpidemicData;
+import com.java.liurunda.data.EpidemicDataEntry;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.*;
+
+class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<Map.Entry<String, EpidemicData>> dataSet;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM   = 1;
+
+    public DataListAdapter(ArrayList<Map.Entry<String, EpidemicData>> data) {
+        this.dataSet = data;
+    }
+
+    @NotNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            return new HeaderViewHolder((TableRow) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
+        } else {
+            assert(viewType == TYPE_ITEM);
+            return new ItemViewHolder((TableRow) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ItemViewHolder) {
+            ItemViewHolder hold = (ItemViewHolder) holder;
+            Map.Entry<String, EpidemicData> data = this.dataSet.get(position - 1);
+            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.getKey());
+
+            ArrayList<EpidemicDataEntry> entries = data.getValue().entries;
+            EpidemicDataEntry latest = entries.get(entries.size() - 1);
+            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(latest.confirmed);
+            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(latest.cured);
+            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(latest.dead);
+        } else {
+            assert(holder instanceof HeaderViewHolder);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataSet.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        } else {
+            return TYPE_ITEM;
+        }
+    }
+
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public TableRow layout;
+        public HeaderViewHolder(TableRow l) {
+            super(l);
+            layout = l;
+        }
+    }
+
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        public ItemViewHolder(TableRow itemView) {
+            super(itemView);
+        }
+    }
+}
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +99,11 @@ public class DataListFragment extends Fragment {
     private String mParam1;
     private boolean mParam2;
 
+    private ArrayList<Map.Entry<String, EpidemicData>> dataList = new ArrayList<>();
+
     private View view;
+    private RecyclerView.LayoutManager layoutManager;
+    private DataListAdapter adapter;
 
     public DataListFragment() {
         // Required empty public constructor
@@ -38,7 +117,6 @@ public class DataListFragment extends Fragment {
      * @param param2 Domestic data or not.
      * @return A new instance of fragment DataListFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static DataListFragment newInstance(String param1, boolean param2) {
         DataListFragment fragment = new DataListFragment();
         Bundle args = new Bundle();
@@ -81,6 +159,20 @@ public class DataListFragment extends Fragment {
         TextView updated = this.view.findViewById(R.id.viewLastUpdate);
         updated.setText(DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
 
+        RecyclerView regional = this.view.findViewById(R.id.recyclerRegional);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        regional.setLayoutManager(layoutManager);
+
+        adapter = new DataListAdapter(this.dataList);
+        regional.setAdapter(adapter);
+
         return this.view;
+    }
+
+    public void setDataSet(HashMap<String, EpidemicData> newSet) {
+        dataList.clear();
+        dataList.addAll(new ArrayList(newSet.entrySet()));
+        getActivity().runOnUiThread(adapter::notifyDataSetChanged);
     }
 }

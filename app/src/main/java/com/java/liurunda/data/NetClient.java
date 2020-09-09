@@ -1,5 +1,6 @@
 package com.java.liurunda.data;
 
+import com.java.liurunda.BuildConfig;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -7,7 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 class getNewsList implements Callback{
@@ -139,6 +143,40 @@ public class NetClient {
                 JSONArray scholarsArray = json.getJSONArray("data");
                 for (int i = 0; i < scholarsArray.length(); ++i) {
                     scholars.add(new Scholar(scholarsArray.getJSONObject(i)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    synchronized void getEpidemicData(HashMap<String, EpidemicData> data) {
+        final String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
+
+        Request request = new Request.Builder().url(url).build();
+        try {
+            final Response response = client.newCall(request).execute();
+            String resp = response.body().string();
+            try {
+                JSONObject json = new JSONObject(resp);
+                for (Iterator<String> it = json.keys(); it.hasNext(); ) {
+                    String key = it.next();
+                    JSONObject place = json.optJSONObject(key);
+                    EpidemicData element = new EpidemicData();
+                    if (place != null) {
+                        element.startDate = LocalDate.parse(place.getString("begin"));
+                        JSONArray dates = place.getJSONArray("data");
+                        for (int i = 0; i < dates.length(); ++i) {
+                            JSONArray date = dates.getJSONArray(i);
+                            if (BuildConfig.DEBUG && !(date.length() >= 4)) {
+                                throw new AssertionError("Assertion failed");
+                            }
+                            element.entries.add(new EpidemicDataEntry(date.getInt(0), date.getInt(1), date.getInt(2), date.getInt(3)));
+                        }
+                    }
+                    data.put(key, element);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          tools:context=".EpidemicDataHeaderFragment" android:paddingTop="@dimen/scholar_roll_tiny_margin"
+          android:paddingBottom="@dimen/scholar_roll_tiny_margin">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/text_data_region" android:id="@+id/viewHeaderRegion" android:gravity="center"
+            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/text_data_confirmed" android:id="@+id/viewHeaderConfirmed" android:gravity="center"
+            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/text_data_cured" android:id="@+id/viewHeaderCured" android:gravity="center"
+            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/text_data_dead" android:id="@+id/viewHeaderDead" android:gravity="center"
+            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"/>
+
+</TableRow>

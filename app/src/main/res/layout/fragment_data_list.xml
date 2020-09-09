@@ -7,7 +7,8 @@
                                        android:paddingStart="@dimen/news_detail_margin_side"
                                        android:paddingEnd="@dimen/news_detail_margin_side"
                                        android:paddingBottom="@dimen/news_detail_margin_updown"
-                                       android:paddingTop="@dimen/appbar_padding" android:id="@+id/nested">
+                                       android:paddingTop="@dimen/appbar_padding" android:id="@+id/nested"
+                                       android:scrollbars="vertical">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -17,17 +18,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:textColor="@color/tagsColor"
                 android:textStyle="bold" android:textSize="20sp"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/recyclerOverall">
+        </androidx.recyclerview.widget.RecyclerView>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="@dimen/appbar_padding_top"
+                android:layout_marginBottom="@dimen/appbar_padding_top"/>
         <TextView
                 android:text="@string/text_regional_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:textColor="@color/tagsColor"
                 android:textStyle="bold" android:textSize="20sp"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/recyclerRegional"/>
         <View
-                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
-        />
+                android:layout_marginTop="@dimen/appbar_padding_top"
+                android:layout_marginBottom="@dimen/appbar_padding_top"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
