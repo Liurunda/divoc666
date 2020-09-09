@@ -73,14 +73,13 @@ public class DataFragment extends Fragment {
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
 
-        CompletableFuture future = CompletableFuture.supplyAsync(getter::getEpidemicData).thenAccept((HashMap<String, EpidemicData> data) -> {
+        CompletableFuture.supplyAsync(getter::getEpidemicData).thenAccept((HashMap<String, EpidemicData> data) -> {
             EpidemicDataUtil.removeRedundantEntries(data);
             domestic = EpidemicDataUtil.fetchCountry(data, "China");
             global = EpidemicDataUtil.foldByCountry(data);
             subfragments[0].setDataSet(domestic);
             subfragments[1].setDataSet(global);
         });
-        future.join();
         return this.view;
     }
 
