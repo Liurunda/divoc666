@@ -22,11 +22,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<Map.Entry<String, EpidemicData>> dataSet;
+    private ArrayList<Map.Entry<String, EpidemicDataEntry>> dataSet;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM   = 1;
 
-    public DataListAdapter(ArrayList<Map.Entry<String, EpidemicData>> data) {
+    public DataListAdapter(ArrayList<Map.Entry<String, EpidemicDataEntry>> data) {
         this.dataSet = data;
     }
 
@@ -45,14 +45,13 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder hold = (ItemViewHolder) holder;
-            Map.Entry<String, EpidemicData> data = this.dataSet.get(position - 1);
+            Map.Entry<String, EpidemicDataEntry> data = this.dataSet.get(position - 1);
             ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.getKey());
 
-            ArrayList<EpidemicDataEntry> entries = data.getValue().entries;
-            EpidemicDataEntry latest = entries.get(entries.size() - 1);
-            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(latest.confirmed);
-            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(latest.cured);
-            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(latest.dead);
+            EpidemicDataEntry entry = data.getValue();
+            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(entry.confirmed);
+            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(entry.cured);
+            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(entry.dead);
         } else {
             assert(holder instanceof HeaderViewHolder);
         }
@@ -87,19 +86,13 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 }
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DataListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class DataListFragment extends Fragment {
-    private static final String ARG_PARAM1 = "category";
-    private static final String ARG_PARAM2 = "domestic";
-    private String mParam1;
-    private boolean mParam2;
-
-    private ArrayList<Map.Entry<String, EpidemicData>> dataList = new ArrayList<>();
+    private ArrayList<Map.Entry<String, EpidemicDataEntry>> dataList = new ArrayList<>();
 
     private View view;
     private RecyclerView.LayoutManager layoutManager;
@@ -113,15 +106,11 @@ public class DataListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Tab title.
-     * @param param2 Domestic data or not.
      * @return A new instance of fragment DataListFragment.
      */
-    public static DataListFragment newInstance(String param1, boolean param2) {
+    public static DataListFragment newInstance() {
         DataListFragment fragment = new DataListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putInt(ARG_PARAM2, param2 ? 1 : 0);
         fragment.setArguments(args);
         return fragment;
     }
@@ -129,10 +118,6 @@ public class DataListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = (getArguments().getInt(ARG_PARAM2) != 0);
-        }
     }
 
     @Override
@@ -170,9 +155,9 @@ public class DataListFragment extends Fragment {
         return this.view;
     }
 
-    public void setDataSet(HashMap<String, EpidemicData> newSet) {
+    public void setDataSet(EpidemicData newData) {
         dataList.clear();
-        dataList.addAll(new ArrayList(newSet.entrySet()));
+        dataList.addAll(new ArrayList(newData.regional.entrySet()));
         getActivity().runOnUiThread(adapter::notifyDataSetChanged);
     }
 }

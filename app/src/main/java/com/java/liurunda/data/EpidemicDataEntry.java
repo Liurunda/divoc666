@@ -9,8 +9,4 @@ public class EpidemicDataEntry {
         this.cured = cured;
         this.dead = dead;
     }
-
-    public EpidemicDataEntry add(final EpidemicDataEntry rhs) {
-        return new EpidemicDataEntry(this.confirmed + rhs.confirmed, this.suspected + rhs.suspected, this.cured + rhs.cured, this.dead + rhs.dead);
-    }
 }
