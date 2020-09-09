@@ -40,7 +40,7 @@ class getNewsList implements Callback{
     }
 }
 public class NetClient {
-    OkHttpClient client =  new OkHttpClient.Builder()
+    static OkHttpClient client =  new OkHttpClient.Builder()
             .connectTimeout(1000, TimeUnit.MILLISECONDS)
             .build();
     final String NEWS_LIST = "https://covid-dashboard.aminer.cn/api/events/list";
@@ -188,12 +188,41 @@ public class NetClient {
                     }
                     data.put(key, element);
                 }
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return true;
+    }
+    boolean getEntities(ArrayList<Entity> list,String keyword){
+        final String entity_url_base = "https://innovaapi.aminer.cn/covid/api/v1/pneumonia/entityquery?entity=";
+        Request request = new Request.Builder()
+                .url(entity_url_base+keyword)
+                .build();
+        try {
+            final Response response = client.newCall(request).execute();
+            if(!response.isSuccessful()){
+                return false;
+            }
+            String resp = response.body().string();
+            try {
+                JSONObject jj =  new JSONObject(resp);
+                JSONArray data = jj.getJSONArray("data");
+                for(int i=0;i<data.length();++i){
+                    list.add(new Entity(data.getJSONObject(i)));
+                }
+                return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
