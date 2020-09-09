@@ -83,18 +83,18 @@ public class NetClient {
             final Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 String resp = response.body().string();
-                return false;
-//                try {
-//                    JSONObject jj = new JSONObject(resp);
-//                    JSONArray data = jj.getJSONArray("data");
-//                    for (int i = 0; i < data.length(); ++i) {
-//                        list.add(new News(data.getJSONObject(i)));
-//                    }
-//                    return true;
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    return false;
-//                }
+
+                try {
+                    JSONObject jj = new JSONObject(resp);
+                    JSONArray data = jj.getJSONArray("data");
+                    for (int i = 0; i < data.length(); ++i) {
+                        list.add(new News(data.getJSONObject(i)));
+                    }
+                    return true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return false;
+                }
             }else{
                 return false;
             }
