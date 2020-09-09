@@ -30,7 +30,13 @@ public class NewsGetter {
     }
     synchronized public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
-        client.getNewestNews(list,t,10);
+        int pagesize = 10;
+        if(!client.getNewestNews(list,t,pagesize)) {
+            manager.offline_initial(list, t, pagesize);
+        }else{
+            manager.updateNewest(list.get(0).id,t);
+            manager.updateOldest(list.get(list.size()-1).id,t);
+        }
         News ender = list.get(list.size()-1);//oldest in this page
     //    throw new NullPointerException();
         manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
@@ -54,7 +60,7 @@ public class NewsGetter {
         //start from cur_oldest
         ArrayList<News> list =  new ArrayList<>();
         News oldest = cur_oldest.get(t);
-        if(manager.link_list_prev(list, oldest, size)){
+        if(manager.link_list_prev(list, oldest.prev_id, size)){
             cur_oldest.put(t, list.get(list.size()-1));
             counter.put(t,counter.get(t)+size);
             return list;
@@ -68,7 +74,9 @@ public class NewsGetter {
             ArrayList<News> onepage = new ArrayList<>();
             //News lastpage_end = null,thispage_start = null;
             for(int page_i=count_page;cur_size < size;++page_i){
-                client.getNews(onepage,t,page_i,size);
+                if(!client.getNews(onepage,t,page_i,size)){//network fail?
+                    return list;
+                }
                 if(reached_oldest) {
                     for(int i=0;i<size && cur_size < size;++i, ++cur_size){
                         list.add(onepage.get(i));
@@ -93,12 +101,17 @@ public class NewsGetter {
         //所以必须做好delta的工作...
         ArrayList<News> list =  new ArrayList<>();
         int page_size = 10;
-        client.getNewestNews(list,t, page_size);
+        if(!client.getNewestNews(list,t, page_size)){
+            return list;
+        }
+        manager.updateNewest(list.get(0).id,t);
         News latest = cur_latest.get(t);
        while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
             list.clear();
             page_size = page_size * 2;
-            client.getNewestNews(list, t, page_size);
+            if(!client.getNewestNews(list, t, page_size)){
+                return list;
+            }
         }
         manager.check_add_page(list);
         //已经包含cur_latest, 进行delta操作

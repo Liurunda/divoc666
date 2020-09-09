@@ -27,6 +27,11 @@ public class News implements Serializable {
     ArrayList<String> keywords = new ArrayList<>(); // need type converter
     public News(){
     }
+    public News(String id, InfoType t, String title){
+        this.id = id;
+        this.infoType = t.ordinal();
+        this.title = title;
+    }
     public News(JSONObject J){
         try {
             next_id = ""; prev_id = "";

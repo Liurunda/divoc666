@@ -1,14 +1,17 @@
 package com.java.liurunda.data;
 
 import android.content.Context;
+import android.icu.text.IDNA;
 import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class RoomManager{
     private final String DATABASE_NAME = "news";
+    private HashMap<InfoType,String> tmp_oldest_id = new HashMap<>();
     NewsBase nbase;
     public RoomManager(Context application){
         nbase = Room.databaseBuilder(application,NewsBase.class,DATABASE_NAME)
@@ -22,6 +25,9 @@ public class RoomManager{
         }
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
+    }
+    public void updateNewest(String latest_id, InfoType t){
+        nbase.newsDao().insertNews(new News("0",t,latest_id));
     }
     public void add_link_cross_page(String newer_id, String older_id){ // newer_id.prev = older_id
         News[] older = nbase.newsDao().loadNewsId(older_id);
@@ -80,8 +86,8 @@ public class RoomManager{
                 }
         );
     }
-    public boolean link_list_prev(ArrayList<News> list, News oldest, int size){
-        String cur_id = oldest.prev_id;
+    public boolean link_list_prev(ArrayList<News> list, String oldest_prev_id, int size){
+        String cur_id = oldest_prev_id;
         for(int i=0;i<size;++i){
             if(cur_id.equals(""))return false;
             News[] prev_news = nbase.newsDao().loadNewsId(cur_id);
@@ -90,6 +96,19 @@ public class RoomManager{
             cur_id = prev_news[0].prev_id;
         }
         return true;
+    }
+    public void updateOldest(String id, InfoType t){
+        tmp_oldest_id.put(t,id);
+    }
+    public void offline_initial(ArrayList<News> list, InfoType t, int size){
+        News[] meta = nbase.newsDao().loadNewsIdAndType("0",t.ordinal());
+        if(meta.length!=0){
+            String offline_latest_id = meta[0].title;
+            link_list_prev(list, offline_latest_id,size);
+            tmp_oldest_id.put(t, list.get(size - 1).prev_id);
+        }else{
+            return;
+        }
     }
     public void searchNews(ArrayList<News> list, String keyword){
         News a[] = nbase.newsDao().searchNewsTitleLikeKeywords("%"+keyword+"%");
