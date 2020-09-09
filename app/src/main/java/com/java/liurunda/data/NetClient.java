@@ -51,7 +51,7 @@ public class NetClient {
     public NetClient(){
 
     }
-    synchronized public boolean getNews(ArrayList<News> list, InfoType t, int page, int size){
+     public boolean getNews(ArrayList<News> list, InfoType t, int page, int size){
         Request request = new Request.Builder()
                 .url(news_list(t,page,size))
                 .build();
@@ -75,7 +75,7 @@ public class NetClient {
         }
         return true;
     }
-    synchronized public boolean getNewestNews(ArrayList<News> list, InfoType t, int size){ // 获取最新新闻时，总是进行网络请求(因为不知道当前数据库中是否最新)
+     public boolean getNewestNews(ArrayList<News> list, InfoType t, int size){ // 获取最新新闻时，总是进行网络请求(因为不知道当前数据库中是否最新)
         Request request = new Request.Builder()
                 .url(news_list(t,1,size))
                 .build();
@@ -103,7 +103,7 @@ public class NetClient {
             return false;
         }
     }
-    synchronized public boolean getNews(ArrayList<News> list, InfoType t){
+     public boolean getNews(ArrayList<News> list, InfoType t){
         Request request = new Request.Builder()
                 .url(news_list(t,1,15))
                 .build();
@@ -128,7 +128,7 @@ public class NetClient {
         return true;
     }
 
-    synchronized void getScholars(ArrayList<Scholar> scholars) {
+     void getScholars(ArrayList<Scholar> scholars) {
         final String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
 
         Request request = new Request.Builder().url(url).build();
@@ -152,7 +152,7 @@ public class NetClient {
         }
     }
 
-    synchronized void getEpidemicData(HashMap<String, EpidemicData> data) {
+     void getEpidemicData(HashMap<String, EpidemicData> data) {
         final String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
 
         Request request = new Request.Builder().url(url).build();
