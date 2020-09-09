@@ -17,6 +17,7 @@ public class EntityGetter {
     public ArrayList<Entity> getEntities(String keyword) { // must be called asynchronously
         ArrayList<Entity> list = new ArrayList<>();
         client.getEntities(list, keyword);
+        //list.add(new Entity(keyword));
         return list;
     }
 }

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Entity {
 
@@ -14,9 +15,12 @@ public class Entity {
     public String img_url;// JSON.getString("img")
     public String enwiki; //JSON.abstractInfo.enwiki
     public String baidu;//JSON.abstractInfo.baidu
-    public ArrayList<Pair<String,String>> properties;
-    public ArrayList<Pair<String,String>> relations;
+    public ArrayList<Pair<String,String>> properties = new ArrayList<>();
+    public ArrayList<Pair<String,String>> relations = new ArrayList<>();
     public double hot; //(0, 1).
+    Entity(String name){
+        this.name = name;
+    }
     Entity(JSONObject E){
         try {
             name = E.getString("label");
@@ -27,8 +31,12 @@ public class Entity {
             enwiki = E.getString("enwiki");
             baidu = E.getString("baidu");
             E = E.getJSONObject("COVID");
+
             JSONObject prop = E.getJSONObject("properties");
-            prop.keys().forEachRemaining((key)->{properties.add( Pair.create(key, prop.optString(key)));});
+            prop.keys().forEachRemaining(key->{
+                properties.add(Pair.create(key,prop.optString(key,"")));
+            });
+
             JSONArray rela = E.getJSONArray("relations");
             int L = rela.length();
             for(int i=0;i<L;++i){

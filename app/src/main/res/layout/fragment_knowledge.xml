@@ -5,9 +5,23 @@
              android:layout_height="match_parent"
              tools:context=".KnowledgeFragment">
 
-    <TextView
+<!--    <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="This is Knowledge"/>-->
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="This is Knowledge"/>
+            android:layout_height="match_parent">
+        <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:background="?android:attr/fastScrollPreviewBackgroundRight"
+                android:backgroundTint="@color/bkgColorC" android:id="@+id/entity_search">
+
+        </SearchView>
+        <include android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 layout="@layout/knowledge_entity" android:id="@+id/someEntity"/>
+    </LinearLayout>
 
 </FrameLayout>
