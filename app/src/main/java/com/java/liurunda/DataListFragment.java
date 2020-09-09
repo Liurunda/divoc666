@@ -33,55 +33,55 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NotNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            return new HeaderViewHolder((TableRow) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
-        } else {
-            assert(viewType == TYPE_ITEM);
-            return new ItemViewHolder((TableRow) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
-        }
+//        if (viewType == TYPE_HEADER) {
+            return new HeaderViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
+//        } else {
+//            assert(viewType == TYPE_ITEM);
+//            return new ItemViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
+//        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
-            ItemViewHolder hold = (ItemViewHolder) holder;
-            Map.Entry<String, EpidemicData> data = this.dataSet.get(position - 1);
-            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.getKey());
-
-            ArrayList<EpidemicDataEntry> entries = data.getValue().entries;
-            EpidemicDataEntry latest = entries.get(entries.size() - 1);
-            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(latest.confirmed);
-            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(latest.cured);
-            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(latest.dead);
-        } else {
+//        if (holder instanceof ItemViewHolder) {
+//            ItemViewHolder hold = (ItemViewHolder) holder;
+//            Map.Entry<String, EpidemicData> data = this.dataSet.get(position - 1);
+//            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.getKey());
+//
+//            ArrayList<EpidemicDataEntry> entries = data.getValue().entries;
+//            EpidemicDataEntry latest = entries.get(entries.size() - 1);
+//            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(latest.confirmed);
+//            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(latest.cured);
+//            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(latest.dead);
+//        } else {
             assert(holder instanceof HeaderViewHolder);
-        }
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return dataSet.size() + 1;
+        return /*dataSet.size() + */1;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else {
-            return TYPE_ITEM;
-        }
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (position == 0) {
+//            return TYPE_HEADER;
+//        } else {
+//            return TYPE_ITEM;
+//        }
+//    }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public TableRow layout;
-        public HeaderViewHolder(TableRow l) {
+        public FrameLayout layout;
+        public HeaderViewHolder(FrameLayout l) {
             super(l);
             layout = l;
         }
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        public ItemViewHolder(TableRow itemView) {
+        public ItemViewHolder(FrameLayout itemView) {
             super(itemView);
         }
     }
@@ -141,6 +141,14 @@ public class DataListFragment extends Fragment {
         // Inflate the layout for this fragment
         this.view = inflater.inflate(R.layout.fragment_data_list, container, false);
 
+        RecyclerView regional = this.view.findViewById(R.id.recyclerRegional);
+
+        layoutManager = new LinearLayoutManager(regional.getContext());
+        regional.setLayoutManager(layoutManager);
+
+        adapter = new DataListAdapter(this.dataList);
+        regional.setAdapter(adapter);
+
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
         NestedScrollView nested = view.findViewById(R.id.nested);
 
@@ -158,14 +166,6 @@ public class DataListFragment extends Fragment {
 
         TextView updated = this.view.findViewById(R.id.viewLastUpdate);
         updated.setText(DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
-
-        RecyclerView regional = this.view.findViewById(R.id.recyclerRegional);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        regional.setLayoutManager(layoutManager);
-
-        adapter = new DataListAdapter(this.dataList);
-        regional.setAdapter(adapter);
 
         return this.view;
     }

@@ -53,6 +53,7 @@ public class DataFragment extends Fragment {
     }
 
     public void getData() {
+        System.out.println("getData=========================");
         global = getter.getEpidemicData();
         EpidemicDataUtil.removeRedundantEntries(global);
         domestic = EpidemicDataUtil.fetchCountry(global, "China");

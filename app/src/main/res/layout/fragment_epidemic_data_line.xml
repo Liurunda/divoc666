@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          tools:context=".EpidemicDataLineFragment">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:context=".EpidemicDataLineFragment" android:visibility="visible">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewRegion" android:gravity="center"
-    />
+            android:visibility="visible"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewConfirmed" android:gravity="center"
-    />
+            android:visibility="visible"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewCured" android:gravity="center"
-    />
+            android:visibility="visible"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewDead" android:gravity="center"
-    />
-</TableRow>
+            android:visibility="visible"/>
+</FrameLayout>

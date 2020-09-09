@@ -18,10 +18,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:textColor="@color/tagsColor"
                 android:textStyle="bold" android:textSize="20sp"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/recyclerOverall">
-        </androidx.recyclerview.widget.RecyclerView>
         <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -35,7 +31,7 @@
                 android:textStyle="bold" android:textSize="20sp"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/recyclerRegional"/>
+                android:layout_height="200dp" android:id="@+id/recyclerRegional"/>
         <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

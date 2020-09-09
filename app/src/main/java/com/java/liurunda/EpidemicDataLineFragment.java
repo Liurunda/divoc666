@@ -23,7 +23,6 @@ public class EpidemicDataLineFragment extends Fragment {
      *
      * @return A new instance of fragment EpidemicDataLineFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static EpidemicDataLineFragment newInstance() {
         EpidemicDataLineFragment fragment = new EpidemicDataLineFragment();
         Bundle args = new Bundle();
@@ -34,8 +33,6 @@ public class EpidemicDataLineFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

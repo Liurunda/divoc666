@@ -128,17 +128,21 @@ public class NetClient {
         return true;
     }
 
-    synchronized void getScholars(ArrayList<Scholar> scholars) {
+    synchronized boolean getScholars(ArrayList<Scholar> scholars) {
         final String url = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
 
+        scholars.clear();
         Request request = new Request.Builder().url(url).build();
         try {
             final Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                return false;
+            }
             String resp = response.body().string();
             try {
                 JSONObject json = new JSONObject(resp);
                 if (!json.getString("message").equals("success")) {
-                    return;
+                    return true;
                 }
                 JSONArray scholarsArray = json.getJSONArray("data");
                 for (int i = 0; i < scholarsArray.length(); ++i) {
@@ -150,14 +154,19 @@ public class NetClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
-    synchronized void getEpidemicData(HashMap<String, EpidemicData> data) {
+    synchronized boolean getEpidemicData(HashMap<String, EpidemicData> data) {
         final String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
 
+        data.clear();
         Request request = new Request.Builder().url(url).build();
         try {
             final Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                return false;
+            }
             String resp = response.body().string();
             try {
                 JSONObject json = new JSONObject(resp);
@@ -184,5 +193,6 @@ public class NetClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 }
