@@ -33,16 +33,14 @@ public class EpidemicDataUtil {
             for (Iterator<String> it = json.keys(); it.hasNext(); ) {
                 String key = it.next();
                 String[] segments = key.split("\\|");
-                if (segments.length == 2 && segments[0].equals("China")) {
+                if (segments.length == 2 && segments[0].equalsIgnoreCase("China")) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
-                            today.optInt(2,0), today.optInt(3,0)));
-                } else if (segments.length == 1) {
+                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.optInt(0, 0), today.optInt(1, 0), today.optInt(2, 0), today.optInt(3, 0)));
+                } else if (segments.length == 1 && !key.equalsIgnoreCase("World")) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    global.regional.put(key, new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
-                            today.optInt(2,0), today.optInt(3,0)));
+                    global.regional.put(key, new EpidemicDataEntry(today.optInt(0, 0), today.optInt(1, 0), today.optInt(2, 0), today.optInt(3, 0)));
                 }
             }
         } catch (JSONException ignored) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inspector.InspectionCompanion;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
@@ -35,10 +36,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class DataListAdapter extends RecyclerView.Adapter<DataListAdapter.ItemViewHolder> {
     public ArrayList<Pair<String, EpidemicDataEntry>> dataSet;
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM   = 1;
 
     public DataListAdapter(ArrayList<Pair<String, EpidemicDataEntry>> data) {
         this.dataSet = data;
@@ -46,54 +45,30 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            return new HeaderViewHolder(( FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
-        } else {
-            assert(viewType == TYPE_ITEM);
-            return new ItemViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
-        }
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ItemViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
-            ItemViewHolder hold = (ItemViewHolder) holder;
-            Pair<String, EpidemicDataEntry> data = this.dataSet.get(position - 1);
-            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.first);
-            EpidemicDataEntry entry = data.second;
-            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(Integer.toString(entry.confirmed));
-            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(Integer.toString(entry.cured));
-            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(Integer.toString(entry.dead));
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        ItemViewHolder hold = (ItemViewHolder) holder;
+        Pair<String, EpidemicDataEntry> data = this.dataSet.get(position);
+        ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.first);
+        EpidemicDataEntry entry = data.second;
+        ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(Integer.toString(entry.confirmed));
+        ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(Integer.toString(entry.cured));
+        ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(Integer.toString(entry.dead));
 
-            if (position % 2 == 0) {
-                hold.itemView.findViewById(R.id.layoutBackground).setBackgroundResource(R.color.bkgColorEpidemicLine);
-            } else {
-                hold.itemView.findViewById(R.id.layoutBackground).setBackground(null);
-            }
+        if (position % 2 == 1) {
+            hold.itemView.findViewById(R.id.layoutBackground).setBackgroundResource(R.color.bkgColorEpidemicLine);
+        } else {
+            hold.itemView.findViewById(R.id.layoutBackground).setBackground(null);
         }
     }
 
     @Override
     public int getItemCount() {
-       return dataSet.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else {
-            return TYPE_ITEM;
-        }
-    }
-
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public FrameLayout layout;
-        public HeaderViewHolder(FrameLayout l) {
-            super(l);
-            layout = l;
-        }
+       return dataSet.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -115,7 +90,17 @@ public class DataListFragment extends Fragment {
     private Fragment parent;
     private View view;
     private RecyclerView.LayoutManager layoutManager;
-    public DataListAdapter adapter;
+    private DataListAdapter adapter;
+
+    private enum ColumnId {
+        Region,
+        Confirmed,
+        Cured,
+        Dead,
+    };
+
+    private ColumnId lastSortIndex = ColumnId.Confirmed;
+    private boolean lastSortAscending = false;
 
     public DataListFragment() {
         // Required empty public constructor
@@ -172,7 +157,7 @@ public class DataListFragment extends Fragment {
         });
 
         TextView updated = this.view.findViewById(R.id.viewLastUpdate);
-        updated.setText(DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
+        updated.setText(getString(R.string.text_last_update) + DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
 
         SwipeRefreshLayout refresh = view.findViewById(R.id.refresh);
         refresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimary);
@@ -180,6 +165,65 @@ public class DataListFragment extends Fragment {
         refresh.setOnRefreshListener(() -> {
             ((DataFragment) parent).notifyRefresh();
             refresh.setRefreshing(false);
+        });
+
+        LineChart chart = view.findViewById(R.id.chartOverall);
+        chart.setNoDataText(getString(R.string.text_no_data));
+
+        LinearLayout region = view.findViewById(R.id.titleRegion);
+        region.setOnClickListener((ignored) -> {
+            if (lastSortIndex == ColumnId.Region) {
+                lastSortAscending = !lastSortAscending;
+            } else {
+                lastSortIndex = ColumnId.Region;
+                lastSortAscending = true;
+            }
+            sort(lastSortIndex, lastSortAscending);
+            if (adapter != null) {
+                getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+            }
+        });
+
+        LinearLayout confirmed = view.findViewById(R.id.titleConfirmed);
+        confirmed.setOnClickListener((ignored) -> {
+            if (lastSortIndex == ColumnId.Confirmed) {
+                lastSortAscending = !lastSortAscending;
+            } else {
+                lastSortIndex = ColumnId.Confirmed;
+                lastSortAscending = false;
+            }
+            sort(lastSortIndex, lastSortAscending);
+            if (adapter != null) {
+                getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+            }
+        });
+
+        LinearLayout cured = view.findViewById(R.id.titleCured);
+        cured.setOnClickListener((ignored) -> {
+            if (lastSortIndex == ColumnId.Cured) {
+                lastSortAscending = !lastSortAscending;
+            } else {
+                lastSortIndex = ColumnId.Cured;
+                lastSortAscending = false;
+            }
+            sort(lastSortIndex, lastSortAscending);
+            if (adapter != null) {
+                getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+            }
+        });
+
+        LinearLayout dead = view.findViewById(R.id.titleDead);
+        dead.setOnClickListener((ignored) -> {
+            if (lastSortIndex == ColumnId.Dead) {
+                lastSortAscending = !lastSortAscending;
+            } else {
+                lastSortIndex = ColumnId.Dead;
+                lastSortAscending = false;
+            }
+            sort(lastSortIndex, lastSortAscending);
+            if (adapter != null) {
+                getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
+            }
         });
 
         return this.view;
@@ -213,6 +257,8 @@ public class DataListFragment extends Fragment {
         newData.regional.forEach((name, data)->{
             dataList.add(Pair.create(name, data));
         });
+
+        sort(lastSortIndex, lastSortAscending);
 
         if (adapter != null) {
             getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
@@ -255,6 +301,27 @@ public class DataListFragment extends Fragment {
 
         // Update time
         TextView updated = view.findViewById(R.id.viewLastUpdate);
-        updated.setText(DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
+        updated.setText(getString(R.string.text_last_update) + DateUtil.getTextFormattedDate(ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)));
+    }
+
+    public void sort(ColumnId column, boolean ascending) {
+        getActivity().runOnUiThread(() -> {
+            ((TextView) view.findViewById(R.id.sortRegion)).setText(column == ColumnId.Region ? (ascending ? "∧" : "∨") : "");
+            ((TextView) view.findViewById(R.id.sortConfirmed)).setText(column == ColumnId.Confirmed ? (ascending ? "∧" : "∨") : "");
+            ((TextView) view.findViewById(R.id.sortCured)).setText(column == ColumnId.Cured ? (ascending ? "∧" : "∨") : "");
+            ((TextView) view.findViewById(R.id.sortDead)).setText(column == ColumnId.Dead ? (ascending ? "∧" : "∨") : "");
+        });
+
+        dataList.sort((t1, t2) -> {
+            if (column == ColumnId.Region) {
+                return t1.first.compareTo(t2.first) * (ascending ? 1 : -1);
+            } else if (column == ColumnId.Confirmed) {
+                return ((Integer) t1.second.confirmed).compareTo((Integer) t2.second.confirmed) * (ascending ? 1 : -1);
+            } else if (column == ColumnId.Cured) {
+                return ((Integer) t1.second.cured).compareTo((Integer) t2.second.cured) * (ascending ? 1 : -1);
+            } else {
+                return ((Integer) t1.second.dead).compareTo((Integer) t2.second.dead) * (ascending ? 1 : -1);
+            }
+        });
     }
 }

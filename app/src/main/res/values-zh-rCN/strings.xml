@@ -35,7 +35,7 @@
     <string name="tab_domestic">国内</string>
     <string name="tab_global">全球</string>
     <string name="text_last_update">"最近更新 "</string>
-    <string name="text_overall_data">疫情概览</string>
+    <string name="text_overall_data">概览</string>
     <string name="text_regional_data">各地区</string>
     <string name="text_refresh_failed">获取新闻失败</string>
     <string name="text_data_region">地区</string>
@@ -50,4 +50,5 @@
         <item quantity="other">找到了 %1$s 个条目</item>
     </plurals>
     <string name="text_start_knowledge">融合，开源的\n新型冠状病毒知识图谱</string>
+    <string name="text_no_data">刷新以获取疫情数据</string>
 </resources>

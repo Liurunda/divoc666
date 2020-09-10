@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
                                                        android:id="@+id/refresh">
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                           xmlns:tools="http://schemas.android.com/tools"
-                                           android:layout_width="match_parent"
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
                                            android:layout_height="match_parent"
                                            tools:context=".DataListFragment"
                                            android:id="@+id/nested"
@@ -23,12 +23,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" android:layout_gravity="center">
                 <TextView
-                        android:text="@string/text_last_update"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/viewLastUpdate" android:layout_weight="1"/>
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:id="@+id/viewLastUpdate"
+                        android:layout_weight="1"/>
             </LinearLayout>
             <View
                     android:layout_width="match_parent"
@@ -40,7 +37,8 @@
                     android:text="@string/text_overall_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:textColor="@color/tagsColor"
-                    android:textStyle="bold" android:textSize="20sp"/>
+                    android:textStyle="bold" android:textSize="20sp"
+                    android:layout_marginBottom="@dimen/scholar_roll_tiny_margin"/>
             <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chartOverall"
                     android:layout_width="match_parent"
@@ -57,6 +55,87 @@
                     android:layout_height="wrap_content" android:textColor="@color/tagsColor"
                     android:textStyle="bold" android:textSize="20sp"
                     android:layout_marginBottom="@dimen/appbar_padding_top"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:gravity="center_vertical"
+                    android:id="@+id/layoutHeader" android:paddingTop="@dimen/scholar_roll_tiny_margin"
+                    android:paddingBottom="@dimen/scholar_roll_tiny_margin" android:background="@color/bkgColorC"
+                    android:baselineAligned="false">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center"
+                        android:id="@+id/titleRegion">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/viewHeaderRegion"
+                            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
+                            android:visibility="visible" android:text="@string/text_data_region" android:textSize="16sp"
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/sortRegion"
+                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
+                            android:textColor="@color/tagsColor"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center"
+                        android:id="@+id/titleConfirmed">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/viewHeaderConfirmed"
+                            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
+                            android:visibility="visible" android:text="@string/text_data_confirmed"
+                            android:textSize="16sp"
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/sortConfirmed"
+                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
+                            android:textColor="@color/tagsColor"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center"
+                        android:id="@+id/titleCured">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/viewHeaderCured"
+                            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
+                            android:visibility="visible" android:text="@string/text_data_cured" android:textSize="16sp"
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/sortCured"
+                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
+                            android:textColor="@color/tagsColor"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center"
+                        android:id="@+id/titleDead">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/viewHeaderDead"
+                            android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
+                            android:visibility="visible" android:text="@string/text_data_dead" android:textSize="16sp"
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/sortDead"
+                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
+                            android:textColor="@color/tagsColor"/>
+                </LinearLayout>
+            </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:id="@+id/recyclerRegional"
