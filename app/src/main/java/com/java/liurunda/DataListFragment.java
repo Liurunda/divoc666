@@ -68,6 +68,8 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (position % 2 == 0) {
                 hold.itemView.findViewById(R.id.layoutBackground).setBackgroundResource(R.color.bkgColorEpidemicLine);
+            } else {
+                hold.itemView.findViewById(R.id.layoutBackground).setBackground(null);
             }
         }
     }
@@ -207,6 +209,7 @@ public class DataListFragment extends Fragment {
     public void setDataSet(EpidemicData newData) {
         // Update regional data table
         dataList.clear();
+
         newData.regional.forEach((name, data)->{
             dataList.add(Pair.create(name, data));
         });
