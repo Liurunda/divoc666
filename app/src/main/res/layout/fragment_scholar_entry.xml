@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context=".ScholarEntryFragment" android:background="@drawable/ripple_selector"
+             tools:context=".ScholarEntryFragment" android:background="?attr/selectableItemBackground"
              android:paddingTop="@dimen/scholar_roll_tiny_margin">
     <LinearLayout
             android:orientation="vertical"

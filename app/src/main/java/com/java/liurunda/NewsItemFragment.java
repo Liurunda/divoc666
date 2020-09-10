@@ -110,7 +110,7 @@ public class NewsItemFragment extends Fragment {
                         final int rangeStart = newsList.size();
                         newsList.addAll(news);
                         adapter.notifyItemRangeInserted(rangeStart, news.size());
-                        showSnackbar(getString(R.string.text_refresh_success));
+                        Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
                     });
                 }
             }
@@ -136,19 +136,9 @@ public class NewsItemFragment extends Fragment {
             newsList.addAll(0, list);
             Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
             swipeRefreshLayout.setRefreshing(false);
-            showSnackbar(getString(R.string.text_refresh_success));
+            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
         }));
 
         return this.view;
-    }
-
-    void showSnackbar(final String message) {
-        Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.layout), message, Snackbar.LENGTH_SHORT);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snack.getView().getLayoutParams();
-        params.setAnchorId(R.id.bottom_nav);
-        params.anchorGravity = Gravity.TOP;
-        params.gravity = Gravity.TOP;
-        snack.getView().setLayoutParams(params);
-        snack.show();
     }
 }

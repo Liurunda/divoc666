@@ -44,4 +44,10 @@
     <string name="text_knowledge_graph">Knowledge Graph</string>
     <string name="text_entity_relations">Relations</string>
     <string name="text_entity_properties">Properties</string>
+    <string name="text_star">★</string>
+    <plurals name="text_knowledge_entries_found">
+        <item quantity="one">1 entry found</item>
+        <item quantity="other">%d entries found</item>
+    </plurals>
+    <string name="text_start_knowledge">The integrated, open-source\nCOVID knowledge graph</string>
 </resources>

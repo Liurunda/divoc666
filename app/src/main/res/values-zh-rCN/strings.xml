@@ -45,4 +45,9 @@
     <string name="text_knowledge_graph">知识图谱</string>
     <string name="text_entity_relations">关系</string>
     <string name="text_entity_properties">属性</string>
+    <string name="text_star">★</string>
+    <plurals name="text_knowledge_entries_found">
+        <item quantity="other">找到了 %1$s 个条目</item>
+    </plurals>
+    <string name="text_start_knowledge">融合，开源的\n新型冠状病毒知识图谱</string>
 </resources>

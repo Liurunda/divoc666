@@ -13,21 +13,28 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay"
-    >
+            android:paddingStart="@dimen/appbar_padding" android:paddingEnd="@dimen/appbar_padding"
+            android:paddingTop="@dimen/appbar_padding_top" android:paddingBottom="@dimen/appbar_padding_top">
 
         <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/fastScrollPreviewBackgroundRight"
-                android:id="@+id/entity_search" android:backgroundTint="@color/anti_flash_white"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-        </SearchView>
+                android:background="@drawable/rounded_search_box"
+                android:id="@+id/entity_search"
+                app:layout_scrollFlags="scroll|enterAlways" android:theme="@style/Theme.AppCompat.Light"
+                android:queryBackground="@null" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" android:id="@+id/entityList"/>
+            android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" android:id="@+id/entityList"
+                android:visibility="visible">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content" android:gravity="center_vertical"
+              android:layout_marginTop="@dimen/scholar_roll_tiny_margin">
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewPropertyName"
-    />
+            android:background="@drawable/rounded_corner_property"
+            android:paddingStart="@dimen/scholar_roll_tiny_margin"
+            android:paddingEnd="@dimen/scholar_roll_tiny_margin" android:paddingLeft="@dimen/scholar_roll_tiny_margin"
+            android:paddingRight="@dimen/scholar_roll_tiny_margin"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/viewPropertyDescription"
-            android:gravity="right"/>
+            android:layout_marginStart="@dimen/scholar_roll_tiny_margin" android:gravity="left"/>
 </LinearLayout>

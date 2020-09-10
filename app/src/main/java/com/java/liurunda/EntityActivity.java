@@ -20,6 +20,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 class RelationAdapter extends RecyclerView.Adapter<RelationAdapter.RelationViewHolder> {
     private ArrayList<Pair2<String, String>> forward, backward;
@@ -119,7 +121,7 @@ public class EntityActivity extends AppCompatActivity {
         this.entity = (Entity) intent.getSerializableExtra("entity");
 
         ((TextView) findViewById(R.id.viewName)).setText(entity.name);
-        ((TextView) findViewById(R.id.viewHot)).setText(Double.toString(entity.hot));
+        ((TextView) findViewById(R.id.viewHot)).setText(String.join("", Collections.nCopies(Math.min((int) Math.floor(entity.hot * 10) + 1, 10), getString(R.string.text_star))));
         ((TextView) findViewById(R.id.viewEntityDescription)).setText(entity.baidu.equals("") ? entity.enwiki : entity.baidu);
 
         ImageView img = findViewById(R.id.entityImage);
@@ -134,11 +136,13 @@ public class EntityActivity extends AppCompatActivity {
         recyclerRelations.setLayoutManager(layoutRelations);
         adapterRelations = new RelationAdapter(this.entity.forwardRelations, this.entity.backwardRelations);
         recyclerRelations.setAdapter(adapterRelations);
+        recyclerRelations.setNestedScrollingEnabled(false);
 
         recyclerProperties = findViewById(R.id.listProperties);
         layoutProperties = new LinearLayoutManager(this);
         recyclerProperties.setLayoutManager(layoutProperties);
         adapterProperties = new PropertyAdapter(this.entity.properties);
         recyclerProperties.setAdapter(adapterProperties);
+        recyclerProperties.setNestedScrollingEnabled(false);
     }
 }

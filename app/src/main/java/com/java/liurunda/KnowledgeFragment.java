@@ -3,6 +3,7 @@ package com.java.liurunda;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -49,7 +51,7 @@ class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.EntityViewHolder>
         Entity entity = entities.get(position);
 
         ((TextView) holder.layout.findViewById(R.id.viewEntityName)).setText(entity.name);
-        ((TextView) holder.layout.findViewById(R.id.viewEntityHot)).setText(Double.toString(entity.hot));
+        ((TextView) holder.layout.findViewById(R.id.viewEntityHot)).setText(String.join("", Collections.nCopies(Math.min((int) Math.floor(entity.hot * 10) + 1, 10), holder.layout.getContext().getString(R.string.text_star))));
 
         holder.itemView.setOnClickListener(view -> {
             Entity entity1 = (Entity) view.getTag();
@@ -136,6 +138,7 @@ public class KnowledgeFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 hideSoftKeyboard(knowledge.getContext(), searchList);
                 CompletableFuture.supplyAsync(() -> Getter.getEntities(query)).thenAccept((entityList) -> {
+                    Util.showSnackbar(getActivity(), getResources().getQuantityString(R.plurals.text_knowledge_entries_found, entityList.size(), entityList.size()));
                     list.clear();
                     list.addAll(entityList);
                     getActivity().runOnUiThread(adapter::notifyDataSetChanged);
