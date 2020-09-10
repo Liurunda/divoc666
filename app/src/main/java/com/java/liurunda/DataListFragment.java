@@ -2,9 +2,11 @@ package com.java.liurunda;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inspector.InspectionCompanion;
 import android.widget.FrameLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,11 +24,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<Map.Entry<String, EpidemicDataEntry>> dataSet;
+    public ArrayList<Pair<String, EpidemicDataEntry>> dataSet;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM   = 1;
 
-    public DataListAdapter(ArrayList<Map.Entry<String, EpidemicDataEntry>> data) {
+    public DataListAdapter(ArrayList<Pair<String, EpidemicDataEntry>> data) {
         this.dataSet = data;
     }
 
@@ -34,7 +36,7 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            return new HeaderViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
+            return new HeaderViewHolder(( FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_header, parent, false));
         } else {
             assert(viewType == TYPE_ITEM);
             return new ItemViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_epidemic_data_line, parent, false));
@@ -45,13 +47,12 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder hold = (ItemViewHolder) holder;
-            Map.Entry<String, EpidemicDataEntry> data = this.dataSet.get(position - 1);
-            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.getKey());
-
-            EpidemicDataEntry entry = data.getValue();
-            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(entry.confirmed);
-            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(entry.cured);
-            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(entry.dead);
+            Pair<String, EpidemicDataEntry> data = this.dataSet.get(position - 1);
+            ((TextView) hold.itemView.findViewById(R.id.viewRegion)).setText(data.first);
+            EpidemicDataEntry entry = data.second;
+            ((TextView) hold.itemView.findViewById(R.id.viewConfirmed)).setText(Integer.toString(entry.confirmed));
+            ((TextView) hold.itemView.findViewById(R.id.viewCured)).setText(Integer.toString(entry.cured));
+            ((TextView) hold.itemView.findViewById(R.id.viewDead)).setText(Integer.toString(entry.dead));
         } else {
             assert(holder instanceof HeaderViewHolder);
         }
@@ -59,7 +60,7 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataSet.size() + 1;
+       return dataSet.size() + 1;
     }
 
     @Override
@@ -92,14 +93,15 @@ class DataListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
  * create an instance of this fragment.
  */
 public class DataListFragment extends Fragment {
-    private ArrayList<Map.Entry<String, EpidemicDataEntry>> dataList = new ArrayList<>();
+    private ArrayList<Pair<String, EpidemicDataEntry>> dataList;
 
     private View view;
     private RecyclerView.LayoutManager layoutManager;
-    private DataListAdapter adapter;
+    public DataListAdapter adapter;
 
     public DataListFragment() {
         // Required empty public constructor
+        dataList = new ArrayList<>();
     }
 
     /**
@@ -128,12 +130,13 @@ public class DataListFragment extends Fragment {
 
         RecyclerView regional = this.view.findViewById(R.id.recyclerRegional);
 
-        layoutManager = new LinearLayoutManager(regional.getContext());
+        layoutManager = new LinearLayoutManager(this.view.getContext());
         regional.setLayoutManager(layoutManager);
-
         adapter = new DataListAdapter(this.dataList);
         regional.setAdapter(adapter);
-
+        //adapter.dataSet.add(Pair.create("2rilegou", new EpidemicDataEntry(1,2,3,4)));
+        //adapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(()->adapter.notifyDataSetChanged());
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
         NestedScrollView nested = view.findViewById(R.id.nested);
 
@@ -157,7 +160,9 @@ public class DataListFragment extends Fragment {
 
     public void setDataSet(EpidemicData newData) {
         dataList.clear();
-        dataList.addAll(new ArrayList(newData.regional.entrySet()));
-        getActivity().runOnUiThread(adapter::notifyDataSetChanged);
+        newData.regional.forEach((name,data)->{
+            dataList.add(Pair.create(name,data));
+        });
+        if(adapter!=null)getActivity().runOnUiThread(()->adapter.notifyDataSetChanged());
     }
 }
