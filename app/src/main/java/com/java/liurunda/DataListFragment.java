@@ -1,6 +1,7 @@
 package com.java.liurunda;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Pair;
@@ -8,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inspector.InspectionCompanion;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -305,22 +303,24 @@ public class DataListFragment extends Fragment {
     }
 
     public void sort(ColumnId column, boolean ascending) {
-        getActivity().runOnUiThread(() -> {
-            ((TextView) view.findViewById(R.id.sortRegion)).setText(column == ColumnId.Region ? (ascending ? "∧" : "∨") : "");
-            ((TextView) view.findViewById(R.id.sortConfirmed)).setText(column == ColumnId.Confirmed ? (ascending ? "∧" : "∨") : "");
-            ((TextView) view.findViewById(R.id.sortCured)).setText(column == ColumnId.Cured ? (ascending ? "∧" : "∨") : "");
-            ((TextView) view.findViewById(R.id.sortDead)).setText(column == ColumnId.Dead ? (ascending ? "∧" : "∨") : "");
+        Drawable image = getResources().getDrawable(ascending ? R.drawable.baseline_keyboard_arrow_up_black_24dp : R.drawable.baseline_keyboard_arrow_down_black_24dp, null);
+
+        Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+            ((ImageView) view.findViewById(R.id.sortRegion)).setImageDrawable(column == ColumnId.Region ? image : null);
+            ((ImageView) view.findViewById(R.id.sortConfirmed)).setImageDrawable(column == ColumnId.Confirmed ? image : null);
+            ((ImageView) view.findViewById(R.id.sortCured)).setImageDrawable(column == ColumnId.Cured ? image : null);
+            ((ImageView) view.findViewById(R.id.sortDead)).setImageDrawable(column == ColumnId.Dead ? image : null);
         });
 
         dataList.sort((t1, t2) -> {
             if (column == ColumnId.Region) {
                 return t1.first.compareTo(t2.first) * (ascending ? 1 : -1);
             } else if (column == ColumnId.Confirmed) {
-                return ((Integer) t1.second.confirmed).compareTo((Integer) t2.second.confirmed) * (ascending ? 1 : -1);
+                return Integer.compare(t1.second.confirmed, t2.second.confirmed) * (ascending ? 1 : -1);
             } else if (column == ColumnId.Cured) {
-                return ((Integer) t1.second.cured).compareTo((Integer) t2.second.cured) * (ascending ? 1 : -1);
+                return Integer.compare(t1.second.cured, t2.second.cured) * (ascending ? 1 : -1);
             } else {
-                return ((Integer) t1.second.dead).compareTo((Integer) t2.second.dead) * (ascending ? 1 : -1);
+                return Integer.compare(t1.second.dead, t2.second.dead) * (ascending ? 1 : -1);
             }
         });
     }

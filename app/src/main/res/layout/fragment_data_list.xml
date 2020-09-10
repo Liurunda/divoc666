@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="match_parent"
                                                        android:id="@+id/refresh">
@@ -73,12 +73,12 @@
                             android:id="@+id/viewHeaderRegion"
                             android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
                             android:visibility="visible" android:text="@string/text_data_region" android:textSize="16sp"
-                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
-                    <TextView
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"
+                            android:singleLine="true"/>
+                    <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/sortRegion"
-                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
-                            android:textColor="@color/tagsColor"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sortRegion"/>
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -92,12 +92,13 @@
                             android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
                             android:visibility="visible" android:text="@string/text_data_confirmed"
                             android:textSize="16sp"
-                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
-                    <TextView
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"
+                            android:singleLine="true"/>
+                    <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/sortConfirmed"
-                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
-                            android:textColor="@color/tagsColor"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sortConfirmed"
+                            app:srcCompat="@drawable/baseline_keyboard_arrow_down_black_24dp"/>
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -110,12 +111,12 @@
                             android:id="@+id/viewHeaderCured"
                             android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
                             android:visibility="visible" android:text="@string/text_data_cured" android:textSize="16sp"
-                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
-                    <TextView
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"
+                            android:singleLine="true"/>
+                    <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/sortCured"
-                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
-                            android:textColor="@color/tagsColor"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sortCured"/>
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -128,12 +129,12 @@
                             android:id="@+id/viewHeaderDead"
                             android:textColor="@color/design_default_color_on_secondary" android:textStyle="bold"
                             android:visibility="visible" android:text="@string/text_data_dead" android:textSize="16sp"
-                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"/>
-                    <TextView
+                            android:gravity="center" android:layout_marginLeft="@dimen/scholar_roll_tiny_margin"
+                            android:singleLine="true"/>
+                    <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/sortDead"
-                            android:layout_marginLeft="@dimen/scholar_roll_tiny_margin" android:textStyle="bold"
-                            android:textColor="@color/tagsColor"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sortDead"/>
                 </LinearLayout>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
