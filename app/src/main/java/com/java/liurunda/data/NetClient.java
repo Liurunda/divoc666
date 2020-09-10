@@ -158,10 +158,9 @@ public class NetClient {
         return true;
     }
 
-     boolean getEpidemicData(HashMap<String, EpidemicData> data) {
+     boolean getEpidemicData(EpidemicData domestic, EpidemicData global) {
         final String url = "https://covid-dashboard.aminer.cn/api/dist/epidemic.json";
 
-        data.clear();
         Request request = new Request.Builder().url(url).build();
         try {
             final Response response = client.newCall(request).execute();
@@ -171,24 +170,7 @@ public class NetClient {
             String resp = response.body().string();
             try {
                JSONObject json = new JSONObject(resp);
-//
-//                for (Iterator<String> it = json.keys(); it.hasNext(); ) {
-//                    String key = it.next();
-//                    JSONObject place = json.optJSONObject(key);
-//                    EpidemicData element = new EpidemicData();
-//                    if (place != null) {
-//                        element.startDate = LocalDate.parse(place.getString("begin"));
-//                        JSONArray dates = place.getJSONArray("data");
-//                        for (int i = 0; i < dates.length(); ++i) {
-//                            JSONArray date = dates.getJSONArray(i);
-//                            if (BuildConfig.DEBUG && !(date.length() >= 4)) {
-//                                throw new AssertionError("Assertion failed");
-//                            }
-//                            element.entries.add(new EpidemicDataEntry(date.getInt(0), date.getInt(1), date.getInt(2), date.getInt(3)));
-//                        }
-//                    }
-//                    data.put(key, element);
-//                }
+               EpidemicDataUtil.parse(json, domestic, global);
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();

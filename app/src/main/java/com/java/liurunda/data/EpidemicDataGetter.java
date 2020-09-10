@@ -16,6 +16,6 @@ public class EpidemicDataGetter {
     }
 
     public void getEpidemicData(EpidemicData domestic, EpidemicData global) { // must be called asynchronously
-     //   client.getEpidemicData(domestic, global);
+        client.getEpidemicData(domestic, global);
     }
 }
