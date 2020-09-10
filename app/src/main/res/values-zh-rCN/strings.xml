@@ -49,6 +49,9 @@
     <plurals name="text_knowledge_entries_found">
         <item quantity="other">找到了 %1$s 个条目</item>
     </plurals>
+    <string name="text_knowledge_entry_failed">查询实体时发生错误</string>
     <string name="text_start_knowledge">融合，开源的\n新型冠状病毒知识图谱</string>
     <string name="text_no_data">刷新以获取疫情数据</string>
+    <string name="text_data_fetch_failed">获取最新疫情数据失败</string>
+    <string name="text_data_refreshed">已更新疫情数据</string>
 </resources>

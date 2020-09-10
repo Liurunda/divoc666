@@ -1,7 +1,7 @@
 package com.java.liurunda;
 
 import android.content.Intent;
-import android.util.Pair;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,24 +9,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.java.liurunda.data.Entity;
-import com.java.liurunda.data.News;
 import com.java.liurunda.data.Pair2;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 class RelationAdapter extends RecyclerView.Adapter<RelationAdapter.RelationViewHolder> {
-    private ArrayList<Pair2<String, String>> forward, backward;
+    private final ArrayList<Pair2<String, String>> forward;
+    private final ArrayList<Pair2<String, String>> backward;
 
-    class RelationViewHolder extends RecyclerView.ViewHolder {
+    static class RelationViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout layout;
         public RelationViewHolder(RelativeLayout l) {
             super(l);
@@ -46,7 +44,7 @@ class RelationAdapter extends RecyclerView.Adapter<RelationAdapter.RelationViewH
     }
 
     @Override
-    public void onBindViewHolder(RelationViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull RelationViewHolder holder, int position) {
         Pair2<String, String> relation;
         if (position < forward.size()) {
             relation = forward.get(position);
@@ -67,9 +65,9 @@ class RelationAdapter extends RecyclerView.Adapter<RelationAdapter.RelationViewH
 }
 
 class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
-    private ArrayList<Pair2<String, String>> properties;
+    private final ArrayList<Pair2<String, String>> properties;
 
-    class PropertyViewHolder extends RecyclerView.ViewHolder {
+    static class PropertyViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout layout;
         public PropertyViewHolder(LinearLayout l) {
             super(l);
@@ -102,23 +100,15 @@ class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewH
 }
 
 public class EntityActivity extends AppCompatActivity {
-    private Entity entity;
-    private ImageLoaderConfiguration configuration;
-
-    private RecyclerView recyclerRelations, recyclerProperties;
-    private RecyclerView.LayoutManager layoutRelations, layoutProperties;
-    private RelationAdapter adapterRelations;
-    private PropertyAdapter adapterProperties;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity);
 
-        this.configuration = ImageLoaderConfiguration.createDefault(this);
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
 
         Intent intent = this.getIntent();
-        this.entity = (Entity) intent.getSerializableExtra("entity");
+        Entity entity = (Entity) intent.getSerializableExtra("entity");
 
         ((TextView) findViewById(R.id.viewName)).setText(entity.name);
         ((TextView) findViewById(R.id.viewHot)).setText(String.join("", Collections.nCopies(Math.min((int) Math.floor(entity.hot * 10) + 1, 10), getString(R.string.text_star))));
@@ -131,16 +121,18 @@ public class EntityActivity extends AppCompatActivity {
         imageLoader.init(configuration);
         imageLoader.displayImage(entity.img_url, img);
 
-        recyclerRelations = findViewById(R.id.listRelations);
-        layoutRelations = new LinearLayoutManager(this);
+        RecyclerView recyclerRelations = findViewById(R.id.listRelations);
+        RecyclerView.LayoutManager layoutRelations = new LinearLayoutManager(this);
         recyclerRelations.setLayoutManager(layoutRelations);
-        adapterRelations = new RelationAdapter(this.entity.forwardRelations, this.entity.backwardRelations);
+        RelationAdapter adapterRelations = new RelationAdapter(entity.forwardRelations, entity.backwardRelations);
         recyclerRelations.setAdapter(adapterRelations);
+        recyclerRelations.setNestedScrollingEnabled(false);
 
-        recyclerProperties = findViewById(R.id.listProperties);
-        layoutProperties = new LinearLayoutManager(this);
+        RecyclerView recyclerProperties = findViewById(R.id.listProperties);
+        RecyclerView.LayoutManager layoutProperties = new LinearLayoutManager(this);
         recyclerProperties.setLayoutManager(layoutProperties);
-        adapterProperties = new PropertyAdapter(this.entity.properties);
+        PropertyAdapter adapterProperties = new PropertyAdapter(entity.properties);
         recyclerProperties.setAdapter(adapterProperties);
+        recyclerProperties.setNestedScrollingEnabled(false);
     }
 }

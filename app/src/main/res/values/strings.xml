@@ -49,6 +49,9 @@
         <item quantity="one">1 entry found</item>
         <item quantity="other">%d entries found</item>
     </plurals>
+    <string name="text_knowledge_entry_failed">Error occurred when searching for entities</string>
     <string name="text_start_knowledge">The integrated, open-source\nCOVID knowledge graph</string>
     <string name="text_no_data">Refresh to get epidemic chart</string>
+    <string name="text_data_fetch_failed">Failed to fetch latest epidemic data</string>
+    <string name="text_data_refreshed">Latest epidemic data updated</string>
 </resources>
