@@ -206,6 +206,9 @@ public class NetClient {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

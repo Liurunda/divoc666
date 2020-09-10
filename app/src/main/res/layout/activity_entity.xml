@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                       xmlns:tools="http://schemas.android.com/tools"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:paddingStart="@dimen/news_detail_margin_side"
+                                       android:paddingEnd="@dimen/news_detail_margin_side"
+                                       android:orientation="vertical"
+                                       tools:context=".EntityActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
+                android:id="@+id/entityImage"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/design_default_color_on_secondary" android:textSize="21sp"
+                    android:textStyle="bold" android:id="@+id/viewName"/>
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#AA1717" android:textAllCaps="false"
+                    android:id="@+id/viewHot"/>
+        </LinearLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/viewEntityDescription"/>
+        <TextView
+                android:text="@string/text_entity_relations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                android:textColor="@color/design_default_color_on_secondary"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listRelations">
+        </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+                android:text="@string/text_entity_properties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                android:textColor="@color/design_default_color_on_secondary"/>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listProperties"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -51,12 +51,9 @@ public class NewsDetailActivity extends BaseActivity {
         vc.setText(news.content);
 
         ImageButton share = findViewById(R.id.button_share);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String content = news.title + "\n" + getString(R.string.text_origin) + " " + news.origin_url + "\n" + excerpt(news.content);
-                shareUrl(content, news.title, news.source);
-            }
+        share.setOnClickListener(view -> {
+            String content = news.title + "\n" + getString(R.string.text_origin) + " " + news.origin_url + "\n" + excerpt(news.content);
+            shareUrl(content, news.title, news.source);
         });
     }
 }

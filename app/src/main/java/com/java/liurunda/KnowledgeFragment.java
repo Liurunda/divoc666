@@ -2,36 +2,33 @@ package com.java.liurunda;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.GetChars;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.java.liurunda.data.Entity;
 import com.java.liurunda.data.EntityGetter;
-import com.java.liurunda.data.EpidemicDataEntry;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.EntityViewHolder> {
     private ArrayList<Entity> entities;
-    private static ImageLoaderConfiguration configuration;
 
     public static class EntityViewHolder extends RecyclerView.ViewHolder {
-        public FrameLayout layout;
-        public EntityViewHolder(FrameLayout l) {
+        public LinearLayout layout;
+        public EntityViewHolder(LinearLayout l) {
             super(l);
             layout = l;
         }
@@ -39,28 +36,29 @@ class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.EntityViewHolder>
 
     public EntityAdapter(Context context, ArrayList<Entity> entities) {
         this.entities = entities;
-        configuration = ImageLoaderConfiguration.createDefault(context);
     }
 
     @NotNull
     @Override
     public EntityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EntityViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_entity_entry, parent, false));
+        return new EntityViewHolder((LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_entity_entry, parent, false));
     }
 
     @Override
     public void onBindViewHolder(EntityViewHolder holder, int position) {
         Entity entity = entities.get(position);
 
-        ((TextView) holder.layout.findViewById(R.id.entityName)).setText(entity.name);
-        ((TextView) holder.layout.findViewById(R.id.entityHot)).setText(entity.img_url);
-        //((TextView)entity.findViewById(R.id.entityHot)).setText("Hot:" + Double.toString(E.hot));
-        ImageView img = holder.layout.findViewById(R.id.entityImage);
-        img.setMaxHeight(500);
-        img.setImageBitmap(null);
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(configuration);
-        imageLoader.displayImage(entity.img_url, img);
+        ((TextView) holder.layout.findViewById(R.id.viewEntityName)).setText(entity.name);
+        ((TextView) holder.layout.findViewById(R.id.viewEntityHot)).setText(Double.toString(entity.hot));
+
+        holder.itemView.setOnClickListener(view -> {
+            Entity entity1 = (Entity) view.getTag();
+            Intent intent = new Intent();
+            intent.setClass(view.getContext(), EntityActivity.class);
+            intent.putExtra("entity", entity1);
+            view.getContext().startActivity(intent);
+        });
+        holder.itemView.setTag(entity);
     }
 
     @Override
@@ -140,7 +138,7 @@ public class KnowledgeFragment extends Fragment {
                 CompletableFuture.supplyAsync(() -> Getter.getEntities(query)).thenAccept((entityList) -> {
                     list.clear();
                     list.addAll(entityList);
-                    adapter.notifyDataSetChanged();
+                    getActivity().runOnUiThread(adapter::notifyDataSetChanged);
                 });
                 return true;
             }
