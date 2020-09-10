@@ -8,16 +8,12 @@ import java.util.Iterator;
 
 public class EpidemicDataUtil {
     public static void parse(JSONObject json, EpidemicData domestic, EpidemicData global) {
-        System.out.println("Entered parse");
-        final int maximumDays = 10;
+        final int maximumDays = 30;
         domestic.reset();
-        System.out.println("Domestic reset");
         global.reset();
-        System.out.println("Global reset");
         try {
             JSONArray doverall = json.getJSONObject("China").getJSONArray("data");
             JSONArray goverall = json.getJSONObject("World").getJSONArray("data");
-            System.out.println("Parsing phase 1: overall");
             for (int i = maximumDays; i > 0; --i) {
                 if (i <= doverall.length()) {
                     JSONArray today = doverall.getJSONArray(doverall.length() - i);
@@ -34,7 +30,6 @@ public class EpidemicDataUtil {
             }
             doverall = null;
             goverall = null;
-            System.out.println("Parsing phase 2: regional");
             for (Iterator<String> it = json.keys(); it.hasNext(); ) {
                 String key = it.next();
                 String[] segments = key.split("\\|");
@@ -53,7 +48,5 @@ public class EpidemicDataUtil {
         } catch (JSONException ignored) {
             ignored.printStackTrace();
         }
-
-        System.out.println("Exiting parse");
     }
 }

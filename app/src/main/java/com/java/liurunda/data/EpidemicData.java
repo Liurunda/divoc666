@@ -12,18 +12,4 @@ public class EpidemicData implements Serializable {
         overall.clear();
         regional.clear();
     }
-    public void random(){
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        overall.add(new EpidemicDataEntry(2,3,3,3));
-        regional.put("THU",new EpidemicDataEntry(2,3,3,3));
-        regional.put("PKU",new EpidemicDataEntry(2,3,3,3));
-        regional.put("ASD",new EpidemicDataEntry(2,3,3,3));
-        regional.put("MIT",new EpidemicDataEntry(2,3,3,3));
-        regional.put("as",new EpidemicDataEntry(2,3,3,3));
-        regional.put("fuck",new EpidemicDataEntry(2,3,3,3));
-    }
 }

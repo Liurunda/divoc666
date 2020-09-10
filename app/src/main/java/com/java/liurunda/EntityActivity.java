@@ -136,13 +136,11 @@ public class EntityActivity extends AppCompatActivity {
         recyclerRelations.setLayoutManager(layoutRelations);
         adapterRelations = new RelationAdapter(this.entity.forwardRelations, this.entity.backwardRelations);
         recyclerRelations.setAdapter(adapterRelations);
-        recyclerRelations.setNestedScrollingEnabled(false);
 
         recyclerProperties = findViewById(R.id.listProperties);
         layoutProperties = new LinearLayoutManager(this);
         recyclerProperties.setLayoutManager(layoutProperties);
         adapterProperties = new PropertyAdapter(this.entity.properties);
         recyclerProperties.setAdapter(adapterProperties);
-        recyclerProperties.setNestedScrollingEnabled(false);
     }
 }

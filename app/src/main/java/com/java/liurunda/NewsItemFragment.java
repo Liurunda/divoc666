@@ -131,7 +131,7 @@ public class NewsItemFragment extends Fragment {
         });
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefresher);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(() -> CompletableFuture.supplyAsync(() -> getter.latest_news(infoType)).thenAccept((list) -> {
             newsList.addAll(0, list);
             Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());

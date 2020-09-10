@@ -50,7 +50,8 @@
                 android:layout_marginTop="@dimen/scholar_roll_tiny_margin"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/listProperties">
+                android:layout_height="wrap_content" android:id="@+id/listProperties"
+                android:nestedScrollingEnabled="false">
         </androidx.recyclerview.widget.RecyclerView>
         <TextView
                 android:text="@string/text_entity_relations"
@@ -60,7 +61,8 @@
                 android:layout_marginTop="@dimen/scholar_roll_tiny_margin"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/listRelations">
+                android:layout_height="wrap_content" android:id="@+id/listRelations"
+                android:nestedScrollingEnabled="false">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

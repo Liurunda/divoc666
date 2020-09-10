@@ -35,8 +35,8 @@
     <string name="tab_domestic">国内</string>
     <string name="tab_global">全球</string>
     <string name="text_last_update">"最近更新 "</string>
-    <string name="text_overall_data">总体疫情数据</string>
-    <string name="text_regional_data">分区域数据</string>
+    <string name="text_overall_data">疫情概览</string>
+    <string name="text_regional_data">各地区</string>
     <string name="text_refresh_failed">获取新闻失败</string>
     <string name="text_data_region">地区</string>
     <string name="text_data_confirmed">确诊</string>

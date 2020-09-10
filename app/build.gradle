@@ -49,4 +49,5 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

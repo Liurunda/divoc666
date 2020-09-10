@@ -1,54 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                       xmlns:tools="http://schemas.android.com/tools"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="match_parent"
-                                       tools:context=".DataListFragment"
-                                       android:paddingStart="@dimen/news_detail_margin_side"
-                                       android:paddingEnd="@dimen/news_detail_margin_side"
-                                       android:paddingBottom="@dimen/news_detail_margin_updown"
-                                       android:paddingTop="@dimen/appbar_padding" android:id="@+id/nested"
-                                       android:scrollbars="vertical">
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <TextView
-                android:text="@string/text_overall_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:textColor="@color/tagsColor"
-                android:textStyle="bold" android:textSize="20sp"/>
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="@dimen/appbar_padding_top"
-                android:layout_marginBottom="@dimen/appbar_padding_top"/>
-        <TextView
-                android:text="@string/text_regional_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:textColor="@color/tagsColor"
-                android:textStyle="bold" android:textSize="20sp"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/recyclerRegional"/>
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginTop="@dimen/appbar_padding_top"
-                android:layout_marginBottom="@dimen/appbar_padding_top"/>
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:id="@+id/refresh">
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                           xmlns:tools="http://schemas.android.com/tools"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+                                           tools:context=".DataListFragment"
+                                           android:id="@+id/nested"
+                                           android:scrollbars="vertical">
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_gravity="center">
-            <TextView
-                    android:text="@string/text_last_update"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_marginTop="@dimen/appbar_padding"
+                android:layout_marginBottom="@dimen/news_detail_margin_updown"
+                android:layout_marginEnd="@dimen/news_detail_margin_side"
+                android:layout_marginStart="@dimen/news_detail_margin_side">
+            <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent" android:layout_gravity="center">
+                <TextView
+                        android:text="@string/text_last_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/viewLastUpdate" android:layout_weight="1"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginTop="@dimen/appbar_padding_top"
+                    android:layout_marginBottom="@dimen/appbar_padding_top"/>
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/viewLastUpdate" android:layout_weight="1"/>
+                    android:text="@string/text_overall_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textColor="@color/tagsColor"
+                    android:textStyle="bold" android:textSize="20sp"/>
+            <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartOverall"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginTop="@dimen/appbar_padding_top"
+                    android:layout_marginBottom="@dimen/appbar_padding_top"/>
+            <TextView
+                    android:text="@string/text_regional_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textColor="@color/tagsColor"
+                    android:textStyle="bold" android:textSize="20sp"
+                    android:layout_marginBottom="@dimen/appbar_padding_top"/>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/recyclerRegional"
+                    android:nestedScrollingEnabled="false"/>
         </LinearLayout>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

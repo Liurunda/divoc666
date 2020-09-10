@@ -15,14 +15,17 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.java.liurunda.data.Entity;
 import com.java.liurunda.data.EntityGetter;
+import com.java.liurunda.data.News;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.EntityViewHolder> {
@@ -149,6 +152,18 @@ public class KnowledgeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
+        final Boolean[] isBottomShow = {true};
+        recycler.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY - oldScrollY > 0 && isBottomShow[0]) {
+                isBottomShow[0] = false;
+                nav.animate().translationY(nav.getHeight());
+            } else if (scrollY - oldScrollY < 0 && !isBottomShow[0]) {
+                isBottomShow[0] = true;
+                nav.animate().translationY(0);
             }
         });
 
