@@ -42,4 +42,6 @@
     <string name="text_data_cured">Cured</string>
     <string name="text_data_dead">Dead</string>
     <string name="text_knowledge_graph">Knowledge Graph</string>
+    <string name="text_entity_relations">Relations</string>
+    <string name="text_entity_properties">Properties</string>
 </resources>

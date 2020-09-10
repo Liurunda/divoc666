@@ -43,4 +43,6 @@
     <string name="text_data_cured">治愈</string>
     <string name="text_data_dead">死亡</string>
     <string name="text_knowledge_graph">知识图谱</string>
+    <string name="text_entity_relations">关系</string>
+    <string name="text_entity_properties">属性</string>
 </resources>

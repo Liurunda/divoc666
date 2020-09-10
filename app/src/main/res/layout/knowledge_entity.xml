@@ -1,26 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingStart="@dimen/news_detail_margin_side"
+              android:paddingEnd="@dimen/news_detail_margin_side" android:orientation="vertical">
 
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/entityImage"/>
     <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <TextView
-                android:text="23333333"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/entityName"
-                android:background="@color/bkgColorD"
-        />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_on_secondary" android:textSize="21sp"
+                android:textStyle="bold" android:id="@+id/viewEntityName"/>
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"/>
         <TextView
                 android:text="0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/entityHot"
-                android:textColor="#AA1717" android:textAllCaps="false"/>
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
-                android:id="@+id/entityImage"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#AA1717" android:textAllCaps="false" android:id="@+id/viewEntityHot"
+        />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/viewEntityDescription"/>
+    <TextView
+            android:text="@string/text_entity_relations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+            android:textColor="@color/design_default_color_on_secondary"/>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/listRelations">
+        <TextView
+                android:text="@string/text_entity_properties"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+                android:textColor="@color/design_default_color_on_secondary"/>
+    </androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/listProperties"/>
+</LinearLayout>
