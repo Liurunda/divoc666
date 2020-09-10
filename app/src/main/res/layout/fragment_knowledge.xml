@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".KnowledgeFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     tools:context=".KnowledgeFragment">
 
-<!--    <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="This is Knowledge"/>-->
-    <LinearLayout
-            android:orientation="vertical"
+    <!--    <TextView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:text="This is Knowledge"/>-->
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:theme="@style/AppTheme.AppBarOverlay"
+    >
+
         <SearchView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:background="?android:attr/fastScrollPreviewBackgroundRight"
-                android:backgroundTint="@color/bkgColorC" android:id="@+id/entity_search">
+                android:layout_height="match_parent"
+                android:background="?android:attr/fastScrollPreviewBackgroundRight"
+                android:id="@+id/entity_search" android:backgroundTint="@color/anti_flash_white"
+                app:layout_scrollFlags="scroll|enterAlways">
 
         </SearchView>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:text="prevEntity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/prevEntity"/>
-            <Button
-                    android:text="nextEntity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/nextEntity" />
-        </LinearLayout>
 
-        <include android:layout_width="match_parent" android:layout_height="match_parent"
-                 android:layout_weight="5"
-                 layout="@layout/knowledge_entity" android:id="@+id/someEntity"/>
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" android:id="@+id/entityList"/>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

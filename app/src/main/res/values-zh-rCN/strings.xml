@@ -42,4 +42,5 @@
     <string name="text_data_confirmed">确诊</string>
     <string name="text_data_cured">治愈</string>
     <string name="text_data_dead">死亡</string>
+    <string name="text_knowledge_graph">知识图谱</string>
 </resources>

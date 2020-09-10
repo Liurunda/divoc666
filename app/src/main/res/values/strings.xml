@@ -31,16 +31,15 @@
     <string name="text_share_with">Share with</string>
     <string name="text_origin">Origin:</string>
     <string name="title_data">Epidemic Data</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="tab_domestic">China</string>
     <string name="tab_global">Global</string>
     <string name="text_last_update">"Last Updated on "</string>
     <string name="text_overall_data">Overall</string>
     <string name="text_regional_data">Regional</string>
     <string name="text_refresh_failed">Couldn\'t get more news</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="text_data_confirmed">Confirmed</string>
     <string name="text_data_region">Region</string>
     <string name="text_data_cured">Cured</string>
     <string name="text_data_dead">Dead</string>
+    <string name="text_knowledge_graph">Knowledge Graph</string>
 </resources>
