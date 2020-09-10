@@ -19,8 +19,26 @@
                 android:backgroundTint="@color/bkgColorC" android:id="@+id/entity_search">
 
         </SearchView>
-        <include android:layout_width="match_parent" android:layout_height="wrap_content"
-                 android:layout_weight="1"
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:text="prevEntity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/prevEntity"/>
+            <Button
+                    android:text="nextEntity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/nextEntity" />
+        </LinearLayout>
+
+        <include android:layout_width="match_parent" android:layout_height="match_parent"
+                 android:layout_weight="5"
                  layout="@layout/knowledge_entity" android:id="@+id/someEntity"/>
     </LinearLayout>
 

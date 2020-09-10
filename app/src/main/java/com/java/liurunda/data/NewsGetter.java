@@ -104,24 +104,22 @@ public class NewsGetter {
         int page_size = 10;
         if(!client.getNewestNews(list,t, page_size)){
             return list;
-        }else{
-            return list;
         }
-//        manager.updateNewest(list.get(0).id,t);
-//        News latest = cur_latest.get(t);
-//       while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
-//            list.clear();
-//            page_size = page_size * 2;
-//            if(!client.getNewestNews(list, t, page_size)){
-//                return list;
-//            }
-//        }
-//        manager.check_add_page(list);
-//        //已经包含cur_latest, 进行delta操作
-//
-//        cur_latest.put(t, list.get(0));
-//        counter.put(t, counter.get(t) + list.indexOf(latest));
-//         return new ArrayList<>(list.subList(0, list.indexOf(latest)));
+        manager.updateNewest(list.get(0).id,t);
+        News latest = cur_latest.get(t);
+       while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
+            list.clear();
+            page_size = page_size * 2;
+            if(!client.getNewestNews(list, t, page_size)){
+                return list;
+            }
+        }
+        manager.check_add_page(list);
+        //已经包含cur_latest, 进行delta操作
+
+        cur_latest.put(t, list.get(0));
+        counter.put(t, counter.get(t) + list.indexOf(latest));
+         return new ArrayList<>(list.subList(0, list.indexOf(latest)));
     }
     public ArrayList<String> search_history(){
         return search_history;
