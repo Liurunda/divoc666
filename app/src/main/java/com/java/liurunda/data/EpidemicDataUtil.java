@@ -21,11 +21,15 @@ public class EpidemicDataUtil {
             for (int i = maximumDays; i > 0; --i) {
                 if (i <= doverall.length()) {
                     JSONArray today = doverall.getJSONArray(doverall.length() - i);
-                    domestic.overall.add(new EpidemicDataEntry(today.getInt(0), today.getInt(1), today.getInt(2), today.getInt(3)));
+                    domestic.overall.add(
+                            new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                                    today.optInt(2,0), today.optInt(3,0)));
                 }
                 if (i <= goverall.length()) {
                     JSONArray today = goverall.getJSONArray(goverall.length() - i);
-                    global.overall.add(new EpidemicDataEntry(today.getInt(0), today.getInt(1), today.getInt(2), today.getInt(3)));
+                    global.overall.add(
+                            new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                                    today.optInt(2,0), today.optInt(3,0)));
                 }
             }
             doverall = null;
@@ -37,15 +41,19 @@ public class EpidemicDataUtil {
                 if (segments.length == 2 && segments[0].equals("China")) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.getInt(0), today.getInt(1), today.getInt(2), today.getInt(3)));
+                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                            today.optInt(2,0), today.optInt(3,0)));
                 } else if (segments.length == 1) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    global.regional.put(key, new EpidemicDataEntry(today.getInt(0), today.getInt(1), today.getInt(2), today.getInt(3)));
+                    global.regional.put(key, new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                            today.optInt(2,0), today.optInt(3,0)));
                 }
             }
         } catch (JSONException ignored) {
+            ignored.printStackTrace();
         }
+
         System.out.println("Exiting parse");
     }
 }

@@ -26,6 +26,7 @@ public class DataFragment extends Fragment {
     private View view;
     private ArrayList<Fragment> fragments;
     private final int[] category_id = {R.string.tab_domestic, R.string.tab_global};
+    DataListFragment[] subfragments = new DataListFragment[2];
 
     private EpidemicData global, domestic;
     private EpidemicDataGetter getter = EpidemicDataGetter.getInstance();
@@ -61,10 +62,8 @@ public class DataFragment extends Fragment {
         TabLayout tabs = this.view.findViewById(R.id.tabsData);
         ViewPager view_pager = this.view.findViewById(R.id.viewPagerData);
 
-        DataListFragment[] subfragments = {
-                DataListFragment.newInstance(),
-                DataListFragment.newInstance()
-        };
+        subfragments[0] = DataListFragment.newInstance();
+        subfragments[1] = DataListFragment.newInstance();
 
         fragments = new ArrayList<Fragment>();
         fragments.addAll(Arrays.asList(subfragments));
@@ -73,17 +72,27 @@ public class DataFragment extends Fragment {
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
 
+
+        return this.view;
+    }
+
+    @Override
+    public void onViewCreated (View view,
+                               Bundle savedInstanceState){
+        domestic = new EpidemicData();
+        global = new EpidemicData();
         CompletableFuture.runAsync(() -> {
             System.out.println("Getting epidemic data... =============================");
             getter.getEpidemicData(domestic, global);
+            //domestic.random();global.random();
             System.out.println("Getting epidemic data... returned =============================");
         }).thenRun(() -> {
             System.out.println("Getting epidemic data... success =============================");
             subfragments[0].setDataSet(domestic);
             subfragments[1].setDataSet(global);
         });
-        return this.view;
     }
+
 
     public class DataTabAdapter extends FragmentPagerAdapter {
         private List<Fragment> list;
