@@ -15,10 +15,7 @@ public class EpidemicDataGetter {
         return Getter;
     }
 
-    public HashMap<String, EpidemicData> getEpidemicData() { // must be called asynchronously
-        HashMap<String, EpidemicData> data = new HashMap<>();
-        client.getEpidemicData(data);
-        EpidemicDataUtil.removeRedundantEntries(data);
-        return data;
+    public void getEpidemicData(EpidemicData domestic, EpidemicData global) { // must be called asynchronously
+        client.getEpidemicData(domestic, global);
     }
 }

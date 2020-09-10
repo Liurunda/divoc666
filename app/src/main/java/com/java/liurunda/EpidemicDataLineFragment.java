@@ -39,13 +39,6 @@ public class EpidemicDataLineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_epidemic_data_line, container, false);
-
-        final int totalWidth = view.getWidth();
-        ((TextView) view.findViewById(R.id.viewRegion)).setWidth((int) (0.4 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewConfirmed)).setWidth((int) (0.2 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewCured)).setWidth((int) (0.2 * totalWidth));
-        ((TextView) view.findViewById(R.id.viewDead)).setWidth((int) (0.2 * totalWidth));
-        return view;
+        return inflater.inflate(R.layout.fragment_epidemic_data_line, container, false);
     }
 }

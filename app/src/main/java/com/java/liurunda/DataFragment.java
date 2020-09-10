@@ -27,7 +27,7 @@ public class DataFragment extends Fragment {
     private ArrayList<Fragment> fragments;
     private final int[] category_id = {R.string.tab_domestic, R.string.tab_global};
 
-    private HashMap<String, EpidemicData> global, domestic;
+    private EpidemicData global, domestic;
     private EpidemicDataGetter getter = EpidemicDataGetter.getInstance();
 
     public DataFragment() {
@@ -62,8 +62,8 @@ public class DataFragment extends Fragment {
         ViewPager view_pager = this.view.findViewById(R.id.viewPagerData);
 
         DataListFragment[] subfragments = {
-                DataListFragment.newInstance(getString(category_id[0]), true),
-                DataListFragment.newInstance(getString(category_id[1]), false)
+                DataListFragment.newInstance(),
+                DataListFragment.newInstance()
         };
 
         fragments = new ArrayList<Fragment>();
@@ -73,10 +73,12 @@ public class DataFragment extends Fragment {
         view_pager.setAdapter(adapter);
         tabs.setupWithViewPager(view_pager);
 
-        CompletableFuture.supplyAsync(getter::getEpidemicData).thenAccept((HashMap<String, EpidemicData> data) -> {
-            EpidemicDataUtil.removeRedundantEntries(data);
-            domestic = EpidemicDataUtil.fetchCountry(data, "China");
-            global = EpidemicDataUtil.foldByCountry(data);
+        CompletableFuture.runAsync(() -> {
+            System.out.println("Getting epidemic data... =============================");
+            getter.getEpidemicData(domestic, global);
+            System.out.println("Getting epidemic data... returned =============================");
+        }).thenRun(() -> {
+            System.out.println("Getting epidemic data... success =============================");
             subfragments[0].setDataSet(domestic);
             subfragments[1].setDataSet(global);
         });
