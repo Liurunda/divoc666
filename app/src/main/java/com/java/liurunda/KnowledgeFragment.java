@@ -1,11 +1,14 @@
 package com.java.liurunda;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.GetChars;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
 import com.java.liurunda.data.Entity;
@@ -14,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -37,6 +41,15 @@ public class KnowledgeFragment extends Fragment {
     private ArrayList<Entity> list = new ArrayList<>();
     public KnowledgeFragment() {
         // Required empty public constructor
+    }
+    public static void hideSoftKeyboard(Context context, List<View> viewList) {
+        if (viewList == null) return;
+
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        for (View v : viewList) {
+            inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -67,6 +80,8 @@ public class KnowledgeFragment extends Fragment {
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
     }
+    static ImageLoaderConfiguration configuration;
+
     static void render(View entity, Entity E){
         ((TextView)entity.findViewById(R.id.entityName)).setText(E.name);
         ((TextView)entity.findViewById(R.id.entityHot)).setText(E.img_url);
@@ -74,7 +89,6 @@ public class KnowledgeFragment extends Fragment {
         ImageView img = entity.findViewById(R.id.entityImage);
         img.setMaxHeight(500);
         img.setImageBitmap(null);
-        ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(img.getContext());
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(configuration);
         imageLoader.displayImage(E.img_url, img);
@@ -85,14 +99,18 @@ public class KnowledgeFragment extends Fragment {
         // Inflate the layout for this fragment
         View knowledge = inflater.inflate(R.layout.fragment_knowledge, container, false);
         SearchView S = knowledge.findViewById(R.id.entity_search);
+        ArrayList<View> searchList = new ArrayList<>();
+        searchList.add(S);
         View entity = knowledge.findViewById(R.id.someEntity);
         Toast t = Toast.makeText(entity.getContext(), "No more Entities", Toast.LENGTH_SHORT);
+        configuration = ImageLoaderConfiguration.createDefault(knowledge.getContext());
         S.setOnQueryTextListener (new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 CompletableFuture.supplyAsync( ()->Getter.getEntities(query) ).thenAccept((entitylist)->{
                     list = entitylist;
                     counter = 0;
+                    hideSoftKeyboard(knowledge.getContext(), searchList );
                     render(entity, list.get(0));
                 });
                 return true;
