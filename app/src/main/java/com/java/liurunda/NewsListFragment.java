@@ -31,7 +31,8 @@ public class NewsListFragment extends Fragment {
     private View view;
     private ArrayList<Fragment> fragments;
     private SearchFragment search_f;
-    private final int[] category_id = {R.string.category_all, R.string.category_event, R.string.category_points, R.string.category_news, R.string.category_paper};
+    //R.string.category_all,
+    private final int[] category_id = { R.string.category_event, R.string.category_points, R.string.category_news, R.string.category_paper};
     private NewsItemAdapter adapter;
     private ViewPager view_pager;
 
@@ -67,7 +68,7 @@ public class NewsListFragment extends Fragment {
         view_pager.setOffscreenPageLimit(5);
 
         NewsItemFragment[] subfragments = {
-            NewsItemFragment.newInstance(InfoType.all),
+            //NewsItemFragment.newInstance(InfoType.all),
             NewsItemFragment.newInstance(InfoType.event),
             NewsItemFragment.newInstance(InfoType.points),
             NewsItemFragment.newInstance(InfoType.news),
@@ -76,7 +77,7 @@ public class NewsListFragment extends Fragment {
 
         fragments = new ArrayList<>(Arrays.asList(subfragments));
 
-        Integer[] initials = {0, 1, 2, 3, 4};
+        Integer[] initials = {0, 1, 2, 3};
         ArrayList<Integer> initialActivates = new ArrayList<>(Arrays.asList(initials));
 
         adapter = new NewsItemAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragments, initialActivates);

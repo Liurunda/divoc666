@@ -31,24 +31,30 @@ public class NewsGetter {
     synchronized public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
 
-        int pagesize = 10;
+        int pagesize = 20;
         if(!client.getNewestNews(list,t,pagesize)) {
             manager.offline_initial(list, t, pagesize);
-            list.add(new News());
-            return list;
+            //list.add(new News());
+            //return list;
+            manager.updateNewest(list.get(0).id,t);
+            manager.updateOldest(list.get(list.size()-1).id,t);
+            manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
+            cur_latest.put(t, list.get(0));
+            cur_oldest.put(t, list.get(list.size()-1));
+            counter.put(t, list.size());
         }else{
             manager.updateNewest(list.get(0).id,t);
             manager.updateOldest(list.get(list.size()-1).id,t);
-        }
-        manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
-        cur_latest.put(t, list.get(0));
-        cur_oldest.put(t, list.get(list.size()-1));
-        counter.put(t, list.size());
-        CompletableFuture.runAsync(() -> {
+            manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
+            cur_latest.put(t, list.get(0));
+            cur_oldest.put(t, list.get(list.size()-1));
+            counter.put(t, list.size());
+            CompletableFuture.runAsync(() -> {
                 ArrayList<News> listb = new ArrayList<>();
                 client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
                 manager.check_add_page(listb);
-        });
+            });
+        }
         return list;
     }
     synchronized public ArrayList<News> older_news(InfoType t, int size){ //应当使用异步方式进行调用
@@ -91,6 +97,9 @@ public class NewsGetter {
                 onepage.clear();
             }
             manager.check_add_page(list);
+            if(cur_oldest.containsKey(t)){
+                manager.add_link_cross_page(cur_oldest.get(t).id,list.get(0).id);
+            }
             cur_oldest.put(t, list.get(list.size()-1));
             counter.put(t,counter.get(t)+size);
             return list;

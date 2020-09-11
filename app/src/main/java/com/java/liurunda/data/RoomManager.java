@@ -25,6 +25,21 @@ public class RoomManager{
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
     }
+    public void add_link_cross_page(String newer_id, String older_id){ // newer_id.prev = older_id
+        News[] older = nbase.newsDao().loadNewsId(older_id);
+        News[] newer = nbase.newsDao().loadNewsId(newer_id);
+        if(older.length == 1 && newer.length == 1){
+            if(!newer[0].prev_id .equals(older_id) ){
+                newer[0].prev_id = older_id;
+                nbase.newsDao().updateNews(newer[0]);
+            }
+            if(!older[0].next_id.equals(newer_id)){
+                older[0].next_id = newer_id;
+                nbase.newsDao().updateNews(older[0]);
+            }
+        }
+    }
+
     public void updateNewest(String latest_id, InfoType t){
 
         nbase.newsDao().insertNews(new News(Integer.toString(t.ordinal()),t,latest_id));
@@ -93,7 +108,7 @@ public class RoomManager{
         if(meta.length!=0){
             String offline_latest_id = meta[0].title;
             link_list_prev(list, offline_latest_id,size);
-            tmp_oldest_id.put(t, list.get(size - 1).prev_id);
+            tmp_oldest_id.put(t, list.get(list.size() - 1).prev_id);
         }else{
             return;
         }

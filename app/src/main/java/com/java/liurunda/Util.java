@@ -18,15 +18,15 @@ public class Util {
         snack.show();
     }
 
-    public static final int CATEGORY_ALL = 0;
-    public static final int CATEGORY_EVENTS = 1;
-    public static final int CATEGORY_POINTS = 2;
-    public static final int CATEGORY_NEWS = 3;
-    public static final int CATEGORY_PAPERS = 4;
+    //public static final int CATEGORY_ALL = 0;
+    public static final int CATEGORY_EVENTS = 0;
+    public static final int CATEGORY_POINTS = 1;
+    public static final int CATEGORY_NEWS = 2;
+    public static final int CATEGORY_PAPERS = 3;
+//(1 << CATEGORY_ALL) |
+    public static final int CATEGORY_FULL =  (1 << CATEGORY_EVENTS) | (1 << CATEGORY_POINTS) | (1 << CATEGORY_NEWS) | (1 << CATEGORY_PAPERS);
 
-    public static final int CATEGORY_FULL = (1 << CATEGORY_ALL) | (1 << CATEGORY_EVENTS) | (1 << CATEGORY_POINTS) | (1 << CATEGORY_NEWS) | (1 << CATEGORY_PAPERS);
-
-    public static final int[] CATEGORY_FLAGS = {CATEGORY_ALL, CATEGORY_EVENTS, CATEGORY_POINTS, CATEGORY_NEWS, CATEGORY_PAPERS};
+    public static final int[] CATEGORY_FLAGS = {CATEGORY_EVENTS, CATEGORY_POINTS, CATEGORY_NEWS, CATEGORY_PAPERS};
 
     public static int loadCategorySettings(Activity activity) {
         SharedPreferences preferences = activity.getSharedPreferences("categories", Context.MODE_PRIVATE);
