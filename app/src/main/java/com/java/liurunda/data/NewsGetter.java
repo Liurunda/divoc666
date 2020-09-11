@@ -34,6 +34,7 @@ public class NewsGetter {
         int pagesize = 10;
         if(!client.getNewestNews(list,t,pagesize)) {
             manager.offline_initial(list, t, pagesize);
+            return list;
         }else{
             manager.updateNewest(list.get(0).id,t);
             manager.updateOldest(list.get(list.size()-1).id,t);
@@ -75,7 +76,8 @@ public class NewsGetter {
             //News lastpage_end = null,thispage_start = null;
             for(int page_i=count_page;cur_size < size;++page_i){
                 if(!client.getNews(onepage,t,page_i,size)){//network fail?
-                    return list;
+//                    return list;
+                    throw new RuntimeException();
                 }
                 if(reached_oldest) {
                     for(int i=0;i<size && cur_size < size;++i, ++cur_size){
@@ -103,11 +105,12 @@ public class NewsGetter {
 
         int page_size = 10;
         if(!client.getNewestNews(list,t, page_size)){
-            return list;
+//            return list;
+            throw new RuntimeException();
         }
         manager.updateNewest(list.get(0).id,t);
         News latest = cur_latest.get(t);
-       while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
+        while(!list.contains(latest)) {//翻倍20条, 40条, 80条...
             list.clear();
             page_size = page_size * 2;
             if(!client.getNewestNews(list, t, page_size)){
@@ -119,7 +122,7 @@ public class NewsGetter {
 
         cur_latest.put(t, list.get(0));
         counter.put(t, counter.get(t) + list.indexOf(latest));
-         return new ArrayList<>(list.subList(0, list.indexOf(latest)));
+        return new ArrayList<>(list.subList(0, list.indexOf(latest)));
     }
     public void save_history(ArrayList<String> list){
         CompletableFuture.runAsync(()->manager.save_search_history(list));
