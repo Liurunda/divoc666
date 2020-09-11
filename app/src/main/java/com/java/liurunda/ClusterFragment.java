@@ -54,7 +54,7 @@ class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         View view = holder.itemView;
         ((TextView)(view.findViewById(R.id.eventContent))).setText(list.get(position).title);
-        ((TextView)(view.findViewById(R.id.eventTime))).setText(list.get(position).datetime);
+        ((TextView)(view.findViewById(R.id.eventTime))).setText(DateUtil.getTextFormattedDate(list.get(position).datetime));
     }
 
     @Override
