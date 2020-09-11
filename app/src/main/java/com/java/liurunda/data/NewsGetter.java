@@ -34,15 +34,13 @@ public class NewsGetter {
         int pagesize = 10;
         if(!client.getNewestNews(list,t,pagesize)) {
             manager.offline_initial(list, t, pagesize);
+            list.add(new News());
             return list;
         }else{
             manager.updateNewest(list.get(0).id,t);
             manager.updateOldest(list.get(list.size()-1).id,t);
         }
-        News ender = list.get(list.size()-1);//oldest in this page
-    //    throw new NullPointerException();
         manager.check_add_page(list);//此处必须同步进行check, 否则就不能正确显示"新闻是否已经被查看过". list中唯一可能被修改的数据域就是 haveread
-        News ender_merged = list.get(list.size()-1);//merged with older record
         cur_latest.put(t, list.get(0));
         cur_oldest.put(t, list.get(list.size()-1));
         counter.put(t, list.size());

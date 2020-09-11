@@ -26,9 +26,9 @@ public class News implements Serializable {
     public String next_id, prev_id;
     ArrayList<String> keywords = new ArrayList<>(); // need type converter
     public News(){
-        title = "233333";
-        source = "233333";
-        origin_url = "2333";
+        title = "您当前处于离线状态";
+        source = "离线";
+        origin_url = "离线";
         datetime = "Sun, 08 Mar 2020 16:00:00 GMT";
     }
     public News(String id, InfoType t, String title){

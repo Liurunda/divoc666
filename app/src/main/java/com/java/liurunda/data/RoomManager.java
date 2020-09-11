@@ -26,7 +26,8 @@ public class RoomManager{
 
     }
     public void updateNewest(String latest_id, InfoType t){
-        nbase.newsDao().insertNews(new News("0",t,latest_id));
+
+        nbase.newsDao().insertNews(new News(Integer.toString(t.ordinal()),t,latest_id));
     }
 
 
@@ -88,7 +89,7 @@ public class RoomManager{
         tmp_oldest_id.put(t,id);
     }
     public void offline_initial(ArrayList<News> list, InfoType t, int size){
-        News[] meta = nbase.newsDao().loadNewsIdAndType("0",t.ordinal());
+        News[] meta = nbase.newsDao().loadNewsId(Integer.toString(t.ordinal()));
         if(meta.length!=0){
             String offline_latest_id = meta[0].title;
             link_list_prev(list, offline_latest_id,size);
