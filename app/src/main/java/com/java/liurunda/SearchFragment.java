@@ -174,7 +174,12 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
+        hint.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bar.setQuery(hints.get(i),false);
+            }
+        });
 
         return this.view;
     }
