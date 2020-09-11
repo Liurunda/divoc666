@@ -172,4 +172,14 @@ public class KnowledgeFragment extends Fragment {
 
         return knowledge;
     }
+    Fragment[] Current;
+    public void passCurrent(Fragment[] f_current) {
+        Current = f_current;
+    }
+    public void onHiddenChanged(boolean hidden) {
+        if(!hidden){
+            Current[0]=this;
+        }
+    }
+
 }

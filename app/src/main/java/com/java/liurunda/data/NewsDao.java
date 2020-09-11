@@ -21,4 +21,6 @@ public interface NewsDao {
 
     @Query("SELECT * FROM News WHERE(keywords LIKE :key)")
     public News[] searchNewsEntityLikeKeywords(String key);
+    @Query("SELECT * FROM News WHERE(content LIKE :key)")
+    public News[] searchNewsContentLikeKeywords(String key);
 }

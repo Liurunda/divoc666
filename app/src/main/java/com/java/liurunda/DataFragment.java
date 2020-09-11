@@ -100,6 +100,17 @@ public class DataFragment extends Fragment {
             return null;
         });
     }
+    Fragment[] Current;
+    public void passCurrent(Fragment[] f_current) {
+        Current = f_current;
+    }
+
+    public void onHiddenChanged(boolean hidden) {
+        if(!hidden){
+            Current[0]=this;
+        }
+    }
+
 
     public class DataTabAdapter extends FragmentPagerAdapter {
         private List<Fragment> list;

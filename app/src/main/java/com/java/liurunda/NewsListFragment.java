@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -15,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.java.liurunda.data.InfoType;
 import com.kongzue.stacklabelview.StackLabel;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +31,7 @@ import java.util.Objects;
 public class NewsListFragment extends Fragment {
     private View view;
     private ArrayList<Fragment> fragments;
+    private SearchFragment search_f;
     private final int[] category_id = {R.string.category_all, R.string.category_event, R.string.category_points, R.string.category_news, R.string.category_paper};
     private NewsItemAdapter adapter;
     private ViewPager view_pager;
@@ -125,6 +129,36 @@ public class NewsListFragment extends Fragment {
         });
 
         return this.view;
+    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        search_f = SearchFragment.newInstance();
+        if(Current!=null){
+            search_f.passCurrent(Current);
+        }
+        FragmentManager fm = this.getParentFragmentManager();
+        fm.beginTransaction().add(R.id.fragment,search_f,"search_f").commit();
+        fm.beginTransaction().hide(search_f).commit();
+        AppCompatImageButton search_b = view.findViewById(R.id.button_search);
+        search_b.setOnClickListener((v)->{
+            Current[0] = search_f;
+            fm.beginTransaction().hide(this).show(search_f).addToBackStack(null).commit();
+        });
+        //add inner fragment
+    }
+    private Fragment[] Current;
+    public void passCurrent(Fragment[] f_current) {
+        Current = f_current;
+        if(search_f!=null)
+            search_f.passCurrent(Current);
+    }
+
+    static boolean flag = false;
+    public void onHiddenChanged(boolean hidden) {
+        if(!hidden){
+            Current[0]=this;
+        }
     }
 
     int loadSettings(View view) {

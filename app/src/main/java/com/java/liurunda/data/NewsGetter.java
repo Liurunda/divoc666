@@ -130,12 +130,13 @@ public class NewsGetter {
     synchronized public ArrayList<News> search_result(String keyword){ //应当使用异步方式进行调用
         //返回新闻和论文类型
         ArrayList<News> list =  new ArrayList<>();
-        CompletableFuture.runAsync(()->{
-            if(!search_history.contains(keyword)){
-                search_history.add(keyword);
-            }
-            save_search_history();
-        });
+
+//        CompletableFuture.runAsync(()->{
+//            if(!search_history.contains(keyword)){
+//                search_history.add(keyword);
+//            }
+//            save_search_history();
+//        });
         manager.searchNews(list, keyword);
         return list;
     }

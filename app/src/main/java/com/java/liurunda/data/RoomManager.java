@@ -112,7 +112,7 @@ public class RoomManager{
     }
     public void searchNews(ArrayList<News> list, String keyword){
         News a[] = nbase.newsDao().searchNewsTitleLikeKeywords("%"+keyword+"%");
-        News b[] = nbase.newsDao().searchNewsEntityLikeKeywords("%"+keyword+"%");
+        News b[] = nbase.newsDao().searchNewsContentLikeKeywords("%"+keyword+"%");
         Arrays.stream(a).forEach(e->list.add(e));
         Arrays.stream(b).filter(e->!list.contains(e)).forEach(e->list.add(e));
     }

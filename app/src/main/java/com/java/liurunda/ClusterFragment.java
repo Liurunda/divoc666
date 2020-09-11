@@ -161,4 +161,16 @@ public class ClusterFragment extends Fragment {
 
         return view;
     }
+    Fragment[] Current;
+    public void passCurrent(Fragment[] f_current) {
+        Current = f_current;
+    }
+
+    static boolean flag = true;
+    public void onHiddenChanged(boolean hidden) {
+        if(!hidden){
+            Current[0]=this;
+        }
+    }
+
 }
