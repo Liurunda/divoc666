@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
-
+             xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+             android:layout_height="wrap_content">
 
     <LinearLayout
             android:orientation="vertical"
@@ -17,16 +16,19 @@
                 app:textColor="@color/tagsColor"
                 app:itemMargin="@dimen/scholar_roll_tiny_margin"
                 app:paddingHorizontal="@dimen/appbar_padding_top"
-                app:paddingVertical="@dimen/appbar_padding_top"
+                app:paddingVertical="@dimen/scholar_roll_tiny_margin"
                 app:deleteButton="false"
                 app:textSize="12sp"
-        />
-<!--        <TextView-->
-<!--                android:text="TextView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" android:id="@+id/groupName"/>-->
-        <androidx.recyclerview.widget.RecyclerView
+        >
+        </com.kongzue.stacklabelview.StackLabel>
+        <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="180dp" android:id="@+id/groupEvents"/>
+                android:layout_height="match_parent" android:fillViewport="true">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/groupEvents"
+            />
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </FrameLayout>

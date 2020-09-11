@@ -79,7 +79,12 @@ class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 tags.addLabel(keyword);
             }
             RecyclerView someGroup = this.itemView.findViewById(R.id.groupEvents);
-            someGroup.setLayoutManager(new LinearLayoutManager(this.itemView.getContext(),LinearLayoutManager.HORIZONTAL,false));
+            someGroup.setLayoutManager(new LinearLayoutManager(this.itemView.getContext(),LinearLayoutManager.HORIZONTAL,false) {
+                @Override
+                public boolean isAutoMeasureEnabled() {
+                    return true;
+                }
+            });
             someGroup.setAdapter(new EventAdapter(eventGroup.list));
             someGroup.setNestedScrollingEnabled(false);
         }
@@ -95,8 +100,6 @@ class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-        //((Textview)holder.itemView.findViewById(R.id.groupName)).setText("This is a group");
-
         ((OneGroupHolder)holder).renderGroup(list.get(position));
     }
 
@@ -151,7 +154,12 @@ public class ClusterFragment extends Fragment {
         groups = view.findViewById(R.id.clusterGroups);
         groupAdapter = new GroupAdapter(list);
         groups.setAdapter(groupAdapter);
-        groups.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        groups.setLayoutManager(new LinearLayoutManager(view.getContext()) {
+            @Override
+            public boolean isAutoMeasureEnabled() {
+                return true;
+            }
+        });
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
         final Boolean[] isBottomShow = {true};

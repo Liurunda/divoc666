@@ -5,5 +5,5 @@
         android:start="@dimen/scholar_roll_tiny_margin"
         android:end="@dimen/scholar_roll_tiny_margin">
         <solid android:color="@color/anti_flash_white" />
-        <corners android:radius="@dimen/scholar_roll_tiny_margin" />
+        <corners android:radius="@dimen/appbar_padding" />
 </shape>

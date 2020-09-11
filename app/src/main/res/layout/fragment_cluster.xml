@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:id="@+id/clusterTitle">
+    >
 
         <TextView
                 android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
                 android:padding="@dimen/appbar_padding"
                 android:text="@string/text_title_cluster"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                app:layout_scrollFlags="scroll"/>
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"

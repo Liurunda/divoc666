@@ -8,4 +8,5 @@
     <dimen name="news_detail_margin_side">24dp</dimen>
     <dimen name="news_detail_margin_updown">36dp</dimen>
     <dimen name="scholar_roll_tiny_margin">4dp</dimen>
+    <dimen name="card_width">240dp</dimen>
 </resources>
