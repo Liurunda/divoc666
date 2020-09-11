@@ -2,15 +2,17 @@ package com.java.liurunda;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -24,14 +26,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.zip.Inflater;
+//https://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position
+
 
 public class SearchFragment extends Fragment {
     private View view;
     private ArrayList<News> newsList = new ArrayList<>();
     private NewsGetter getter;
     private RecyclerView recycler;
-    private RecyclerView.LayoutManager layoutManager;
-    private NewsRollAdapter adapter;
+    private NpaLinearLayoutManager layoutManager;
+    private SearchRollAdapter adapter;
+    private ListPopupWindow hint;
+    private ArrayList<String> hints = new ArrayList<>();
+    private ArrayAdapter hintAdapter;
+    private static class NpaLinearLayoutManager extends LinearLayoutManager {
+        public NpaLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public NpaLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public NpaLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        /**
+         * Disable predictive animations. There is a bug in RecyclerView which causes views that
+         * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the
+         * adapter size has decreased since the ViewHolder was recycled.
+         */
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+    }
     private SearchFragment() {
 
     }
@@ -65,11 +96,10 @@ public class SearchFragment extends Fragment {
 
         recycler = this.view.findViewById(R.id.searchRoll);
 
-        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        layoutManager = new NpaLinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recycler.setLayoutManager(layoutManager);
 
-        newsList.add(new News());
-        adapter = new NewsRollAdapter(newsList);
+        adapter = new SearchRollAdapter(newsList);
         recycler.setAdapter(adapter);
 
         BottomNavigationView nav = Objects.requireNonNull(getActivity()).findViewById(R.id.bottom_nav);
@@ -86,29 +116,65 @@ public class SearchFragment extends Fragment {
             }
         });
         SearchView bar = view.findViewById(R.id.newsSearch);
+        bar.setIconifiedByDefault(false);
+        bar.setIconified(false);
         ArrayList<View> searchList = new ArrayList<>();
         searchList.add(bar);
         //返回搜索结果
         getter = NewsGetter.Getter();
+
         bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                hint.dismiss();
                 CompletableFuture.supplyAsync(()->getter.search_result(s))
                         .thenAccept((list) -> {
                             newsList.clear();
+                           // adapter.notifyDataSetChanged();
+                            getActivity().runOnUiThread(adapter::notifyDataSetChanged);
                             newsList.addAll(list);
+                            //adapter.notifyDataSetChanged();
                             getActivity().runOnUiThread(adapter::notifyDataSetChanged);
                         });
                 hideSoftKeyboard(getContext(),searchList);
+                hints.remove(s);
+                hints.add(0,s);
+                hintAdapter.notifyDataSetChanged();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                hint.show();
                 return false;
             }
         });
         //显示历史记录
+        hint = new ListPopupWindow(view.getContext());
+        hint.setAnchorView(bar);
+        hint.setHeight(700);
+        hint.setModal(false);
+        hintAdapter = new ArrayAdapter(view.getContext(),R.layout.one_line_hint,hints);
+        hint.setAdapter(hintAdapter);
+        CompletableFuture.runAsync(()->getter.load_history(hints)).thenRun(
+                hintAdapter::notifyDataSetChanged
+        );
+
+        bar.clearFocus();
+        bar.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hint.show();
+            }
+        });
+        bar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                hint.show();
+            }
+        });
+
+
 
         return this.view;
     }
@@ -117,6 +183,10 @@ public class SearchFragment extends Fragment {
         Current = f_current;
     }
     public void onHiddenChanged(boolean hidden) {
+        if(hidden){
+            hint.dismiss();
+            getter.save_history(hints);
+        }
         if(!hidden){
             Current[0]=this;
         }
@@ -127,5 +197,11 @@ public class SearchFragment extends Fragment {
 //        Toast t = new Toast(getContext());
 //        t.setText("66666");
 //        t.show();
+    }
+    @Override
+    public void onPause(){
+        hint.dismiss();
+        super.onPause();
+        getter.save_history(hints);
     }
 }

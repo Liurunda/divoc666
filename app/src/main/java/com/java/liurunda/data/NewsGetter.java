@@ -9,7 +9,6 @@ public class NewsGetter {
     NetClient client = new NetClient();
     Map<InfoType, News> cur_latest,cur_oldest;//TODO: 需要分不同类型的新闻分别设置...
     Map<InfoType, Integer> counter;
-    ArrayList<String> search_history = new ArrayList<>();
     static NewsGetter Getter;
     static RoomManager manager;
 
@@ -28,8 +27,10 @@ public class NewsGetter {
         }
         return Getter;
     }
+    public void load_history(ArrayList<String> search_history){manager.load_search_history(search_history);}
     synchronized public ArrayList<News> initial_news(InfoType t){ //应当使用异步方式进行调用
         ArrayList<News> list =  new ArrayList<>();
+
         int pagesize = 10;
         if(!client.getNewestNews(list,t,pagesize)) {
             manager.offline_initial(list, t, pagesize);
@@ -45,7 +46,6 @@ public class NewsGetter {
         cur_oldest.put(t, list.get(list.size()-1));
         counter.put(t, list.size());
         CompletableFuture.runAsync(() -> {
-                manager.load_search_history(search_history);
                 ArrayList<News> listb = new ArrayList<>();
                 client.getNews(listb, t, 1, 100);//此处应当先检测从ender往后连能不能连上....
                 manager.check_add_page(listb);
@@ -121,16 +121,12 @@ public class NewsGetter {
         counter.put(t, counter.get(t) + list.indexOf(latest));
          return new ArrayList<>(list.subList(0, list.indexOf(latest)));
     }
-    public ArrayList<String> search_history(){
-        return search_history;
-    }
-    public void save_search_history(){
-        manager.save_search_history(search_history);
+    public void save_history(ArrayList<String> list){
+        CompletableFuture.runAsync(()->manager.save_search_history(list));
     }
     synchronized public ArrayList<News> search_result(String keyword){ //应当使用异步方式进行调用
         //返回新闻和论文类型
         ArrayList<News> list =  new ArrayList<>();
-
 //        CompletableFuture.runAsync(()->{
 //            if(!search_history.contains(keyword)){
 //                search_history.add(keyword);

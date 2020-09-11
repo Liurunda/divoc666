@@ -16,11 +16,11 @@ public interface NewsDao {
     @Query("SELECT * FROM News WHERE (id = :id AND infoType = :t)")
     public News[] loadNewsIdAndType(String id, int t);
     //e.g. loadNewsBetweenIdsWithType(metanews.start_id,start_id+10,InfoType.news.ordinal())
-    @Query("SELECT * FROM News WHERE(title LIKE :keyword)")
+    @Query("SELECT * FROM News WHERE(title LIKE :keyword) LIMIT 30")
     public News[] searchNewsTitleLikeKeywords(String keyword);
 
-    @Query("SELECT * FROM News WHERE(keywords LIKE :key)")
+    @Query("SELECT * FROM News WHERE(keywords LIKE :key)  LIMIT 30")
     public News[] searchNewsEntityLikeKeywords(String key);
-    @Query("SELECT * FROM News WHERE(content LIKE :key)")
+    @Query("SELECT * FROM News WHERE(content LIKE :key)  LIMIT 30")
     public News[] searchNewsContentLikeKeywords(String key);
 }

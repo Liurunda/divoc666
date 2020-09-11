@@ -16,23 +16,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<News> news_set;
-    private static final int TYPE_ITEM   = 0;
-    private static final int TYPE_FOOTER = 1;
+public class SearchRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public ArrayList<News> news_set;
 
-    public NewsRollAdapter(ArrayList<News> news_set) {
+    public SearchRollAdapter(ArrayList<News> news_set) {
         this.news_set = news_set;
     }
 
     @NotNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM) {
-            return new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
-        } else {
-            return new FooterViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_loader, parent, false));
-        }
+        return new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
     }
 
     @Override
@@ -61,7 +55,6 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     NewsGetter.Getter().markNewsRead(news1);
                     news1.haveread = 1;
                     notifyItemChanged(position);
-
                     Intent intent = new Intent();
                     intent.setClass(v1.getContext(), NewsDetailActivity.class);
                     intent.putExtra("news_content", news1);
@@ -77,16 +70,7 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return news_set.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            return TYPE_ITEM;
-        }
+        return news_set.size();
     }
 
     public static class NewsListViewHolder extends RecyclerView.ViewHolder {
@@ -94,12 +78,6 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public NewsListViewHolder(FrameLayout l) {
             super(l);
             layout = l;
-        }
-    }
-
-    public static class FooterViewHolder extends RecyclerView.ViewHolder {
-        public FooterViewHolder(View itemView) {
-            super(itemView);
         }
     }
 }

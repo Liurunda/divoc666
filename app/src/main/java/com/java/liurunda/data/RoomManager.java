@@ -21,7 +21,7 @@ public class RoomManager{
         boolean clear = false;
         if(clear) {
             nbase.metaDao().clearMeta();
-            nbase.newsDao().clearNews();
+            //nbase.newsDao().clearNews();
         }
         //MetaNews[] n = nbase.metaDao().queryMeta(InfoType.news.ordinal());
 
@@ -119,7 +119,10 @@ public class RoomManager{
     public void load_search_history(ArrayList<String> history){
         MetaNews[] meta = nbase.metaDao().queryMeta(InfoType.all);
         if(meta.length!=0){
+            history.clear();
             Arrays.stream(meta[0].history.split(",")).forEach(s->history.add(s));
+        }else {
+            history.clear();
         }
     }
     public void save_search_history(ArrayList<String> history){

@@ -107,7 +107,6 @@ public class MainActivity extends BaseActivity {
     //knowledge -> cluster -> return -> cluster
     @Override
     protected void onDestroy(){
-        manager.close();
         super.onDestroy();
     }
 }
