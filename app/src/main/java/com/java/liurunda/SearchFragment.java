@@ -2,31 +2,28 @@ package com.java.liurunda;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListPopupWindow;
+import android.widget.SearchView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.java.liurunda.data.InfoType;
 import com.java.liurunda.data.News;
 import com.java.liurunda.data.NewsGetter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.zip.Inflater;
 //https://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position
 
 

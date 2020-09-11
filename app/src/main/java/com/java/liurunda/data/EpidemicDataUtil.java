@@ -18,13 +18,13 @@ public class EpidemicDataUtil {
                 if (i <= doverall.length()) {
                     JSONArray today = doverall.getJSONArray(doverall.length() - i);
                     domestic.overall.add(
-                            new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                            new EpidemicDataEntry(today.optInt(0,0),
                                     today.optInt(2,0), today.optInt(3,0)));
                 }
                 if (i <= goverall.length()) {
                     JSONArray today = goverall.getJSONArray(goverall.length() - i);
                     global.overall.add(
-                            new EpidemicDataEntry(today.optInt(0,0), today.optInt(1,0),
+                            new EpidemicDataEntry(today.optInt(0,0),
                                     today.optInt(2,0), today.optInt(3,0)));
                 }
             }
@@ -36,15 +36,15 @@ public class EpidemicDataUtil {
                 if (segments.length == 2 && segments[0].equalsIgnoreCase("China")) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.optInt(0, 0), today.optInt(1, 0), today.optInt(2, 0), today.optInt(3, 0)));
+                    domestic.regional.put(segments[1], new EpidemicDataEntry(today.optInt(0, 0), today.optInt(2, 0), today.optInt(3, 0)));
                 } else if (segments.length == 1 && !key.equalsIgnoreCase("World")) {
                     JSONArray region = json.getJSONObject(key).getJSONArray("data");
                     JSONArray today = region.getJSONArray(region.length() - 1);
-                    global.regional.put(key, new EpidemicDataEntry(today.optInt(0, 0), today.optInt(1, 0), today.optInt(2, 0), today.optInt(3, 0)));
+                    global.regional.put(key, new EpidemicDataEntry(today.optInt(0, 0), today.optInt(2, 0), today.optInt(3, 0)));
                 }
             }
-        } catch (JSONException ignored) {
-            ignored.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

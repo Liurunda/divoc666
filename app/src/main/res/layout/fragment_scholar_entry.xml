@@ -3,12 +3,12 @@
              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context=".ScholarEntryFragment" android:background="?attr/selectableItemBackground"
+             android:background="?attr/selectableItemBackground"
              android:paddingTop="@dimen/scholar_roll_tiny_margin">
-    <LinearLayout
+    <com.java.liurunda.GrayLinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" android:id="@+id/grayLayout">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -35,12 +35,12 @@
                         android:layout_height="wrap_content" android:layout_marginTop="@dimen/scholar_roll_tiny_margin">
                     <LinearLayout
                             android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" android:layout_weight="1">
                         <TextView
                                 android:text="H"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
                                 android:background="@color/bkgColorH"
                                 android:paddingStart="@dimen/scholar_roll_tiny_margin"
@@ -48,21 +48,18 @@
                                 android:textColor="@color/colorWhite"/>
                         <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:id="@+id/viewH" android:layout_weight="1"
-                                android:textColor="@color/design_default_color_on_secondary"/>
+                                android:layout_height="wrap_content" android:id="@+id/viewH"
+                                android:textColor="@color/design_default_color_on_secondary"
+                        />
                     </LinearLayout>
-                    <Space
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:layout_weight="1"/>
                     <LinearLayout
                             android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" android:layout_weight="1">
                         <TextView
                                 android:text="C"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:layout_weight="1"
-                                android:id="@+id/textView8"
+                                android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
                                 android:background="@color/bkgColorC"
                                 android:paddingStart="@dimen/scholar_roll_tiny_margin"
@@ -70,21 +67,17 @@
                                 android:textColor="@color/colorWhite"/>
                         <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:id="@+id/viewC" android:layout_weight="1"
+                                android:layout_height="wrap_content" android:id="@+id/viewC"
                                 android:textColor="@color/design_default_color_on_secondary"/>
                     </LinearLayout>
-                    <Space
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:layout_weight="1"/>
                     <LinearLayout
                             android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" android:layout_weight="1">
                         <TextView
                                 android:text="P"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:layout_weight="1"
-                                android:id="@+id/textView9"
+                                android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/scholar_roll_tiny_margin"
                                 android:background="@color/bkgColorP"
                                 android:paddingStart="@dimen/scholar_roll_tiny_margin"
@@ -92,7 +85,7 @@
                                 android:textColor="@color/colorWhite"/>
                         <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" android:id="@+id/viewP" android:layout_weight="1"
+                                android:layout_height="wrap_content" android:id="@+id/viewP"
                                 android:textColor="@color/design_default_color_on_secondary"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -141,5 +134,5 @@
                 android:layout_marginTop="@dimen/scholar_roll_tiny_margin"
         >
         </LinearLayout>
-    </LinearLayout>
+    </com.java.liurunda.GrayLinearLayout>
 </FrameLayout>

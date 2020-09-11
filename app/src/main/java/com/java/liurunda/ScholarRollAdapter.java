@@ -36,15 +36,12 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
     @Override
     public ScholarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ScholarViewHolder v = new ScholarViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_scholar_entry, parent, false));
-        v.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Scholar scholar = (Scholar) v.getTag();
-                Intent intent = new Intent();
-                intent.setClass(v.getContext(), ScholarDetailActivity.class);
-                intent.putExtra("scholar", scholar);
-                v.getContext().startActivity(intent);
-            }
+        v.itemView.setOnClickListener(v1 -> {
+            Scholar scholar = (Scholar) v1.getTag();
+            Intent intent = new Intent();
+            intent.setClass(v1.getContext(), ScholarDetailActivity.class);
+            intent.putExtra("scholar", scholar);
+            v1.getContext().startActivity(intent);
         });
         return v;
     }
@@ -72,12 +69,11 @@ public class ScholarRollAdapter extends RecyclerView.Adapter<ScholarRollAdapter.
         img.setTag(scholar.avatarUrl);
         LinearLayout vertical = holder.layout.findViewById(R.id.layoutInfo);
 
+        GrayLinearLayout gray = holder.layout.findViewById(R.id.grayLayout);
         if (scholar.isPassedAway) {
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            img.setColorFilter(new ColorMatrixColorFilter(cm));
+            gray.setSaturation(0.0f);
         } else {
-            img.setColorFilter(null);
+            gray.setSaturation(1.0f);
         }
 
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(img.getContext());
