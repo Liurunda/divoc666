@@ -96,21 +96,6 @@ public class NewsItemFragment extends Fragment {
             }
         });
 
-//        CompletableFuture.supplyAsync(() -> {
-//            final int countNews = 15;
-//            return getter.older_news(infoType, countNews);
-//        }).thenAccept((ArrayList<News> news) -> {
-//            final int rangeStart = newsList.size();
-//            newsList.addAll(news);
-//            getActivity().runOnUiThread(() -> {
-//                adapter.notifyItemRangeInserted(rangeStart, news.size());
-//            });
-//            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
-//        }).exceptionally((e) -> {
-//            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
-//            return null;
-//        });
-
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
             @Override

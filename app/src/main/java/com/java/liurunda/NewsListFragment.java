@@ -154,7 +154,6 @@ public class NewsListFragment extends Fragment {
             search_f.passCurrent(Current);
     }
 
-    static boolean flag = false;
     public void onHiddenChanged(boolean hidden) {
         if(!hidden){
             Current[0]=this;

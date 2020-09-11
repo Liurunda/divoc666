@@ -21,12 +21,14 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.java.liurunda.data.EventGroup;
 import com.java.liurunda.data.NewsEvent;
+import com.kongzue.stacklabelview.StackLabel;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.zip.Inflater;
 
 class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -70,7 +72,12 @@ class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
         }
         public void renderGroup(EventGroup eventGroup){
-            ((TextView)this.itemView.findViewById(R.id.groupName)).setText(eventGroup.keyword);
+            String[] keywords = eventGroup.keyword.split(",");
+            StackLabel tags = itemView.findViewById(R.id.groups);
+            tags.setLabels(new ArrayList<>());
+            for (String keyword: keywords) {
+                tags.addLabel(keyword);
+            }
             RecyclerView someGroup = this.itemView.findViewById(R.id.groupEvents);
             someGroup.setLayoutManager(new LinearLayoutManager(this.itemView.getContext(),LinearLayoutManager.HORIZONTAL,false));
             someGroup.setAdapter(new EventAdapter(eventGroup.list));
