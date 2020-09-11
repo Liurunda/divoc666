@@ -145,6 +145,9 @@ public class KnowledgeFragment extends Fragment {
                     list.clear();
                     list.addAll(entityList);
                     getActivity().runOnUiThread(adapter::notifyDataSetChanged);
+                }).exceptionally((e) -> {
+                    Util.showSnackbar(getActivity(), getString(R.string.text_knowledge_entry_failed));
+                    return null;
                 });
                 return true;
             }

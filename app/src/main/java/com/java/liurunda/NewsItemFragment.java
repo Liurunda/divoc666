@@ -102,15 +102,19 @@ public class NewsItemFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-//                    adapter.changeMoreStatus(NewsRollAdapter.LOADING_MORE);
                     CompletableFuture.supplyAsync(() -> {
                         final int countNews = 10;
                         return getter.older_news(infoType, countNews);
                     }).thenAccept((ArrayList<News> news) -> {
                         final int rangeStart = newsList.size();
                         newsList.addAll(news);
-                        adapter.notifyItemRangeInserted(rangeStart, news.size());
+                        getActivity().runOnUiThread(() -> {
+                            adapter.notifyItemRangeInserted(rangeStart, news.size());
+                        });
                         Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
+                    }).exceptionally((e) -> {
+                        Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
+                        return null;
                     });
                 }
             }
@@ -137,6 +141,9 @@ public class NewsItemFragment extends Fragment {
             Objects.requireNonNull(getActivity()).runOnUiThread(() -> adapter.notifyDataSetChanged());
             swipeRefreshLayout.setRefreshing(false);
             Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
+        }).exceptionally((e) -> {
+            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
+            return null;
         }));
 
         return this.view;

@@ -181,6 +181,7 @@ public class NetClient {
             return false;
         }
     }
+
     boolean getEntities(ArrayList<Entity> list,String keyword){
         final String entity_url_base = "https://innovaapi.aminer.cn/covid/api/v1/pneumonia/entityquery?entity=";
         Request request = new Request.Builder()

@@ -94,9 +94,9 @@ public class DataFragment extends Fragment {
         }).thenRun(() -> {
             subfragments[0].setDataSet(domestic);
             subfragments[1].setDataSet(global);
-            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
+            Util.showSnackbar(getActivity(), getString(R.string.text_data_refreshed));
         }).exceptionally((e) -> {
-            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
+            Util.showSnackbar(getActivity(), getString(R.string.text_data_fetch_failed));
             return null;
         });
     }

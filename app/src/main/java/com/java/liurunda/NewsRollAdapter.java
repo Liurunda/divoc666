@@ -20,10 +20,6 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<News> news_set;
     private static final int TYPE_ITEM   = 0;
     private static final int TYPE_FOOTER = 1;
-    public static final int PULLUP_LOAD_MORE = 0; //上拉加载更多
-    public static final int LOADING_MORE     = 1; //正在加载
-    public static final int NO_LOAD_MORE     = 2; //没有加载更多 隐藏
-    private int mLoadMoreStatus = 0; //上拉加载更多状态-默认为0
 
     public NewsRollAdapter(ArrayList<News> news_set) {
         this.news_set = news_set;
@@ -31,19 +27,16 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            NewsListViewHolder v = new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
-            return v;
+            return new NewsListViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_entry, parent, false));
         } else {
-            assert(viewType == TYPE_FOOTER);
-            FooterViewHolder v = new FooterViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_loader, parent, false));
-            return v;
+            return new FooterViewHolder((FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_news_loader, parent, false));
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsListViewHolder) {
             NewsListViewHolder hold = (NewsListViewHolder) holder;
             News news = news_set.get(position);
@@ -63,10 +56,11 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             hold.itemView.setOnClickListener(v1 -> {
                 News news1 = (News) v1.getTag();
-                NewsGetter.Getter().markNewsRead(news1);
-                news1.haveread = 1;
-                notifyItemChanged(position);
                 if (news1.infoType == InfoType.news.ordinal() || news1.infoType == InfoType.paper.ordinal()) {
+                    NewsGetter.Getter().markNewsRead(news1);
+                    news1.haveread = 1;
+                    notifyItemChanged(position);
+
                     Intent intent = new Intent();
                     intent.setClass(v1.getContext(), NewsDetailActivity.class);
                     intent.putExtra("news_content", news1);
@@ -74,19 +68,9 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
             hold.itemView.setTag(news);
-        } else {
-//            FooterViewHolder hold = (FooterViewHolder) holder;
-//            switch (mLoadMoreStatus) {
-//                case PULLUP_LOAD_MORE:
-//                    hold.mTvLoadText.setText("上拉加载更多...");
-//                    break;
-//                case LOADING_MORE:
-//                    hold.mTvLoadText.setText("正加载更多...");
-//                    break;
-//                case NO_LOAD_MORE:
-//                    hold.mLoadLayout.setVisibility(View.GONE);
-//                    break;
-//            }
+            if (news.infoType == InfoType.event.ordinal() || news.infoType == InfoType.points.ordinal()) {
+                hold.itemView.setBackground(null);
+            }
         }
     }
 
@@ -116,10 +100,5 @@ public class NewsRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public FooterViewHolder(View itemView) {
             super(itemView);
         }
-    }
-
-    public void changeMoreStatus(int status){
-        mLoadMoreStatus = status;
-        notifyDataSetChanged();
     }
 }
