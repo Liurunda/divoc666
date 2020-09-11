@@ -1,7 +1,5 @@
 package com.java.liurunda.data;
 
-import java.util.HashMap;
-
 public class EpidemicDataGetter {
     NetClient client = new NetClient();
     static EpidemicDataGetter Getter;

@@ -1,6 +1,5 @@
 package com.java.liurunda.data;
 
-import android.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

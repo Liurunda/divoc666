@@ -1,14 +1,9 @@
 package com.java.liurunda.data;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class Scholar implements Serializable {

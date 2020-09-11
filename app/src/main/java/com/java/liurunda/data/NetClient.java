@@ -1,7 +1,5 @@
 package com.java.liurunda.data;
 
-import androidx.annotation.NonNull;
-import com.java.liurunda.BuildConfig;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -9,10 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 class getNewsList implements Callback{

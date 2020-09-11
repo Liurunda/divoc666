@@ -11,10 +11,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.java.liurunda.data.EpidemicData;
 import com.java.liurunda.data.EpidemicDataGetter;
-import com.java.liurunda.data.EpidemicDataUtil;
-import com.java.liurunda.data.InfoType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**

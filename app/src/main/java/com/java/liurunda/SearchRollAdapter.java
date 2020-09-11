@@ -14,7 +14,6 @@ import com.java.liurunda.data.NewsGetter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
 
 public class SearchRollAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public ArrayList<News> news_set;

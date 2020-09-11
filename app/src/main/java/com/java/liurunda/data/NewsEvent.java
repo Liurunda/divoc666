@@ -1,7 +1,5 @@
 package com.java.liurunda.data;
 
-import java.util.Random;
-
 public class NewsEvent {
     public String title;
     public String datetime;
