@@ -55,4 +55,8 @@
     <string name="text_data_fetch_failed">Failed to fetch latest epidemic data</string>
     <string name="text_data_refreshed">Latest epidemic data updated</string>
     <string name="text_title_cluster">Event Cluster</string>
+    <string name="text_edit_category">Edit Columns</string>
+    <string name="text_category_displayed">My Columns</string>
+    <string name="text_category_more">More Columns (click to add)</string>
+    <string name="text_category_at_least_one">At least one column should be selected</string>
 </resources>

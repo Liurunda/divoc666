@@ -55,4 +55,8 @@
     <string name="text_data_fetch_failed">获取最新疫情数据失败</string>
     <string name="text_data_refreshed">已更新疫情数据</string>
     <string name="text_title_cluster">事件聚类</string>
+    <string name="text_edit_category">编辑栏目</string>
+    <string name="text_category_displayed">我的栏目</string>
+    <string name="text_category_more">更多栏目（点击添加）</string>
+    <string name="text_category_at_least_one">至少要保留一个栏目</string>
 </resources>

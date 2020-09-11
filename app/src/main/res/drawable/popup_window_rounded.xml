@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:bottom="@dimen/scholar_roll_tiny_margin"
+        android:top="@dimen/scholar_roll_tiny_margin"
+        android:start="@dimen/scholar_roll_tiny_margin"
+        android:end="@dimen/scholar_roll_tiny_margin">
+        <solid android:color="@color/anti_flash_white" />
+        <corners android:radius="@dimen/scholar_roll_tiny_margin" />
+</shape>

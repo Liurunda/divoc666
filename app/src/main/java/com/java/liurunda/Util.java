@@ -2,6 +2,7 @@ package com.java.liurunda;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -15,5 +16,32 @@ public class Util {
         params.gravity = Gravity.TOP;
         snack.getView().setLayoutParams(params);
         snack.show();
+    }
+
+    public static final int CATEGORY_ALL = 0;
+    public static final int CATEGORY_EVENTS = 1;
+    public static final int CATEGORY_POINTS = 2;
+    public static final int CATEGORY_NEWS = 3;
+    public static final int CATEGORY_PAPERS = 4;
+
+    public static final int CATEGORY_FULL = (1 << CATEGORY_ALL) | (1 << CATEGORY_EVENTS) | (1 << CATEGORY_POINTS) | (1 << CATEGORY_NEWS) | (1 << CATEGORY_PAPERS);
+
+    public static final int[] CATEGORY_FLAGS = {CATEGORY_ALL, CATEGORY_EVENTS, CATEGORY_POINTS, CATEGORY_NEWS, CATEGORY_PAPERS};
+
+    public static int loadCategorySettings(Activity activity) {
+        SharedPreferences preferences = activity.getSharedPreferences("categories", Context.MODE_PRIVATE);
+        return preferences.getInt("category", CATEGORY_FULL);
+    }
+
+    public static boolean writeCategorySettings(Activity activity, int categories) {
+        if (categories == 0) {
+            return false; // refuse settings if no category is selected
+        } else {
+            SharedPreferences preferences = activity.getSharedPreferences("categories", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("category", categories);
+            editor.commit();
+            return true;
+        }
     }
 }

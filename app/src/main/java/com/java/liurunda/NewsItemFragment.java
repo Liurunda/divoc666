@@ -96,6 +96,21 @@ public class NewsItemFragment extends Fragment {
             }
         });
 
+//        CompletableFuture.supplyAsync(() -> {
+//            final int countNews = 15;
+//            return getter.older_news(infoType, countNews);
+//        }).thenAccept((ArrayList<News> news) -> {
+//            final int rangeStart = newsList.size();
+//            newsList.addAll(news);
+//            getActivity().runOnUiThread(() -> {
+//                adapter.notifyItemRangeInserted(rangeStart, news.size());
+//            });
+//            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
+//        }).exceptionally((e) -> {
+//            Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
+//            return null;
+//        });
+
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
             @Override
@@ -103,7 +118,7 @@ public class NewsItemFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                     CompletableFuture.supplyAsync(() -> {
-                        final int countNews = 10;
+                        final int countNews = 15;
                         return getter.older_news(infoType, countNews);
                     }).thenAccept((ArrayList<News> news) -> {
                         final int rangeStart = newsList.size();
@@ -120,7 +135,7 @@ public class NewsItemFragment extends Fragment {
             }
 
             @Override
-            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy){
+            public void onScrolled(@NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 assert layoutManager != null;
@@ -142,6 +157,7 @@ public class NewsItemFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
             Util.showSnackbar(getActivity(), getString(R.string.text_refresh_success));
         }).exceptionally((e) -> {
+            swipeRefreshLayout.setRefreshing(false);
             Util.showSnackbar(getActivity(), getString(R.string.text_refresh_failed));
             return null;
         }));

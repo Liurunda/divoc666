@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".EditCategoryFragment" android:orientation="vertical"
+              android:paddingTop="@dimen/appbar_padding" android:paddingBottom="@dimen/appbar_padding"
+              android:paddingEnd="@dimen/appbar_padding_top" android:paddingStart="@dimen/appbar_padding_top">
+
+
+    <TextView
+            android:text="@string/text_category_displayed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+            android:textColor="@color/design_default_color_on_secondary"/>
+    <com.kongzue.stacklabelview.StackLabel
+            android:id="@+id/displayed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textColor="@color/tagsColor"
+            app:itemMargin="@dimen/scholar_roll_tiny_margin"
+            app:paddingHorizontal="@dimen/appbar_padding_top"
+            app:paddingVertical="@dimen/appbar_padding_top"
+            app:deleteButton="true"
+            app:textSize="12sp"
+    >
+    </com.kongzue.stacklabelview.StackLabel>
+
+    <TextView
+            android:text="@string/text_category_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textStyle="bold" android:textSize="18sp"
+            android:textColor="@color/design_default_color_on_secondary" android:id="@+id/viewMore"/>
+    <com.kongzue.stacklabelview.StackLabel
+            android:id="@+id/hidden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textColor="@color/tagsColor"
+            app:itemMargin="@dimen/scholar_roll_tiny_margin"
+            app:paddingHorizontal="@dimen/appbar_padding_top"
+            app:paddingVertical="@dimen/appbar_padding_top"
+            app:deleteButton="false"
+            app:textSize="12sp"
+    >
+    </com.kongzue.stacklabelview.StackLabel>
+</LinearLayout>

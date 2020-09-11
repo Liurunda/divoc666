@@ -12,6 +12,6 @@
     <color name="bkgColorH">#ffbcc8ae</color>
     <color name="bkgColorG">#ffc6bbff</color>
     <color name="tagsColor">#e6000000</color>
-    <color name="anti_flash_white">#fff0f0f0</color>
+    <color name="anti_flash_white">#fffafafa</color>
     <color name="bkgColorEpidemicLine">#ffcad2e8</color>
 </resources>
