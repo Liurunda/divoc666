@@ -27,8 +27,4 @@ public class EventGroup {
         }
         return E;
     }
-    EventGroup(ArrayList<NewsEvent> list, String keyword){
-        this.list = list;
-        this.keyword = keyword;
-    }
 }

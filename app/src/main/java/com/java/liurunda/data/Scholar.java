@@ -12,12 +12,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Scholar implements Serializable {
-    public String name, nameZh, avatarUrl, id;
+    public String name, nameZh, avatarUrl;
 
-    public double activity, diversity, newStar, risingStar, sociability;
+    public double activity, diversity;
     public int citations, gIndex, hIndex, publications;
-
-    public int numFollowed, numViewed;
 
     public String affiliation, bio, edu, position;
 
@@ -25,15 +23,11 @@ public class Scholar implements Serializable {
     public ArrayList<Integer> tagsScore;
 
     public boolean isPassedAway;
-    public Scholar(){
-        this.name ="name";
-        this.nameZh = "name_zh";
-    }
+
     public Scholar(final JSONObject json) {
         this.name = json.optString("name", "");
         this.nameZh = json.optString("name_zh", "");
         this.avatarUrl = json.optString("avatar", "");
-        this.id = json.optString("id", "");
 
         final JSONObject indices = json.optJSONObject("indices");
         if (indices != null) {
@@ -42,14 +36,8 @@ public class Scholar implements Serializable {
             this.diversity = indices.optDouble("diversity", 0.0);
             this.gIndex = indices.optInt("gindex", 0);
             this.hIndex = indices.optInt("hindex", 0);
-            this.newStar = indices.optDouble("newStar", 0.0);
             this.publications = indices.optInt("pubs", 0);
-            this.risingStar = indices.optDouble("risingStar", 0.0);
-            this.sociability = indices.optDouble("sociability", 0.0);
         }
-
-        this.numFollowed = json.optInt("num_followed", 0);
-        this.numViewed = json.optInt("num_viewed", 0);
 
         this.tags = new ArrayList<>();
         this.tagsScore = new ArrayList<>();
@@ -77,26 +65,5 @@ public class Scholar implements Serializable {
         }
 
         this.isPassedAway = json.optBoolean("is_passedaway", false);
-    }
-
-    public Bitmap getAvatarWrapper() {
-        try {
-            URL url = new URL(this.avatarUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn.setConnectTimeout(5000);
-            conn.setRequestMethod("GET");
-
-            int code = conn.getResponseCode();
-
-            if (code == 200) {
-                InputStream in = conn.getInputStream();
-                return BitmapFactory.decodeStream(in);
-            } else {
-                return null;
-            }
-        } catch (Exception ignored) {
-            return null;
-        }
     }
 }

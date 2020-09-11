@@ -114,7 +114,6 @@ class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
  * create an instance of this fragment.
  */
 public class ClusterFragment extends Fragment {
-    private String result;
     private RecyclerView groups;
     private GroupAdapter groupAdapter;
     ArrayList<EventGroup> list = new ArrayList<>();
@@ -181,7 +180,6 @@ public class ClusterFragment extends Fragment {
         Current = f_current;
     }
 
-    static boolean flag = true;
     public void onHiddenChanged(boolean hidden) {
         if(!hidden){
             Current[0]=this;

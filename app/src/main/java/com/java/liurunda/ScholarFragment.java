@@ -91,11 +91,9 @@ public class ScholarFragment extends Fragment {
         Current = f_current;
     }
 
-    static boolean flag = false;
     public void onHiddenChanged(boolean hidden) {
         if(!hidden){
             Current[0]=this;
         }
     }
-
 }

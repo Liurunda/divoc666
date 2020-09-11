@@ -39,7 +39,7 @@ class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.EntityViewHolder>
         }
     }
 
-    public EntityAdapter(Context context, ArrayList<Entity> entities) {
+    public EntityAdapter(ArrayList<Entity> entities) {
         this.entities = entities;
     }
 
@@ -133,7 +133,7 @@ public class KnowledgeFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
 
-        adapter = new EntityAdapter(knowledge.getContext(), list);
+        adapter = new EntityAdapter(list);
         recycler.setAdapter(adapter);
 
         S.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

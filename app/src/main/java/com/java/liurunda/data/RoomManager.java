@@ -29,21 +29,9 @@ public class RoomManager{
     public void updateNewest(String latest_id, InfoType t){
         nbase.newsDao().insertNews(new News("0",t,latest_id));
     }
-    public void add_link_cross_page(String newer_id, String older_id){ // newer_id.prev = older_id
-        News[] older = nbase.newsDao().loadNewsId(older_id);
-        News[] newer = nbase.newsDao().loadNewsId(newer_id);
-        if(older.length == 1 && newer.length == 1){
-            if(!newer[0].prev_id .equals(older_id) ){
-                newer[0].prev_id = older_id;
-                nbase.newsDao().updateNews(newer[0]);
-            }
-            if(!older[0].next_id.equals(newer_id)){
-                older[0].next_id = newer_id;
-                nbase.newsDao().updateNews(older[0]);
-            }
-        }
-    }
-     public void check_add_page(ArrayList<News> list){//only add link inside this page
+
+
+    public void check_add_page(ArrayList<News> list){//only add link inside this page
         //if news not in database: store
         //if news in database: read from database and modify list
         try {

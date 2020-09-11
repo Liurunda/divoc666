@@ -24,7 +24,8 @@
                 app:layout_scrollFlags="scroll|enterAlways" android:theme="@style/Theme.AppCompat.Light"
                 android:queryBackground="@null" android:layout_marginTop="@dimen/appbar_padding_top"
                 android:layout_marginBottom="@dimen/appbar_padding_top"
-                android:layout_marginEnd="@dimen/appbar_padding" android:layout_marginStart="@dimen/appbar_padding"/>
+                android:layout_marginEnd="@dimen/appbar_padding" android:layout_marginStart="@dimen/appbar_padding"
+                android:iconifiedByDefault="false"/>
 
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView

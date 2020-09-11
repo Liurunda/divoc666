@@ -55,8 +55,6 @@ public class MainActivity extends BaseActivity {
         ft.hide(f_scholar);
         ft.commit();
 
-
-
         fm.beginTransaction().hide(f_newsList).show(f_newsList).commit();
 
         BottomNavigationView nav = findViewById(R.id.bottom_nav);

@@ -17,9 +17,7 @@ public class Entity implements Serializable {
     public ArrayList<Pair2<String,String>> properties = new ArrayList<>();
     public ArrayList<Pair2<String,String>> forwardRelations = new ArrayList<>(), backwardRelations = new ArrayList<>();
     public double hot; //(0, 1).
-    Entity(String name){
-        this.name = name;
-    }
+
     Entity(JSONObject E){
         try {
             name = E.getString("label");

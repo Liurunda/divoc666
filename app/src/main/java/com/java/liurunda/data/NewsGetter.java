@@ -124,6 +124,7 @@ public class NewsGetter {
     public void save_history(ArrayList<String> list){
         CompletableFuture.runAsync(()->manager.save_search_history(list));
     }
+
     synchronized public ArrayList<News> search_result(String keyword){ //应当使用异步方式进行调用
         //返回新闻和论文类型
         ArrayList<News> list =  new ArrayList<>();

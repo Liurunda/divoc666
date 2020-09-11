@@ -68,11 +68,11 @@ public class NewsListFragment extends Fragment {
         view_pager.setOffscreenPageLimit(5);
 
         NewsItemFragment[] subfragments = {
-            NewsItemFragment.newInstance(getString(category_id[0]), InfoType.all),
-            NewsItemFragment.newInstance(getString(category_id[1]), InfoType.event),
-            NewsItemFragment.newInstance(getString(category_id[2]), InfoType.points),
-            NewsItemFragment.newInstance(getString(category_id[3]), InfoType.news),
-            NewsItemFragment.newInstance(getString(category_id[4]), InfoType.paper)
+            NewsItemFragment.newInstance(InfoType.all),
+            NewsItemFragment.newInstance(InfoType.event),
+            NewsItemFragment.newInstance(InfoType.points),
+            NewsItemFragment.newInstance(InfoType.news),
+            NewsItemFragment.newInstance(InfoType.paper)
         };
 
         fragments = new ArrayList<>(Arrays.asList(subfragments));

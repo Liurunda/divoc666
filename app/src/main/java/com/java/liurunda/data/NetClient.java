@@ -17,9 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 class getNewsList implements Callback{
     ArrayList<News> list;
-    public getNewsList(ArrayList<News> list){
-        this.list = list;
-    }
+
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
         System.out.println("getNewsList failed");
@@ -103,30 +101,6 @@ public class NetClient {
             e.printStackTrace();
             return false;
         }
-    }
-    public synchronized boolean getNews(ArrayList<News> list, InfoType t){
-        Request request = new Request.Builder()
-                .url(news_list(t,1,15))
-                .build();
-        try {
-            final Response response = client.newCall(request).execute();
-            if(!response.isSuccessful()){
-                return false;
-            }
-            String resp = response.body().string();
-            try {
-                JSONObject jj =  new JSONObject(resp);
-                JSONArray data = jj.getJSONArray("data");
-                for(int i=0;i<data.length();++i){
-                    list.add(new News(data.getJSONObject(i)));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
     }
 
      boolean getScholars(ArrayList<Scholar> scholars) {
